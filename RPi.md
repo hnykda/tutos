@@ -105,7 +105,10 @@ What are these? Just short summary - you can find more about it in manual pages 
 * **lynx** - browser - no kidding :)
 
 ### Some configurations
-I assume you installed `zsh` with `oh-my-zsh` (changed your shell) and also vim. You are connected as created user (from now, I will name him **bob**). You are in Bob's home directory - check it with typing `pwd`. It will print `/home/bob`. Edit .vimrc file:
+I assume you installed `zsh` with `oh-my-zsh` (changed your shell) and also vim. You are connected as created user (from now, I will name him **bob**). You are in Bob's home directory - check it with typing `pwd`. It will print `/home/bob`. 
+
+#### Make vim usable
+Edit .vimrc file:
 `vim .vimrc` and insert this:
 
 ```
@@ -137,6 +140,42 @@ vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
 ```
 it will customize vim a bit, so it will be easier to edit files in it.
+
+#### Journaling
+Journaling is one of the most important things you need to have. It just record everything systemd does. It is part of `systemd` quite customizable. We will save journals in memory, because of limited wear of SD cards. We will also compress them and then limit size for them on 40 MB.
+
+Open file `/etc/system/journal.conf` and set it as this:
+```
+[Journal]
+Storage=volatile
+Compress=yes
+#Seal=yes
+#SplitMode=login
+#SyncIntervalSec=5m
+#RateLimitInterval=30s
+#RateLimitBurst=1000
+#SystemMaxUse=50M
+#SystemKeepFree=
+#SystemMaxFileSize=15M
+RuntimeMaxUse=40M
+#RuntimeKeepFree=
+#RuntimeMaxFileSize=
+#MaxRetentionSec=
+#MaxFileSec=1month
+#ForwardToSyslog=yes
+#ForwardToKMsg=no
+#ForwardToConsole=no
+#ForwardToWall=yes
+#TTYPath=/dev/console
+#MaxLevelStore=debug
+#MaxLevelSyslog=debug
+#MaxLevelKMsg=notice
+#MaxLevelConsole=info
+#MaxLevelWall=emerg
+```
+
+#### Disable things that you dont need
+I guess you don't use ipv6 (if you don't know what it is, you don't need it :D). `systemctl disable ip6tables`. 
 
 ### Network configuration
 For reasons I will mention in future, we need to set RPi to connect with **static ip**. This will assure that the IP address of RPi will be still the same and you can connect it. Right now is probably getting automatically assigned IP address from router. 
