@@ -66,6 +66,23 @@ This is covered over the internet, so I will just redirect you.
 
 That's enough for now. Logout from ssh (type "exit") and connect again, but as user who was created. Similiar to previous: `ssh username@ip.address`. From now, you'll need to type "sudo" in front of every command, which is possibly danger. I will warn you in next chapter.
 
+We must be sure that after reboot RPi will reconnect. Type `sudo systemctl status netctl-ifplugd@eth0`. In should show something like this:
+```
+● netctl-ifplugd@eth0.service - Automatic wired network connection using netctl profiles
+   Loaded: loaded (/usr/lib/systemd/system/netctl-ifplugd@.service; enabled)
+   Active: active (running) since Thu 2014-06-26 17:38:12 CEST; 4h 26min ago
+     Docs: man:netctl.special(7)
+ Main PID: 302 (ifplugd)
+   CGroup: /system.slice/system-netctl\x2difplugd.slice/netctl-ifplugd@eth0.service
+           └─302 /usr/bin/ifplugd -i eth0 -r /etc/ifplugd/netctl.action -bfIns
+
+Jun 26 17:38:12 530uarch ifplugd[302]: ifplugd 0.28 initializing.
+Jun 26 17:38:12 530uarch ifplugd[302]: Using interface eth0/E8:03:9A:97:B5:A7 with driver <r8169> (version: 2.3LK-NAPI)
+Jun 26 17:38:12 530uarch ifplugd[302]: Using detection mode: SIOCETHTOOL
+Jun 26 17:38:12 530uarch ifplugd[302]: Initialization complete, link beat not detected.
+```
+Keywords here are **active (running)** in "Active" and  **enabled** in "loaded". If there is not **enabled**. Just run this: `systemctl enable netctl-ifplugd@eth0.service`
+
 Reboot you rpi using `systemctl reboot`. You must be able to connect to it again after one minute. If not, somthing is wrong... In that case, you need to find out why connection stoped working - if you have keyboard and monitor, you can repair it. If not, you can try to edit mistake on other computer by inserting SD card. Otherwise, reinstall...
 
 ### Installing some sugar candy
@@ -192,9 +209,31 @@ fi
 ```
 to run this script you need to login as root. You can do it by typing this: `sudo -i`. This will log you as a root. Now type `vim script.sh` and insert script there. Save and close (in vim using `:x`). Now just type `chmod +x script.sh`. It will make the script executable. Finally this: `./script.sh`.
 
-The connection will close now. Wait 30 seconds. If everything worked properly, you should be able to connect to RPi again by using same ssh command as previous. 
+The connection will close now. Wait 30 seconds. If everything worked properly, you should be able to connect to RPi again by using same ssh command as previous. In that case find out it works -> does systemd-networkd care about connection and netctl is stopped? 
 
-If you can't connect. Don't panic. Just turn off RPi (take out power suppy) and turn it on. 
+To find it out, type: `systemctl status systemd-networkd`. Does it shows "active (running)" and something like `gained carrier`?
+```
+â systemd-networkd.service - Network Service
+   Loaded: loaded (/usr/lib/systemd/system/systemd-networkd.service; enabled)
+   Active: active (running) since Wed 2014-06-11 18:42:13 CEST; 2 weeks 1 days ago
+     Docs: man:systemd-networkd.service(8)
+ Main PID: 213 (systemd-network)
+   Status: "Processing requests..."
+   CGroup: /system.slice/systemd-networkd.service
+           ââ213 /usr/lib/systemd/systemd-networkd
+
+Jun 17 17:52:01 smecpi systemd-networkd[213]:             eth0: lost carrier
+Jun 17 17:52:02 smecpi systemd-networkd[213]:             eth0: gained carrier
+
+```
+If yes, great! We can get rid off netctl by uninstalling: `pacman -Rnsc netctl` and enable `networkd` start at boot by `systemctl enable systemd-networkd`. 
+
+If not, `netctl` probably saves the day. Find it out `systemctl status netctl-ifplugd@eth0`. It should be active, otherwise there is some magic power which care about your connection. Try to find out why `networkd` didn't workd and repair it (probably bad IP address...). There should be some info in file `log.txt`. 
+
+If you can't connect, don't panic. Just turn off RPi (take out power suppy) and turn it on. It should reconnect normally with `netctl-ifplugd`. Try to find out why it not working.And try it again.
+
+###
+We want 
 
 ### Configuring SSH
 
