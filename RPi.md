@@ -33,7 +33,7 @@ From "bare" RPi you'll get:
 So you have just bare RPi, SD card, power supply, ethernet cable (RJ-45). So let's start! There are houndreds of guides, but I haven't found them satisfaing. 
 
 ### Installing Archlinux ARM to SD card
-Go (here)[http://archlinuxarm.org/platforms/armv6/raspberry-pi] and make first 3 steps.
+Go [here](http://archlinuxarm.org/platforms/armv6/raspberry-pi) and make first 3 steps.
 That's it! You have done it. You have you Archlinux ARM SD card :)
 
 ### Little networking
