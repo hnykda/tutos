@@ -83,6 +83,11 @@ Jun 26 17:38:12 530uarch ifplugd[302]: Initialization complete, link beat not de
 ```
 Keywords here are **active (running)** in "Active" and  **enabled** in "loaded". If there is not **enabled**. Just run this: `systemctl enable netctl-ifplugd@eth0.service`
 
+Now try if you are connected to the internet. Type `ping 8.8.8.8`. If you don't see `ping: unknown host 8.8.8.8` it's good! If you do, your internet connection is not working. Try to find out why - unfortunately it is not possible to solve it here.
+
+**Warning**
+Try also `ping google.com`. It may not work even pinging 8.8.8.8 worked. The reason is bad DNS servers (doesn't matter what it is). To solve this you have to find "DNS servers of your IPS". Try to google it. If you find them, add them to `resolv.conf`. 
+
 Reboot you rpi using `systemctl reboot`. You must be able to connect to it again after one minute. If not, somthing is wrong... In that case, you need to find out why connection stoped working - if you have keyboard and monitor, you can repair it. If not, you can try to edit mistake on other computer by inserting SD card. Otherwise, reinstall...
 
 ### Installing some sugar candy
@@ -304,4 +309,43 @@ Host choose_name
 since now, when you wan't to connect to RPi you can just type `ssh choose_name` and it will take care about rest.
 
 ### Speeding RPi up
-Archlinux ARM for RPi is prepared to be tweaked. And now it is possible to speed RPi up by overclocking it's processor without avoiding your waranty. How to do it? 
+Archlinux ARM for RPi is prepared to be tweaked. And now it is possible to speed RPi up by overclocking it's processor without avoiding your waranty. How to do it? Just edit file `/boot/config.txt` and find this part:
+```
+##None
+arm_freq=700
+core_freq=250
+sdram_freq=400
+over_voltage=0
+```
+now comment it out. That means to add "**#**" in front of every line. From now, it will be treated as text and not command. It will look like this:
+```
+##None
+#arm_freq=700
+#core_freq=250
+#sdram_freq=400
+#over_voltage=0
+```
+and now uncoment this:
+```
+##Turbo
+arm_freq=1000
+core_freq=500
+sdram_freq=500
+over_voltage=6
+```
+After next boot your RPi will be able to get even to the 1000 MHz. That means it is faster.
+
+### Other tweaks of /boot/config.txt
+Since you don't need any of gpu memory - which cares about shiny things like windows etc., you can disable it in favor of the rest of memory which we use.
+```
+gpu_mem=16
+#gpu_mem_512=316
+#gpu_mem_256=128
+#cma_lwm=16
+#cma_hwm=32
+#cma_offline_start=16
+```
+
+### Troubleshooting
+* RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
+* 
