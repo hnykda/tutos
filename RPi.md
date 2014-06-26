@@ -232,11 +232,37 @@ If not, `netctl` probably saves the day. Find it out `systemctl status netctl-if
 
 If you can't connect, don't panic. Just turn off RPi (take out power suppy) and turn it on. It should reconnect normally with `netctl-ifplugd`. Try to find out why it not working.And try it again.
 
-###
-We want 
+### Timesynchronization
+You've maybe noticed that time is quite weird on your RPi. It is beacuse it does not have real hardware clock. Every time RPi is waken up, it thinks that is June 1970. You don't have to care about it, but after boot it would be fine that time is correctly set. You can do it by using really great part of `systemd`. Go ahead and enable service, which takes care about that: `systemctl enable systemd-timesyncd`. Thats all. It will start after next reboot. If you want it to start now, just
+type **start** instead of **enable** in previous command. If you want to see what it is doing, type **status**. Replace it with **stop** to stop it imediately and **disable** not to start it after boot. This work with all services. 
 
 ### Configuring SSH
+We will open RPi to world and in that case we need to secure it a bit. Service, which takes care about SSH is called `sshd`. "Where" it is? It is runned by systemd, so `systemctl status sshd` will show you some info :). We will configure it a bit. This is not necessary, but highly recommended! Brutal force attacks are really common (hundreds every day on my little unimportant server).
 
+Open file `/etc/ssh/sshd_config` and edit or add these lines as follows:
+```
+Port 1234
+PermitRootLogin no
+PubkeyAuthentication yes
+```
+that't enough. Restart sshd `systemctl restart sshd`.
+
+Since now, you cannot login as a root by ssh and thats good. Also - we changed the port of ssh. Think about "port" as a tunnel, which is used for ssh. There are about 60 thousands of them and you can choose whatever you want. As default there is port **22** used for ssh. We now changed that to (example) 1234. It is because on port 22 there is to big chance that someone will try to brutal force your credentials. 
+
+Since now, only `ssh bob@ipadress` is not enough. You will have to add port which should be used (in default is assumed port 22). `ssh -p 1234 bob@ip.address` will do it for you :) .
+
+The next thing we are going to do is set up `sshguard`. More about it [here](https://wiki.archlinux.org/index.php/Sshguard). You don't need more :) . Just remember to use your port (in my case 1234) for settings. 
+
+It is anoying still typing same username and password when we want to connect to RPi. And now, we have to add "-p 1234" also. We will make it automatic. [Here](http://www.linuxproblem.org/art_9.html) is quite good guide how to do it. On PC from which you are connecting (no RPi), edit `~/.ssh/config` to this:
+
+```
+Host choose_name
+  HostName ipaddressofRPi
+  IdentityFile /home/yourusername/.ssh/name_of_identityfile
+  User bob
+  port 1234
+```
+since now, when you wan't to connect to RPi you can just type `ssh choose_name` and it will take care about rest.
 
 ### Speeding RPi up
 Archlinux ARM for RPi is prepared to be tweaked. And now it is possible to speed RPi up by overclocking it's processor without avoiding your waranty. How to do it? 
