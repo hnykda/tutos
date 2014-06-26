@@ -308,6 +308,11 @@ Host choose_name
 ```
 since now, when you wan't to connect to RPi you can just type `ssh choose_name` and it will take care about rest.
 
+**Screen**
+You can live without that, but you shouldn't! Learn about what the screen is (google it), install it (`pacman -S screen), use it and love it.
+It can be handy to automatically ssh into screen sesion. For that I use this command (from PC I want to connect to RPi):
+`ssh RemoteHost -t screen -dRS "mainScreen"`. You can make some alias to something shorter (for example in .zshrc).
+
 ### Speeding RPi up
 Archlinux ARM for RPi is prepared to be tweaked. And now it is possible to speed RPi up by overclocking it's processor without avoiding your waranty. How to do it? Just edit file `/boot/config.txt` and find this part:
 ```
@@ -345,6 +350,29 @@ gpu_mem=16
 #cma_hwm=32
 #cma_offline_start=16
 ```
+
+### Setting a webserver
+Now we need to configure access from outside. You will need to configure you router. You have to make a "port forwarding". Remember port from ssh? I told you to think about them as a tunnels. These tunnels are also handy when you need to find out what is on there end.
+What we will do here is this: We want to be able from anywhere on the internet connect to our RPi server. 
+Example? `ssh -p 1234 bob@what.the.hell.is.here`. You know? There is definetely not your local address (the one with 192.168...). There must be your "public" IP address (more about this in **Domains** - take a look there). But this public address points to your router (if you are lucky). Where does it go next?
+With every query there is also a port. With command `ssh smt`, you are sending username, port (standard 22, if not otherwise stated) and IP address. Ip address redirect it to router. Now router takes **port** and looks to it's internal database. In this database there is 
+
+
+#### Domains
+How does it happen, that someone type something.com and see some webpages? Where this *something.com* come from?
+A little background. On internet we have IP addresses to give every computer it's specific name. Because we don't like these awfull numbers (like 123.28.13.234), we have nicknames for them. For example - you know, that when you type `google.com`, you get to google page. But that happens even you type: `74.125.224.72`. In first example it do this:
+
+1. It takes name `google.com`
+2. Goes to world databank of IP addresses
+3. Find out which IP address belongs to this name
+4. Get you to this address
+
+You can [buy](http://www.godaddy.com/) your own domain and then redirect it to your IP address. You have to buy it from them and then add **AAA record**. Usually it is on there administration website. Then, after few minutes, it is registered in this world databank.
+
+It's not so easy. Not every one has it's own IP "public" address and even worse, it can change! And that is not what you want - then you should have had to change it every time your IP get changed.
+You have to ask to you IPS (a company, which is offering you and internet) if you address is "static" or "dynamic". My IPS (UPC CZ) told me that my is "dynamic". But after a little research I found out that it means that my IP address can "theoreticaly" change. In real, it is same for few years now :) . It is relatively common, so maybe you are lucky. 
+
+If you don't want to buy "first level domains" (the one which are just something.com) and second level is enough (like something.somethingelse.com), then you can take a look [here] (http://www.getfreedomain.name/). 
 
 ### Troubleshooting
 * RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
