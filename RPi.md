@@ -17,4 +17,4 @@ From "bare" RPi you'll get:
 * Ethernet LAN cable or USB wifi bundle
 * Other computer (preferably with linux, but nevermind if you use Windows or Mac)
 * Possibility to physically get to your router and know credentials to login to it (or have contact to your network administrator :) )
-* Few hours
+* Few hours of work 
