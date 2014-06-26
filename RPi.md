@@ -351,12 +351,84 @@ gpu_mem=16
 #cma_offline_start=16
 ```
 
-### Setting a webserver
+### Making RPi visible from outside 
 Now we need to configure access from outside. You will need to configure you router. You have to make a "port forwarding". Remember port from ssh? I told you to think about them as a tunnels. These tunnels are also handy when you need to find out what is on there end.
 What we will do here is this: We want to be able from anywhere on the internet connect to our RPi server. 
 Example? `ssh -p 1234 bob@what.the.hell.is.here`. You know? There is definetely not your local address (the one with 192.168...). There must be your "public" IP address (more about this in **Domains** - take a look there). But this public address points to your router (if you are lucky). Where does it go next?
-With every query there is also a port. With command `ssh smt`, you are sending username, port (standard 22, if not otherwise stated) and IP address. Ip address redirect it to router. Now router takes **port** and looks to it's internal database. In this database there is 
+With every request there is also a port. With command `ssh smt`, you are sending username, port (standard 22, if not otherwise stated) and IP address. Ip address redirect it to router. Now router takes **port** and looks to it's internal database. In this database are pairs: **port** - **internal_ipaddress**. For some port there is IP address, which it redirects to. In another worlds: if router gets some request from specific port (say, 1234) and it has in it's database IP address
+to which it has to redirect, it redirects this request there. In our case, we need to redirect these ports we want (for example 1234 for ssh) to RPi. So find a port forwarding settings for your router ([this](http://portforward.com/) might be helpful) and set there port forward from port you setted for ssh to RPi. You can check if your port is open (it means it accepts requests [here](http://www.yougetsignal.com/tools/open-ports/). 
+Since now, you can ssh from anywhere.
 
+### Webserver
+### Setting up nginx
+Similiar to ssh handling "sshish" requests, Nginx is handling almost everything else and even... **WebServers**! Install nginx with `pacman -S nginx`. For security reasons create special user for it, for example using: `useradd -m -G wheel -s /usr/bin/zsh nginx` and also group `groupadd webdata`. Now create some folder for it. It can be `mkdir /var/www/` and now make them owners `chown nginx:webdata /var/www`. Of course, enable and start nginx.
+`systemctl enable nginx`. It will start after boot.
+Now port forward port number 80 to RPi on your router.
+
+Open `/etc/nginx/nginx.conf`, it can looks like this:
+```
+user nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    server_names_hash_bucket_size 64;
+
+    sendfile        on;
+
+    keepalive_timeout  15;
+
+    server{
+        listen  80;
+        server_name ~^xxx.xxx.xxx.xxx(.*)$;
+    
+        location / {
+            root   /var/www/$1;
+            index  index.html index.htm;
+        }
+    }
+
+}
+
+```
+
+next, create `/var/www/test/index.html`:
+```
+<html>
+  <head>
+    <title>Sample "Hello, World" Application</title>
+  </head>
+  <body bgcolor=white>
+
+    <table border="0" cellpadding="10">
+      <tr>
+        <td>
+          <img src="images/springsource.png">
+        </td>
+        <td>
+          <h1>Sample "Hello, World" Application</h1>
+        </td>
+      </tr>
+    </table>
+
+    <p>This is the home page for the HelloWorld Web application. </p>
+    <p>To prove that they work, you can execute either of the following links:
+    <ul>
+      <li>To a <a href="hello.jsp">JSP page</a>.
+      <li>To a <a href="hello">servlet</a>.
+    </ul>
+
+  </body>
+</html>
+```
+where xxx.xxx.xxx.xxx should be your public address. This will do this: when you type in your browser "youripaddress/test:80", you should see index Hello world example. Try that without `:80` - it will do the same! Default port for webpages is **80** (similiar to 22 for SSH). So it can be omited. 
 
 #### Domains
 How does it happen, that someone type something.com and see some webpages? Where this *something.com* come from?
@@ -376,4 +448,3 @@ If you don't want to buy "first level domains" (the one which are just something
 
 ### Troubleshooting
 * RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
-* 
