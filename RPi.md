@@ -179,9 +179,6 @@ RuntimeMaxUse=40M
 #MaxLevelWall=emerg
 ```
 
-#### Disable things that you dont need
-I guess you don't use ipv6 (if you don't know what it is, you don't need it :D). `systemctl disable ip6tables`. 
-
 ### Network configuration
 For reasons I will mention in future, we need to set RPi to connect with **static ip**. This will assure that the IP address of RPi will be still the same and you can connect it. Right now is probably getting automatically assigned IP address from router. 
 We will use `systemd-network`. `systemd` is astonishingly great and complex package, but thats not neccessary to know now. 
@@ -448,3 +445,20 @@ If you don't want to buy "first level domains" (the one which are just something
 
 ### Troubleshooting
 * RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
+
+### System analyzing and cleaning
+Use your friend `systemd-analyze`. It will show you which units are loading long time. Also `systemctl status` is great for finding failed units. 
+
+Example:
+#### Disable things that you dont need
+I guess you don't use ipv6 (if you don't know what it is, you don't need it :D). `systemctl disable ip6tables`. In case you use sshguard, you need also edit file `/cat /usr/lib/systemd/system/sshguard.service` and from **Wants** delete ip6tables. Like this:
+
+```
+Wants=iptables.service
+```
+
+## Final
+That's all for now! I will see if this is used by someone and than I will see if I will continue.
+
+## To-Do
+### Torents
