@@ -56,7 +56,7 @@ You should end up in RPi console.
 
 ### First setup
 This is covered over the internet, so I will just redirect you.
-(elinux)[http://elinux.org/ArchLinux_Install_Guide] - from this guide finish these parts (in RPi console):
+[elinux](http://elinux.org/ArchLinux_Install_Guide) - from this guide finish these parts (in RPi console):
 * Change root password
 * Modify filesystem files
 * Mount extra partitions (if you don't know what it is, nevermind)
@@ -98,7 +98,7 @@ You can notice that is really few packages! And thats true! Isn't it great? No n
 
 What are these? Just short summary - you can find more about it in manual pages (`man <name_of_pacakge>`) or find something usefull on the internet. 
 * **vim** - powerfull text editor (that's what you will do 99% of time). First few *days* are horrible, but keep using it :) .
-* **zsh** - doesn't matter. Just install it and install (this)[https://github.com/robbyrussell/oh-my-zsh]
+* **zsh** - doesn't matter. Just install it and install [this](https://github.com/robbyrussell/oh-my-zsh)
 * **wget** - just for downloading things without browser
 * **ranger** - file manager (you can browse files, folders...)
 * **htop** - task manager - you can see what tasks are running, how much CPU/MEM is used, kill processes and so on
@@ -159,7 +159,7 @@ Type `ip addr`. It should shows something like this:
 ```
 you are interested just in name **eth0**. If it is there, it is ok. In future versions of system it can change to something other, for example *eth0ps1*. Don't be afraid of it and just use that instead in next chapters.
 
-In this part you'll need to get address of your router. (How to obtain it)[http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm]?
+In this part you'll need to get address of your router. [How to obtain it](http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm)?
 
 And what is static address? Whatever you want. Almost. As you know your router is assigning IP address automatically (it is called DHCP). But not randomly. It has some range of IP addresses which it can assign. Standard is this: router has standard IP adress `192.168.0.1` and assign addresses from `192.168.0.2` to `192.168.0.254`. Second standard is `10.0.0.138` for router and it assignes addresses from `10.0.0.139` to `10.0.0.254`. But it *can* be anything else. 
 Interesting - and what the hell should you do that? I suggest to set one the address on the end from this range. You can notice, that my "eth0" has IP address `192.168.0.201`.
