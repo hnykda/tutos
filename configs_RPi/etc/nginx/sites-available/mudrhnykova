@@ -1,19 +1,18 @@
 server{
     listen 80;
-    server_name mudrhnykova.eu;
-    return 301 $scheme://www.mudrhnykova.eu$request_uri;
+    server_name something.eu;
+    return 301 $scheme://www.something.eu$request_uri;
 }
 
 server {
-#        access_log /var/www/zubni_praxe/logs/nginx-access.log;
         access_log off;
-        error_log /var/www/zubni_praxe/logs/nginx-error.log warn;
+        error_log /var/www/something/logs/nginx-error.log warn;
 
         listen       80;
-        server_name  www.mudrhnykova.eu;
+        server_name  www.something.eu;
 
         location / {
-            root   /var/www/zubni_praxe;
+            root   /var/www/something;
             index  index.html index.htm;
         }
 

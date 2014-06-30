@@ -1,33 +1,33 @@
-upstream sova_server {
+upstream slapek_server {
 
-  server unix:/var/www/sova/run/gunicorn1.sock fail_timeout=10s;
+  server unix:/var/www/slapek/run/gunicorn1.sock fail_timeout=10s;
 }
  
 server {
         listen 80;
-        server_name sovazlutice.eu;
-        return 301 $scheme://www.sovazlutice.eu$request_uri;
+        server_name other.eu;
+        return 301 $scheme://www.other.eu$request_uri;
 }
 
 server {
  
     listen   80;
-    server_name www.sovazlutice.eu;
+    server_name www.other.eu;
  
     client_max_body_size 4G;
  
-#    access_log /var/www/sova/logs/nginx-access.log;
+#    access_log /var/www/slapek/logs/nginx-access.log;
     access_log off;
-    error_log /var/www/sova/logs/nginx-error.log warn;
+    error_log /var/www/slapek/logs/nginx-error.log warn;
  
     location /static/ {
         autoindex on;
-        alias   /var/www/sova/sova/static/;
+        alias   /var/www/slapek/slapek/static/;
     }
     
     location /media/ {
         autoindex on;
-        alias   /var/www/sova/sova/media/;
+        alias   /var/www/slapek/slapek/media/;
     }
  
     location / {
@@ -38,7 +38,7 @@ server {
         proxy_redirect off;
  
         if (!-f $request_filename) {
-            proxy_pass http://sova_server;
+            proxy_pass http://slapek_server;
             break;
         }
     }
@@ -53,15 +53,15 @@ server {
 
     #For favicon
     location  /favicon.ico {
-        alias /var/www/sova/sova/static/central/img/favicon.ico;
+        alias /var/www/slapek/slapek/static/central/img/favicon.ico;
     }    
     #For robots.txt
     location  /robots.txt {
-        alias /var/www/sova/sova/static/robots.txt ;
+        alias /var/www/slapek/slapek/static/robots.txt ;
     }    
     # Error pages
     error_page 500 502 503 504 /500.html;
     location = /500.html {
-        root /var/www/sova/sova/static/;
+        root /var/www/slapek/slapek/static/;
     }
 }

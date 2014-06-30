@@ -1,6 +1,6 @@
     server {
         listen       80;
-        server_name  ngtest.sovazlutice.eu;
+        server_name  other.domain.com;
 #        server_name _;
 
         #charset koi8-r;
