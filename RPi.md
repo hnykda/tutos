@@ -37,13 +37,13 @@ Go [here](http://archlinuxarm.org/platforms/armv6/raspberry-pi) and make first 3
 That's it! You have done it. You have you Archlinux ARM SD card :)
 
 ### Little networking
-I guess you probably have some of "home router" ("box with internet") and when you want to connect e.g by wifi with your laptop or mobile phone, it just connects (after inserting password). You need to test first what happens, when you try to connect by ethernet cable, for example with your laptop. Turn off wifi and check it. Did your computer connects to the network (or even internet) as usuall? If yes, it is great! You can procced. It is what we need - we need RPi, when it boots up, to automatically
-connect to the network. Then we will able to connect to it. You will need one more think to find out - which IP address router asign to you when you connected by cable - it is very probable that RPi will get the same, or similiar. Don't be afraid - it is easy to get (IP address)[how to get ip address]. On modern systems, one command :) .
+I guess you probably have some of "home router" ("box with internet") and when you want to connect e.g by wifi with your laptop or mobile phone, it just connects (after inserting password). You need to test first what happens, when you try to connect by ethernet cable, for example with your laptop. Turn off wifi and check it. Did your computer connects to the network (or even internet) as usuall? 
+
+If yes, it is great! You can procced. It is what we need - we need RPi, when it boots up, to automatically connect to the network. Then we will able to connect to it. You will need one more think to find out - which IP address router asign to you when you connected by cable - it is very probable that RPi will get the same, or similiar. Don't be afraid - it is easy to get (IP address)[how to get ip address]. On modern systems, one command :) .
 
 Ok, now you have to insert SD card to RPi and connect it to your router with ethernet cable and then turn RPi on by inserting power supply. The diodes starts flashing. Now back to your computer and we will try to connect it using **SSH**. SSH is just "magic power" which enables to connect from one to other computer. 
 
-RPi is already ready and waits for connection. How to use ssh and some utilities (Linux, Mac) or programs (Windows) is supereasy - you will find a tons of tutorials
-on google (keywords: how to use ssh). IP address is the probably the one you assigned before. It will be something like this: `192.168.0.x`, `10.0.0.14x` or similar. Next thing you need is username. It's just "root".
+RPi is already ready and waits for connection. How to use ssh and some utilities (Linux, Mac) or programs (Windows) is supereasy - you will find a tons of tutorials on the internet (keywords: how to use ssh). IP address is the probably the one you assigned before. It will be something like this: `192.168.0.x`, `10.0.0.14x` or similar. Next thing you need is username. It's just "root".
 
 If your RPi haven't got this address (ssh is not working), than there are two options.
 
@@ -58,11 +58,14 @@ You should end up in RPi console.
 ### Tutorial for used utilities
 #### Vim
 We'll need text editor to configure everything and most of our time we'll spend in command line. How to edit files inside terminal? There are multiple console-based terminal. I choosed one of them, which is called `[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))`. We will install it in next chapters, but I will tell you some basics here (you can try them later).
+
 You can edit a file in vim by typing `vim <file>`. Vim has three modes, while I will tell you about two of them. Command and insert mode. In command mode, you press special keys to make something. It's the basic mode and you cannot edit file in it. Press `ESC` to get into command mode. To edit a file, press `i`. Now you are in insert mode and you can navigate by arrows and type, delete etc. as you know from other text editors.
+
 After you make a change, you can save the file. To do it, get to command mode (`ESC`). Now write `:w`. This will save the file. To exit, type `:q`. That's all you need for now. More about `vim` is under command `vimtutor`. 
 
 #### Systemd
 [`systemd`](http://en.wikipedia.org/wiki/Systemd) is astonishingly great and also astonishingly hated package, but thats not neccessary to know now. Briefly - `systemd` cares about running processes in the background. These are called daemons. For example in next chapter we will use SSH - it will run at background. There is also package, which takes care of automatically connect to internet (again in next chapters).
+
 `systemd` is controlled by `systemctl`. To start some program, which is in this context called **service** (and we will stick to that), just run `systemctl start <unit>`. There are other usefull (and that's 90% of what you need to know about systemctl) commands (all starts with `systemctl` and ends with `desired_unit` - watch example):
 
 * enable - this allow to run service after boot (but it will not start imediately)
@@ -83,6 +86,7 @@ There is service, which takes care about connection to network. We will cover it
 * `systemctl stop systemd-networkd`
 
 Last thing you need to know about systemd for our guide is where these services has it's own configuration files. They are all stored in `/usr/lib/systemd/system/`. For example, I've noticed SSH service. Configuration file for this service is in `/usr/lib/systemd/system/sshd.service`. You can type `cat /usr/lib/systemd/system/sshd.service` to see what is inside and of course it can be edited. 
+
 `systemctl` just looks inside these folders when you call command for starting/enabling/... specific unit.
 
 ### First setup
@@ -218,6 +222,7 @@ RuntimeMaxUse=40M
 
 ### Network configuration
 For reasons I will mention in future, we need to set RPi to connect with **static ip**. This will assure that the IP address of RPi will be still the same and you can connect it. Right now is probably getting automatically assigned IP address from router (it's called **dhcp**). 
+
 We will use `systemd-network`. 
 
 Type `ip addr`. It should shows something like this:
@@ -240,6 +245,7 @@ you are interested just in name **eth0**. If it is there, it is ok. In future ve
 In this part you'll need to get address of your router. [How to obtain it](http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm)?
 
 And what is static address? Whatever you want. Almost. As you know your router is assigning IP address automatically (it is called DHCP). But not randomly in full range. It has some range of IP addresses which it can assign. Standard is this: router has standard IP adress `192.168.0.1` and assign addresses from `192.168.0.2` to `192.168.0.254`. Second standard is `10.0.0.138` for router and it assignes addresses from `10.0.0.139` to `10.0.0.254`. But it *can* be anything else. 
+
 Interesting - and what the hell should you do that? I suggest to set one the address on the end from this range. You can notice, that my "eth0" has IP address `192.168.0.201`.
 
 Open this file `/etc/systemd/network/ethernet_static.network` (how? just use `vim` as in the previous - but don't forgot to use `sudo` in front of `vim`, or you'll not be able to save it!) and paste this:
@@ -251,6 +257,7 @@ Name=eth0
 [Network]
 Address=the.static.address.rpi/24
 Gateway=your.router.ip.address
+a
 ```
 my example:
 ```
@@ -345,7 +352,9 @@ since now, when you wan't to connect to RPi you can just type `ssh my_superpc` a
 
 **Screen**
 You can live without that, but you shouldn't! It makes you more productive and you don't need to be afraid of some mishmash caused by accidently closing terminal during update or lossing connection. Learn more about what the screen is ([here](http://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/), [here](https://wiki.archlinux.org/index.php/GNU_Screen) and [here](http://www.thegeekstuff.com/2010/07/screen-command-examples/)), install it (`pacman -S screen`), use it and love it.
+
 It can be handy to automatically ssh into screen sesion. For that I use this command (from PC I want to connect to RPi):
+
 `ssh my_superpc -t screen -dRS "mainScreen"`. You can make some alias to something shorter (for example adding this to `alias ssh_connect_RPI="ssh my_superpc  -t screen -dRUS mainScreen"` in .zshrc). Now all you need to do is type `ssh_connect_RPI` - it here is now screen created, it will create new one. If it is, it will attach it.
 
 ### Speeding RPi up
@@ -388,16 +397,23 @@ gpu_mem=16
 
 ### Making RPi visible from outside 
 Now we need to configure access from outside. You will need to configure you router. You have to make a "port forwarding". Remember port from ssh? I told you to think about them as a tunnels. These tunnels are also handy when you need to find out what is on there end.
+
 What we will do here is this: We want to be able from anywhere on the internet connect to our RPi server. 
+
 Example? `ssh -p 1234 bob@what.the.hell.is.here`. You know? There is definetely not your local address (the one with 192.168...). There must be your "public" IP address (more about this in **Domains** - take a look there). But this public address points to your router (if you are lucky). Where does it go next?
+
 With every request there is also a port. With command `ssh smt`, you are sending username, port (standard 22, if not otherwise stated) and IP address. Ip address redirect it to router. Now router takes **port** and looks to it's internal database. In this database are pairs: **port** - **internal_ipaddress**. For some port there is IP address, which it redirects to. In another worlds: if router gets some request from specific port (say, 1234) and it has in it's database IP address
+
 to which it has to redirect, it redirects this request there. In our case, we need to redirect these ports we want (for example 1234 for ssh) to RPi. So find a port forwarding settings for your router ([this](http://portforward.com/) might be helpful) and set there port forward from port you setted for ssh to RPi. You can check if your port is open (it means it accepts requests [here](http://www.yougetsignal.com/tools/open-ports/). 
+
 Since now, you can ssh from anywhere.
 
 ### Webserver
 ### Setting up nginx
 Similiar to ssh handling "sshish" requests, Nginx is handling almost everything else and even... **WebServers**! Install nginx with `pacman -S nginx`. For security reasons create special user for it, for example using: `useradd -m -G wheel -s /usr/bin/zsh nginx` and also group `groupadd webdata`. Now create some folder for it. It can be `mkdir /var/www/` and now make them owners `chown nginx:webdata /var/www`. Of course, enable and start nginx.
+
 `systemctl enable nginx`. It will start after boot.
+
 Now port forward port number 80 to RPi on your router.
 
 Open `/etc/nginx/nginx.conf`, it can looks like this:
@@ -488,6 +504,7 @@ server{
 }
 ```
 where you need to replace IP address in `server_name` directive to your public IP. 
+
 What this little configuration does? It's simple. Every time you type to your brower your IP address and somthing behind it, it will transfer you to this "something" in /var/www/. 
 
 **Example**
@@ -502,6 +519,7 @@ You can now connect to ftp by typing this in your browser:
 
 #### Domains
 How does it happen, that someone type something.com and see some webpages? Where this *something.com* come from?
+
 A little background. On internet we have IP addresses to give every computer it's specific name. Because we don't like these awfull numbers (like 123.28.13.234), we have nicknames for them. For example - you know, that when you type `google.com`, you get to google page. But that happens even you type: `74.125.224.72`. In first example it do this:
 
 1. It takes name `google.com`

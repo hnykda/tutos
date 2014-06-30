@@ -59,6 +59,7 @@ When you boot your PC there is APROXIMATELY this sequence:
 * OS will boot up
 this is unprecise, but sufficient for our purpouses and to be honest, for 90% of what you need on *daily* baisis (personally, I don't know more than this :) ).
 BIOS is installed from factory. So our work is to install GRUB stages. Resolve which disc you wan't to use - I recommend you to use the first one, which is usally called /dev/sda. If you have only one disc in PC, it is this one :) .
+
 **CAUTION** - notice that I'm not speaking about partition, in which case I'd need to add number after sda. First stage of GRUB is somehow "partition" independent. Ok, now install it:
 `grub-install --traget=i386-pc --recheck /dev/sda`
 again - now number after sda. Of course, change **a** to your case.
