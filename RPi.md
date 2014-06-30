@@ -48,16 +48,47 @@ on google (keywords: how to use ssh). IP address is the probably the one you ass
 If your RPi haven't got this address (ssh is not working), than there are two options.
 
 1. You will login to your router settings and find out list of all connected devices with IP addresses and try them.
-2. Use `nmap` to find active devices in your network.
+2. Use [nmap](http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/) to find active devices in your network.
 
 **Example**
 You have this address assigned: `192.168.0.201`. Then you have to type (in linux): `ssh root@192.168.0.201`. 
 
 You should end up in RPi console.
 
+### Tutorial for used utilities
+#### Vim
+We'll need text editor to configure everything and most of our time we'll spend in command line. How to edit files inside terminal? There are multiple console-based terminal. I choosed one of them, which is called `[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))`. We will install it in next chapters, but I will tell you some basics here (you can try them later).
+You can edit a file in vim by typing `vim <file>`. Vim has three modes, while I will tell you about two of them. Command and insert mode. In command mode, you press special keys to make something. It's the basic mode and you cannot edit file in it. Press `ESC` to get into command mode. To edit a file, press `i`. Now you are in insert mode and you can navigate by arrows and type, delete etc. as you know from other text editors.
+After you make a change, you can save the file. To do it, get to command mode (`ESC`). Now write `:w`. This will save the file. To exit, type `:q`. That's all you need for now. More about `vim` is under command `vimtutor`. 
+
+#### Systemd
+[`systemd`](http://en.wikipedia.org/wiki/Systemd) is astonishingly great and also astonishingly hated package, but thats not neccessary to know now. Briefly - `systemd` cares about running processes in the background. These are called daemons. For example in next chapter we will use SSH - it will run at background. There is also package, which takes care of automatically connect to internet (again in next chapters).
+`systemd` is controlled by `systemctl`. To start some program, which is in this context called **service** (and we will stick to that), just run `systemctl start <unit>`. There are other usefull (and that's 90% of what you need to know about systemctl) commands (all starts with `systemctl` and ends with `desired_unit` - watch example):
+
+* enable - this allow to run service after boot (but it will not start imediately)
+* disable - this will make device not to start after boot
+* start - this will imediatelly start a service (but will not enable it - it won't be run after boot)
+* stop - stop service imediately (but not disable)
+* status - this will print out all information in pretty format - you can find if it is enabled, started, if **there are any errors** etc.
+
+**Example**
+There is service, which takes care about connection to network. We will cover it in special chapter, but we will just play with that for a minute. It's called `systemd-networkd`. Try to start it, enable it, disable it and then stop it and get status to see what every command does by trying these:
+
+* `systemctl start systemd-networkd`
+* `systemctl status systemd-networkd`
+* `systemctl enable systemd-networkd`
+* `systemctl status systemd-networkd`
+* `systemctl disable systemd-networkd`
+* `systemctl status systemd-networkd`
+* `systemctl stop systemd-networkd`
+
+Last thing you need to know about systemd for our guide is where these services has it's own configuration files. They are all stored in `/usr/lib/systemd/system/`. For example, I've noticed SSH service. Configuration file for this service is in `/usr/lib/systemd/system/sshd.service`. You can type `cat /usr/lib/systemd/system/sshd.service` to see what is inside and of course it can be edited. 
+`systemctl` just looks inside these folders when you call command for starting/enabling/... specific unit.
+
 ### First setup
 This is covered over the internet, so I will just redirect you.
 [elinux](http://elinux.org/ArchLinux_Install_Guide) - from this guide finish these parts (in RPi console):
+
 * Change root password
 * Modify filesystem files
 * Mount extra partitions (if you don't know what it is, nevermind)
@@ -65,7 +96,7 @@ This is covered over the internet, so I will just redirect you.
 * Install Sudo
 * Create regular user account
 
-That's enough for now. Logout from ssh (type "exit") and connect again, but as user who was created. Similiar to previous: `ssh username@ip.address`. From now, you'll need to type "sudo" in front of every command, which is possibly danger. I will warn you in next chapter.
+That's enough for now. Logout from ssh (type `exit`) and connect again, but as user who was created. Similiar to previous: `ssh username@ip.address`. From now, you'll need to type "sudo" in front of every command, which is possibly danger. I will warn you in next chapter.
 
 We must be sure that after reboot RPi will reconnect. Type `sudo systemctl status netctl-ifplugd@eth0`. In should show something like this:
 ```
@@ -82,7 +113,7 @@ Jun 26 17:38:12 530uarch ifplugd[302]: Using interface eth0/E8:03:9A:97:B5:A7 wi
 Jun 26 17:38:12 530uarch ifplugd[302]: Using detection mode: SIOCETHTOOL
 Jun 26 17:38:12 530uarch ifplugd[302]: Initialization complete, link beat not detected.
 ```
-Keywords here are **active (running)** in "Active" and  **enabled** in "loaded". If there is not **enabled**. Just run this: `systemctl enable netctl-ifplugd@eth0.service`
+Keywords here are **active (running)** in "Active" and  **enabled** in "loaded". If there is **disabled**, just enable it by `systemctl enable netctl-ifplugd@eth0.service`
 
 Now try if you are connected to the internet. Type `ping 8.8.8.8`. If you don't see `ping: unknown host 8.8.8.8` it's good! If you do, your internet connection is not working. Try to find out why - unfortunately it is not possible to solve it here.
 
@@ -95,9 +126,14 @@ Reboot you rpi using `systemctl reboot`. You must be able to connect to it again
 For our purpouses we will install usefull things, which will help as maintaing the system.
 So, run this:
 `pacman -S vim zsh wget ranger htop lynx`
-do you see: `error: you cannot perform this operation unless you are root.`? Then you need to type `sudo pacman -S ...`. I will not write it in future and it is not in other guides. So sometimes you might be confused.
 
-we will also need these in next chapters:
+Do you see: 
+```
+error: you cannot perform this operation unless you are root.
+```
+Then you need to type `sudo pacman -S ...`. I will not write it in future and it is not in other guides. So sometimes you might be confused whel you'll read some tutorials and autor implicitly use sudo without mentioning it.
+
+We will also need these in next chapters:
 `pacman -S nginx sshguard vsftpd`
 
 You can notice that is really few packages! And thats true! Isn't it great? No needs of tons of crap in your device.
@@ -181,8 +217,8 @@ RuntimeMaxUse=40M
 ```
 
 ### Network configuration
-For reasons I will mention in future, we need to set RPi to connect with **static ip**. This will assure that the IP address of RPi will be still the same and you can connect it. Right now is probably getting automatically assigned IP address from router. 
-We will use `systemd-network`. `systemd` is astonishingly great and complex package, but thats not neccessary to know now. 
+For reasons I will mention in future, we need to set RPi to connect with **static ip**. This will assure that the IP address of RPi will be still the same and you can connect it. Right now is probably getting automatically assigned IP address from router (it's called **dhcp**). 
+We will use `systemd-network`. 
 
 Type `ip addr`. It should shows something like this:
 ```
@@ -203,12 +239,12 @@ you are interested just in name **eth0**. If it is there, it is ok. In future ve
 
 In this part you'll need to get address of your router. [How to obtain it](http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm)?
 
-And what is static address? Whatever you want. Almost. As you know your router is assigning IP address automatically (it is called DHCP). But not randomly. It has some range of IP addresses which it can assign. Standard is this: router has standard IP adress `192.168.0.1` and assign addresses from `192.168.0.2` to `192.168.0.254`. Second standard is `10.0.0.138` for router and it assignes addresses from `10.0.0.139` to `10.0.0.254`. But it *can* be anything else. 
+And what is static address? Whatever you want. Almost. As you know your router is assigning IP address automatically (it is called DHCP). But not randomly in full range. It has some range of IP addresses which it can assign. Standard is this: router has standard IP adress `192.168.0.1` and assign addresses from `192.168.0.2` to `192.168.0.254`. Second standard is `10.0.0.138` for router and it assignes addresses from `10.0.0.139` to `10.0.0.254`. But it *can* be anything else. 
 Interesting - and what the hell should you do that? I suggest to set one the address on the end from this range. You can notice, that my "eth0" has IP address `192.168.0.201`.
 
-Open this file `/etc/systemd/network/ethernet_static.network` (how? just use `vim` as in the previous - but don't forgot to use `sudo` in front of `vim`!) and paste this:
-```
+Open this file `/etc/systemd/network/ethernet_static.network` (how? just use `vim` as in the previous - but don't forgot to use `sudo` in front of `vim`, or you'll not be able to save it!) and paste this:
 
+```
 [Match]
 Name=eth0
 
@@ -225,15 +261,17 @@ Name=eth0
 Address=192.168.0.201/24
 Gateway=192.168.0.1
 ```
-now we need to try it - we don't to close as out. The connection is right now ensuring by thing called `netctl-ifplugd@eth0`. We want to do this:
+now we need to try it - we don't to close us out. The connection is right now ensuring by thing called `netctl-ifplugd@eth0`. We want to do this:
 
 * Turn `netctl` off
 * Turn `networkd` on
-* Try if it is connected to the internet
-* If yes, than do nothing - we can connect again
+* Try if RPi is connected to the internet
+* If yes, than do nothing - we can connect now by ssh
 * If not, turn off `networkd` and turn on working `netctl`
 
-why so complicated? Because when you are changing network, it will disconnect - and of course, we will disconnected also from SSH. This script will do what we want:
+why so complicated? Because when you are changing network, it will disconnect - and of course, we will disconnected also from SSH. And it discouraged to use more network managers at once, because they'd interferate and you don't want that. 
+
+This script will do what we want:
 
 ```
 #!/usr/bin/bash
@@ -268,15 +306,14 @@ Jun 17 17:52:01 smecpi systemd-networkd[213]:             eth0: lost carrier
 Jun 17 17:52:02 smecpi systemd-networkd[213]:             eth0: gained carrier
 
 ```
-If yes, great! We can get rid off netctl by uninstalling: `pacman -Rnsc netctl` and enable `networkd` start at boot by `systemctl enable systemd-networkd`. 
+If yes, great! We can get rid off netctl by uninstalling it by `pacman -Rnsc netctl` and enable `networkd` to start at boot by `systemctl enable systemd-networkd`. 
 
-If not, `netctl` probably saves the day. Find it out `systemctl status netctl-ifplugd@eth0`. It should be active, otherwise there is some magic power which care about your connection. Try to find out why `networkd` didn't workd and repair it (probably bad IP address...). There should be some info in file `log.txt`. 
+If not, `netctl` should be started again and save the day. Find it out by `systemctl status netctl-ifplugd@eth0`. It should be active, otherwise there is some magic power which care about your connection. Try to find out why `networkd` didn't workd and repair it (probably bad IP address...). There should be some info in file `log.txt`. 
 
-If you can't connect, don't panic. Just turn off RPi (take out power suppy) and turn it on. It should reconnect normally with `netctl-ifplugd`. Try to find out why it not working.And try it again.
+If you can't connect, don't panic. Just turn off RPi (take out power suppy) and turn it on. It should reconnect normally with `netctl-ifplugd`. Try to find out why it is not working and try it again.
 
 ### Timesynchronization
 You've maybe noticed that time is quite weird on your RPi. It is beacuse it does not have real hardware clock. Every time RPi is waken up, it thinks that is June 1970. You don't have to care about it, but after boot it would be fine that time is correctly set. You can do it by using really great part of `systemd`. Go ahead and enable service, which takes care about that: `systemctl enable systemd-timesyncd`. Thats all. It will start after next reboot. If you want it to start now, just
-type **start** instead of **enable** in previous command. If you want to see what it is doing, type **status**. Replace it with **stop** to stop it imediately and **disable** not to start it after boot. This work with all services. 
 
 ### Configuring SSH
 We will open RPi to world and in that case we need to secure it a bit. Service, which takes care about SSH is called `sshd`. "Where" it is? It is runned by systemd, so `systemctl status sshd` will show you some info :). We will configure it a bit. This is not necessary, but highly recommended! Brutal force attacks are really common (hundreds every day on my little unimportant server).
