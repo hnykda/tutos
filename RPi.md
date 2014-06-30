@@ -463,7 +463,42 @@ next, create `/var/www/test/index.html`:
 where xxx.xxx.xxx.xxx should be your public address. This will do this: when you type in your browser "youripaddress/test:80", you should see index Hello world example. Try that without `:80` - it will do the same! Default port for webpages is **80** (similiar to 22 for SSH). So it can be omited. 
 
 #### FTP
-TODO
+This will cover the most easy solution for FTP. Don't use this configuration in real, just for test purpouses. 
+If you didn't download `vsftp`, do it now by `pacman -S vsftp`. Now we will create some directory where all files and users will end up after connecting. Let it be in `/var/www/test`. Now edit `/etc/vsftpd.conf` and add on the top this line:
+```
+anon_root=/var/www/test
+```
+and make sure that this line is uncommented:
+```
+anonymous_enable=YES
+```
+and just start it: `systemctl start vsftpd`.
+
+Now we'll tell nginx about that. Add this to servers confs in `/etc/nginx/nginx.conf`.
+
+```
+server{
+    listen  80;
+    server_name ~^123.123.32.13(.*)$;
+    location / {
+        ssi on;
+        root   /var/www/$1;
+        index  index.html index.htm;
+    }
+}
+```
+where you need to replace IP address in `server_name` directive to your public IP. 
+What this little configuration does? It's simple. Every time you type to your brower your IP address and somthing behind it, it will transfer you to this "something" in /var/www/. 
+
+**Example**
+I created index.html here `/var/www/example/index.html`. I now type `123.123.32.13/test` to my browser and voila!
+
+This nginx configuration isn't neccessary in our ftp example (it could be simpler), but I just like it... 
+
+You can now connect to ftp by typing this in your browser:
+`ftp://your_ip_address` or use your favorite FTP client (e.g. `filezilla`). 
+
+**CAUTION** - again, don't use this settings as default. There are great guides on the internet how to grant access only some users, password protected etc.
 
 #### Domains
 How does it happen, that someone type something.com and see some webpages? Where this *something.com* come from?
