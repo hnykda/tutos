@@ -1,0 +1,32 @@
+server{
+    listen 80;
+    server_name mudrhnykova.eu;
+    return 301 $scheme://www.mudrhnykova.eu$request_uri;
+}
+
+server {
+#        access_log /var/www/zubni_praxe/logs/nginx-access.log;
+        access_log off;
+        error_log /var/www/zubni_praxe/logs/nginx-error.log warn;
+
+        listen       80;
+        server_name  www.mudrhnykova.eu;
+
+        location / {
+            root   /var/www/zubni_praxe;
+            index  index.html index.htm;
+        }
+
+    #For status page
+    location /nginx_stats {
+        stub_status on;
+        access_log off;
+        allow 94.112.34.98;
+        deny all;
+    }
+        # redirect server error pages to the static page /50x.html
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+}

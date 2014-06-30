@@ -1,0 +1,14 @@
+# 
+# /etc/fstab: static file system information
+#
+# <file system>	<dir>	<type>	<options>	<dump>	<pass>
+/dev/mmcblk0p1  /boot           vfat    defaults        0       0
+
+#VAR Partition
+/dev/sda1 /var ext4 noatime,data=writeback,nodiratime 0 0
+
+#Home partition
+/dev/sda2 /home ext4 noatime,data=writeback,nodiratime 0 0
+
+# Swap file just to be safe
+#/swapfile none swap defaults 0 0

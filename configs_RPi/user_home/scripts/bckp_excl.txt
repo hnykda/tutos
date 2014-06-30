@@ -1,0 +1,11 @@
+/tmp
+/run
+/mnt
+/sys
+/proc
+/var/cache
+/var/tmp
+/var/log
+/var/lib/transmission
+/swapfile
+/var/www/sova/run/gunicorn1.sock

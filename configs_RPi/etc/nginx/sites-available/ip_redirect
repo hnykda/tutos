@@ -1,0 +1,14 @@
+# This setting catch what is behind IP address
+# and looks for index in according folder
+# E.g: request "94.112.34.98/test" looks for index in /var/www/test
+# If not found, gives 404
+
+server{
+    listen  80 default_server;
+    server_name ~^94.112.34.98(.*)$;
+    location / {
+        ssi on;
+        root   /var/www/$1;
+        index  index.html index.htm;
+    }
+}

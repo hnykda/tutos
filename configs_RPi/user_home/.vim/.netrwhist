@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/var/www'
+let g:netrw_dirhist_2='/etc/nginx/sites-available'
+let g:netrw_dirhist_3='/root/scripts'
