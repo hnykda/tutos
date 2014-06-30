@@ -537,7 +537,6 @@ If you don't want to buy "first level domains" (the one which are just something
 ### System analyzing and cleaning
 Use your friend `systemd-analyze`. It will show you which units are loading long time. Also `systemctl status` is great for finding failed units.
 
-Example:
 #### Disable things that you dont need
 I guess you don't use ipv6 (if you don't know what it is, you don't need it :D). `systemctl disable ip6tables`. In case you use sshguard, you need also edit file `/cat /usr/lib/systemd/system/sshguard.service` and from **Wants** delete ip6tables. Like this:
 
@@ -583,8 +582,7 @@ Now you can give it commands using transmission-remote <commands>. The most usef
 files should be stored in `/var/lib/transmission/Downloads`. It can be configured in config file :) .
 
 ## Backups
-TODO
-`rdiff-backup` - zaloha pres SSH i local
+For backups I choosed `rdiff-backup`. It's so stupid but works (almost) as expected. More about it's usage you can find in it's manual pages. For my example I'll redirect you to dir with configs in this repo. These are inserted to `cron` (you have it by default installed) to do SSH backup every day in 4AM. If I'm on local network I also do backup to my disc on other PC.
 
 ## Final
 That's all for now! I will see if this is used by someone and than I will see if I will continue.
