@@ -46,6 +46,7 @@ RPi is already ready and waits for connection. How to use ssh and some utilities
 on google (keywords: how to use ssh). IP address is the probably the one you assigned before. It will be something like this: `192.168.0.x`, `10.0.0.14x` or similar. Next thing you need is username. It's just "root".
 
 If your RPi haven't got this address (ssh is not working), than there are two options.
+
 1. You will login to your router settings and find out list of all connected devices with IP addresses and try them.
 2. Use `nmap` to find active devices in your network.
 
@@ -297,18 +298,18 @@ The next thing we are going to do is set up `sshguard`. More about it [here](htt
 It is anoying still typing same username and password when we want to connect to RPi. And now, we have to add "-p 1234" also. We will make it automatic. [Here](http://www.linuxproblem.org/art_9.html) is quite good guide how to do it. On PC from which you are connecting (no RPi), edit `~/.ssh/config` to this:
 
 ```
-Host choose_name
+Host my_superpc
   HostName ipaddressofRPi
   IdentityFile /home/yourusername/.ssh/name_of_identityfile
   User bob
   port 1234
 ```
-since now, when you wan't to connect to RPi you can just type `ssh choose_name` and it will take care about rest.
+since now, when you wan't to connect to RPi you can just type `ssh my_superpc` and it will take care about rest.
 
 **Screen**
-You can live without that, but you shouldn't! Learn about what the screen is (google it), install it (`pacman -S screen), use it and love it.
+You can live without that, but you shouldn't! It makes you more productive and you don't need to be afraid of some mishmash caused by accidently closing terminal during update or lossing connection. Learn more about what the screen is ([here](http://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/), [here](https://wiki.archlinux.org/index.php/GNU_Screen) and [here](http://www.thegeekstuff.com/2010/07/screen-command-examples/)), install it (`pacman -S screen`), use it and love it.
 It can be handy to automatically ssh into screen sesion. For that I use this command (from PC I want to connect to RPi):
-`ssh RemoteHost -t screen -dRS "mainScreen"`. You can make some alias to something shorter (for example in .zshrc).
+`ssh my_superpc -t screen -dRS "mainScreen"`. You can make some alias to something shorter (for example adding this to `alias ssh_connect_RPI="ssh my_superpc  -t screen -dRUS mainScreen"` in .zshrc). Now all you need to do is type `ssh_connect_RPI` - it here is now screen created, it will create new one. If it is, it will attach it.
 
 ### Speeding RPi up
 Archlinux ARM for RPi is prepared to be tweaked. And now it is possible to speed RPi up by overclocking it's processor without avoiding your waranty. How to do it? Just edit file `/boot/config.txt` and find this part:
