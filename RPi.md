@@ -445,9 +445,6 @@ next, create `/var/www/test/index.html`:
     <table border="0" cellpadding="10">
       <tr>
         <td>
-          <img src="images/springsource.png">
-        </td>
-        <td>
           <h1>Sample "Hello, World" Application</h1>
         </td>
       </tr>
@@ -456,14 +453,17 @@ next, create `/var/www/test/index.html`:
     <p>This is the home page for the HelloWorld Web application. </p>
     <p>To prove that they work, you can execute either of the following links:
     <ul>
-      <li>To a <a href="hello.jsp">JSP page</a>.
-      <li>To a <a href="hello">servlet</a>.
+      <li>To a <a href="/">JSP page</a>.
+      <li>To a <a href="/">servlet</a>.
     </ul>
 
   </body>
 </html>
 ```
 where xxx.xxx.xxx.xxx should be your public address. This will do this: when you type in your browser "youripaddress/test:80", you should see index Hello world example. Try that without `:80` - it will do the same! Default port for webpages is **80** (similiar to 22 for SSH). So it can be omited. 
+
+#### FTP
+TODO
 
 #### Domains
 How does it happen, that someone type something.com and see some webpages? Where this *something.com* come from?
@@ -529,9 +529,9 @@ Now you can give it commands using transmission-remote <commands>. The most usef
 
 files should be stored in `/var/lib/transmission/Downloads`. It can be configured in config file :) .
 
-
 ## Final
 That's all for now! I will see if this is used by someone and than I will see if I will continue.
+
 
 ### Troubleshooting
 * RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
