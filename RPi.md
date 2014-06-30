@@ -582,6 +582,10 @@ Now you can give it commands using transmission-remote <commands>. The most usef
 
 files should be stored in `/var/lib/transmission/Downloads`. It can be configured in config file :) .
 
+## Backups
+TODO
+`rdiff-backup` - zaloha pres SSH i local
+
 ## Final
 That's all for now! I will see if this is used by someone and than I will see if I will continue.
 
