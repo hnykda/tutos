@@ -481,9 +481,6 @@ You have to ask to you IPS (a company, which is offering you and internet) if yo
 
 If you don't want to buy "first level domains" (the one which are just something.com) and second level is enough (like something.somethingelse.com), then you can take a look [here] (http://www.getfreedomain.name/). 
 
-### Troubleshooting
-* RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
-
 ### System analyzing and cleaning
 Use your friend `systemd-analyze`. It will show you which units are loading long time. Also `systemctl status` is great for finding failed units.
 
@@ -495,12 +492,47 @@ I guess you don't use ipv6 (if you don't know what it is, you don't need it :D).
 Wants=iptables.service
 ```
 
-#### Usefull utilites
+## Usefull utilites
+Simple to use, just install them and run:
+
 * iftop - for internet usage
 * iotop - for disk usage
+
+### Torrents
+Your RPi is maybe running 24/7, so why not to use it for torrents? But how, when there is no GUI? It's pretty simple.
+We will use transmission - popular torrent client. Install it by `pacman -S transmission-cli`
+Installation should create a new user and group, called transmission. To check that, you can take a look to `/etc/passwd` and `/etc/group`. 
+`transmission` will be runned by `systemd`. Let's see it it's service file is configured properly. Check `/usr/lib/systemd/system/transmission.service`:
+
+```
+[Unit]
+Description=Transmission BitTorrent Daemon
+After=network.target
+
+[Service]
+User=transmission
+Type=notify
+ExecStart=/usr/bin/transmission-daemon -f --log-error
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+```
+`User=transmission` is important here (for security reasons).
+Next thing we need to do is check, if transmission has place where it will live. By default it is in `/var/lib/transmission(-daemon)`. In this dir should be also config file `settings.json`. There lays configuration for it.Edit it ass you wish. It is covered [here](https://trac.transmissionbt.com/wiki/ConfigFiles) and [here](https://trac.transmissionbt.com/wiki/EditConfigFiles). 
+Maybe you'll need to forward ports as we did in previous chapters, you should make that again without problems :) .
+No we can run `transmission` daemon by `systemctl start transmission`. 
+Now you can give it commands using transmission-remote <commands>. The most usefull (and that's all I need to know and use :) ) are these:
+
+* `transmission-remote <port> -a "magnetlink/url"` - adds torrent and starts download it
+* `transmission-remote <port> -l` - list all torrents that are currently running
+
+files should be stored in `/var/lib/transmission/Downloads`. It can be configured in config file :) .
+
 
 ## Final
 That's all for now! I will see if this is used by someone and than I will see if I will continue.
 
-## To-Do
-### Torents
+### Troubleshooting
+* RPi don't boot - unplug everything from USB ports (there may be not enough of power to boot up and supply USB)
+
