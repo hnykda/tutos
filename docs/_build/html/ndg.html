@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Deploying nginx + django + python 3 &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="deploying-nginx-django-python-3">
+<h1>Deploying nginx + django + python 3<a class="headerlink" href="#deploying-nginx-django-python-3" title="Permalink to this headline">¶</a></h1>
+<p>Hello,</p>
+<p>due to the lacks of informations about deploying latests version of django (1.6+) with latest nginx (1.6+) using gunicorn (18+) inside virtual enviroment of python 3 (3.4+), it was really hard for a beginner like me to deploy a django project.</p>
+<p>I finally made it and now after several months I decided to share my experiences with all the world. So again:</p>
+<div class="section" id="what-this-guide-is-about">
+<h2>What this guide is about<a class="headerlink" href="#what-this-guide-is-about" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll deploy (that means making website available to the world) <tt class="docutils literal"><span class="pre">django</span></tt> project with server engine <tt class="docutils literal"><span class="pre">nginx</span></tt> using <tt class="docutils literal"><span class="pre">gunicorn</span></tt> for that. We&#8217;ll also use virtual enviroment of python and installation will be static - it will not depend on your system packages.</p>
+</div>
+<div class="section" id="prerequisites-and-informations">
+<h2>Prerequisites and informations<a class="headerlink" href="#prerequisites-and-informations" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;m using linux and commands I&#8217;m going to introduce are thought to be run in bash shell. Sometimes root privilegies might be required and I&#8217;ll <strong>not</strong> remark that. If you are not familiar with linux, please read my other guides.</p>
+<p>You do not need any special knowledge. But keep in mind that this is not guide how django, nginx or gunicorn work! This is about how it should be bringed togather to work.</p>
+<p>All you need is some time, some knowledge how to install programs and enough inteligence to type inside terminal. Oh, and one <strong>EXTREMELY IMPORTANT THING</strong> - use google. Sometimes I&#8217;ll not explain everything to the tiniest detail when I know that there are plenty of great guides.</p>
+<p>Sometimes I&#8217;ll be improper in explaining some terms. This might be mainly because of two reasons:</p>
+<ol class="arabic simple">
+<li>I don&#8217;t understand it to explain you more</li>
+<li>It&#8217;s not neccessary you to know it</li>
+</ol>
+<p>I&#8217;m hoping to explain all things somehow <em>human-likely</em>. If you want to know technical details, just find them on your own :) .</p>
+</div>
+<div class="section" id="my-choice-why-nginx-python-3-etc">
+<h2>My choice - why nginx, python 3 etc.<a class="headerlink" href="#my-choice-why-nginx-python-3-etc" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;m not the one who tried all of possible choices. I&#8217;ve just tried a lot of them and this one was first of them which worked. So I sticked to it.</p>
+<p>I choosed <tt class="docutils literal"><span class="pre">nginx</span></tt> over <tt class="docutils literal"><span class="pre">apache</span></tt> because this seems to be <em>trend</em> today thanks to apache&#8217;s age. It&#8217;s also seems to me easier.</p>
+<p>I choosed <tt class="docutils literal"><span class="pre">django</span></tt> because I love python. And I&#8217;m quite new to it so when I decided to learn this great language, I started with <tt class="docutils literal"><span class="pre">python</span> <span class="pre">3</span></tt>. It was somehow logical because I could choose what I want and the newer one is of course better investment to the future.</p>
+<p>Gunicorn is just so easy to use and I&#8217;ve found great documentations and guides for it.</p>
+<p>Virtual enviroment is necessity. You don&#8217;t want all python projects (not just django websites) depend on one specific configuration. It&#8217;s not stable (one package can hurt other) nor secure. We&#8217;ll use <strong>hard</strong> <em>virtualenv</em> because it&#8217;s also safer - you can update this version when you want and not with every time your distribution says to you.</p>
+</div>
+<div class="section" id="how-the-hell-all-that-works">
+<h2>How the hell all that works<a class="headerlink" href="#how-the-hell-all-that-works" title="Permalink to this headline">¶</a></h2>
+<p>Here is a little model I&#8217;ve made for myself and I think it&#8217;s not too bad to be a starting point for you ;) .
+We have five terms: <tt class="docutils literal"><span class="pre">nginx</span></tt>, <tt class="docutils literal"><span class="pre">python</span></tt>, <tt class="docutils literal"><span class="pre">virtualenv</span></tt>, <tt class="docutils literal"><span class="pre">gunicorn</span></tt> and <tt class="docutils literal"><span class="pre">django</span></tt>.</p>
+<div class="section" id="first-layer-nginx">
+<h3>First layer (nginx)<a class="headerlink" href="#first-layer-nginx" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">nginx</span></tt> is what cares about requests from the world. It&#8217;s what catchs your request (e.g. <a class="reference external" href="google.com">Google</a>) and redirects it to according folder (in case of static HTML page with index.html, not our case), or to some application.</p>
+</div>
+<div class="section" id="second-layer-gunicorn">
+<h3>Second layer (gunicorn)<a class="headerlink" href="#second-layer-gunicorn" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>This application in our case is <tt class="docutils literal"><span class="pre">gunicorn</span></tt>. It&#8217;s powered by <tt class="docutils literal"><span class="pre">python</span></tt> and it basically makes a magical communication channel <tt class="docutils literal"><span class="pre">nginx``~``django</span> <span class="pre">app</span></tt>. This tunnel is represented by <strong>socket</strong> (we&#8217;ll get to it). Why can&#8217;t do this <tt class="docutils literal"><span class="pre">nginx</span></tt>? It&#8217;s just not clever enough (better - it just hasn&#8217;t do that and that&#8217;s absolutly OK in Unix philosophy). Gunicorn can make <em>server</em> similiar to django testserver. But it can also <strong>serve</strong> django app content to <tt class="docutils literal"><span class="pre">nginx</span></tt> and hence solving nginx&#8217;s limitation.</div></blockquote>
+</div>
+<div class="section" id="third-layer-django">
+<h3>Third layer (django)<a class="headerlink" href="#third-layer-django" title="Permalink to this headline">¶</a></h3>
+<p>Then there is just <tt class="docutils literal"><span class="pre">django</span></tt> - your project with you pages - this is what your website is about. All previous (and next) is just <em>working</em> layer.</p>
+</div>
+<div class="section" id="wrapper-for-second-and-third-layer">
+<h3>Wrapper for second and third layer<a class="headerlink" href="#wrapper-for-second-and-third-layer" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">python</span></tt> is <em>engine</em> of <tt class="docutils literal"><span class="pre">gunicorn</span></tt> even for <tt class="docutils literal"><span class="pre">django</span></tt>. This <tt class="docutils literal"><span class="pre">python</span></tt> is running inside <em>sandbox</em> called virtualenv. Gunicorn will <strong>activate</strong> this virtualenv for us and <em>run</em> django app.</p>
+<p>That&#8217;s all. Not that hard, huh? Basically <strong>nginx~gunicorn~django</strong>. <tt class="docutils literal"><span class="pre">python</span></tt> is powering it and <tt class="docutils literal"><span class="pre">virtualenv</span></tt> is just wraps python version (it is not neccesity to have virtualenv, if it&#8217;s easier to understand it).</p>
+</div>
+</div>
+<div class="section" id="let-s-do-it">
+<h2>Let&#8217;s do it<a class="headerlink" href="#let-s-do-it" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="nginx-configuration">
+<h3>nginx configuration<a class="headerlink" href="#nginx-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Covered in other tutorial, you must be able to make it to the point that you are able to see <em>nxinx welcome page</em>.</p>
+</div>
+<div class="section" id="installing-python-and-virtualenv">
+<h3>Installing python and virtualenv<a class="headerlink" href="#installing-python-and-virtualenv" title="Permalink to this headline">¶</a></h3>
+<p>About virtual enviroments there is tons of guides on the internet - feel free to educate yourself :D . Here is my brief guide.</p>
+<p>To do that we&#8217;ll need to install <tt class="docutils literal"><span class="pre">python-virtualenv</span></tt>. Install it and then create some folder for our test case. Let it be <tt class="docutils literal"><span class="pre">/var/www/test</span></tt>. Also install <tt class="docutils literal"><span class="pre">python</span></tt> of version 3, if you haven&#8217;t done that before.</p>
+<p>We&#8217;ll now create <em>sandbox</em> of python for our test case inside this folder (<tt class="docutils literal"><span class="pre">/var/www/test</span></tt>). Why <tt class="docutils literal"><span class="pre">/var/www</span></tt>? It&#8217;s just good place to put websites on Unix (and hence - Linux). But it can be anywhere of course. To create a <strong>REAL</strong> copy (and not just a linked variant) of python version 3 we need to use this syntax:</p>
+<div class="highlight-python"><div class="highlight"><pre>virtualenv --python=python3 --always-copy venv
+</pre></div>
+</div>
+<p>What happened here? We created python <em>sandbox</em> called <strong>venv</strong> in current directory. It use <strong>python3</strong> as default choice and we copied all neccesary files for life of this installation (by default there are only symlinked to the system one).</p>
+<p>What now? We need to switch from <em>system</em> python installation to <em>venv</em> python installation. First try to type <tt class="docutils literal"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">sys;</span> <span class="pre">print(sys.path)&quot;</span></tt>. The output is similiar to this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/lib/python34.zip&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/lib/python3.4&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/lib/python3.4/plat-linux&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/lib/python3.4/lib-dynload&#39;</span><span class="p">,</span> <span class="s">&#39;/usr/lib/python3.4/site-packages&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>where you can notice that current default <tt class="docutils literal"><span class="pre">python</span></tt> interpreter get&#8217;s it&#8217;s config from somwhere in <tt class="docutils literal"><span class="pre">/usr/lib/...</span></tt>.</p>
+<p>We will now activate our virtualenv by this command:
+<tt class="docutils literal"><span class="pre">source</span> <span class="pre">/var/www/test/venv/bin/activate</span></tt>. Now try same command as above (<tt class="docutils literal"><span class="pre">python</span> <span class="pre">-c</span> <span class="pre">...</span></tt>) and it should print instead of <tt class="docutils literal"><span class="pre">/usr/lib/...</span></tt> something starting with <tt class="docutils literal"><span class="pre">/var/www/test/venv/...</span></tt>. If yes, it&#8217;s working :) .</p>
+<p>To quit from this enviroment and get to your system-wide, type <tt class="docutils literal"><span class="pre">deactivate</span></tt>.</p>
+</div>
+<div class="section" id="pip-installing-django-and-gunicorn">
+<h3>pip installing django and gunicorn<a class="headerlink" href="#pip-installing-django-and-gunicorn" title="Permalink to this headline">¶</a></h3>
+<p>One of the best advantages of <tt class="docutils literal"><span class="pre">python</span> <span class="pre">3.4</span></tt> is a fact that <tt class="docutils literal"><span class="pre">pip</span></tt> is installed by default. What is <tt class="docutils literal"><span class="pre">pip</span></tt>? <tt class="docutils literal"><span class="pre">pip</span></tt> is installer for python packages.</p>
+<p>All python packages can be found <a class="reference external" href="https://pypi.python.org/pypi">here</a>. Of course you can find you package there (try for example with <tt class="docutils literal"><span class="pre">django</span></tt>), download it and build it with python on your own. But that souns like a lot of work. Let&#8217;s <tt class="docutils literal"><span class="pre">pip</span></tt> do it for us.</p>
+<p>Assure yourself you are working in our virtualenv (you can again <strong>activate</strong> it) and type this:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install django
+pip install gunicorn
+</pre></div>
+</div>
+<p>you can specify version just by typing <tt class="docutils literal"><span class="pre">=</span></tt> behind name package:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip install django=1.6.0
+</pre></div>
+</div>
+<p>but of course this version must exists on <tt class="docutils literal"><span class="pre">pypi.python.org</span></tt>. If there are errors, try adding <tt class="docutils literal"><span class="pre">-v</span></tt> switch for verbose.</p>
+<p>To list installed packages type:</p>
+<div class="highlight-python"><div class="highlight"><pre>pip list
+</pre></div>
+</div>
+<p>try if you see <tt class="docutils literal"><span class="pre">django</span></tt> and <tt class="docutils literal"><span class="pre">gunicorn</span></tt> there :) .</p>
+<p>and that&#8217;s all you need for now with pip (although there isn&#8217;t much more about pip).</p>
+</div>
+<div class="section" id="sample-django-project">
+<h3>Sample django project<a class="headerlink" href="#sample-django-project" title="Permalink to this headline">¶</a></h3>
+<p>Now we&#8217;ll need to create django project for our testcase. Go inside <tt class="docutils literal"><span class="pre">/var/www/test</span></tt> and activate our virtualenv where is <tt class="docutils literal"><span class="pre">django</span></tt> and <tt class="docutils literal"><span class="pre">gunicorn</span></tt> (you can do that again by <tt class="docutils literal"><span class="pre">source</span> <span class="pre">/var/www/test/venv/bin/activate</span></tt>).</p>
+<p>Create django project by:</p>
+<div class="highlight-python"><div class="highlight"><pre>django-admin3.py startproject ourcase
+</pre></div>
+</div>
+<p>it should create this structure inside <tt class="docutils literal"><span class="pre">/var/www/test</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>ourcase
+|-- manage.py
+`-- ourcase
+    |-- __init__.py
+    |-- settings.py
+    |-- urls.py
+    `-- wsgi.py
+
+1 directory, 5 files
+</pre></div>
+</div>
+<p>check if it&#8217;s working with local django testing server by <tt class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></tt>. Check in browser <tt class="docutils literal"><span class="pre">127.0.0.1:8000</span></tt> - if there is django welcome page, it&#8217;s good.</p>
+<p>Just for comfort make <tt class="docutils literal"><span class="pre">manage.py</span></tt> executable by <tt class="docutils literal"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">ourcase/manage.py</span></tt>.</p>
+</div>
+<div class="section" id="gunicorn-and-daemonizing-it">
+<h3>gunicorn and daemonizing it<a class="headerlink" href="#gunicorn-and-daemonizing-it" title="Permalink to this headline">¶</a></h3>
+<p>Now we&#8217;ll replace django testing server, which is just for kids (it&#8217;s just great future :) ), with fully mature nginx for adults.</p>
+<p>As was previously stated, for that we&#8217;ll need gunicorn. Gunicorn will have to be running to enable communication between nginx and django project.</p>
+<p>First, we&#8217;ll use just <tt class="docutils literal"><span class="pre">gunicorn</span></tt> to display our django test project on <tt class="docutils literal"><span class="pre">127.0.0.1:8000</span></tt>. It&#8217;s incredibly easy. Again - assure yourself you are working in current virtualenv.</p>
+<p>Now navigate yourself inside <tt class="docutils literal"><span class="pre">/var/www/test/ourcase/</span></tt> and run this magical command:</p>
+<div class="highlight-python"><div class="highlight"><pre>gunicorn ourcase.wsgi:application
+</pre></div>
+</div>
+<p>it will start something like <em>gunicorn server</em> - you should be able to see your django welcome page on <tt class="docutils literal"><span class="pre">127.0.0.1:8000</span></tt>.</p>
+<p>This is just the most stupid configuration, which is enough for this test, but not for deploying on server. For that we&#8217;ll wan&#8217;t to add much more. Create starting script <tt class="docutils literal"><span class="pre">/var/www/test/gunicorn_start.sh</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>#!/bin/bash
+
+NAME=&quot;ourcase&quot;                              #Name of the application (*)
+DJANGODIR=/var/www/test/ourcase             # Django project directory (*)
+SOCKFILE=/var/www/test/run/gunicorn.sock        # we will communicte using this unix socket (*)
+USER=nginx                                        # the user to run as (*)
+GROUP=webdata                                     # the group to run as (*)
+NUM_WORKERS=1                                     # how many worker processes should Gunicorn spawn (*)
+DJANGO_SETTINGS_MODULE=ourcase.settings             # which settings file should Django use (*)
+DJANGO_WSGI_MODULE=ourcase.wsgi                     # WSGI module name (*)
+
+echo &quot;Starting $NAME as `whoami`&quot;
+
+# Activate the virtual environment
+cd $DJANGODIR
+source /var/www/test/venv/bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Create the run directory if it doesn&#39;t exist
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+# Start your Django Unicorn
+# Programs meant to be run under supervisor should not daemonize themselves (do not use --daemon)
+exec /var/www/test/venv/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+  --name $NAME \
+  --workers $NUM_WORKERS \
+  --user $USER \
+  --bind=unix:$SOCKFILE
+</pre></div>
+</div>
+<p>Wow! A lot happened here compared to our <em>stupid</em> variant. Everything marked with <tt class="docutils literal"><span class="pre">(*)</span></tt> in comments can be changed (or must be changed if your paths differs).</p>
+<p>The most important change here is that we added <tt class="docutils literal"><span class="pre">SOCKFILE</span></tt> - socket. This is the magic thingie which will enable <tt class="docutils literal"><span class="pre">nginx</span></tt> to server django project (app). Gunicorn will somehow run server as in previous stupid variant and <em>transfer</em> this into socket file in language which <tt class="docutils literal"><span class="pre">nginx</span></tt> understands. <tt class="docutils literal"><span class="pre">nginx</span></tt> is looking to this socket file and is happy to serve everything there is.</p>
+<p>It&#8217;s common practice (and I strongly encouraged it) to run server as some specific user. It&#8217;s for security reasons. So if you haven&#8217;t done it before, create some user and group for these purpouses (ALSO IN OTHER MY TUTORIAL).</p>
+<p>Workers are just how much computing power you enable for this website.</p>
+<p>If you are not working as a user which is in script set to <tt class="docutils literal"><span class="pre">USER</span></tt> variable, you <strong>won&#8217;t</strong> be able to run this script (you&#8217;ll get some errors). That&#8217;s because of permissions reasons. If you&#8217;d like to check or debug this script (and it&#8217;s recommended), uncomment <tt class="docutils literal"><span class="pre">--user</span> <span class="pre">$USER</span></tt> line - it should work then even if you run it as another user. Of course you need to make script executable.</p>
+<p>See <a class="reference external" href="http://gunicorn-docs.readthedocs.org/en/latest/settings.html">gunicorn documentation</a> for more informations.</p>
+<p>This script is laying all over the internet in multiple variants. If you have problems to run it, try to uncomment some other lines in last part of script. For example I wasn&#8217;t able to run this script with directive <tt class="docutils literal"><span class="pre">--log-level=warning</span></tt>.</p>
+<p>If it is working, it&#8217;s great! Now we&#8217;ll daemonize it by using <tt class="docutils literal"><span class="pre">systemd</span></tt>. Of course you can use another init system (like Ubuntu <tt class="docutils literal"><span class="pre">upstart</span></tt>. Just search for &#8220;how to run script after boot&#8221;.</p>
+<p>Create new service file <tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/gunicorn_ourcase.service</span></tt> and insert this:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Unit]
+Description=Ourcase gunicorn daemon
+
+[Service]
+Type=simple
+User=nginx
+ExecStart=/var/www/test/gunicorn_start.sh
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+</div>
+<p>now enable it as with other units:</p>
+<div class="highlight-python"><div class="highlight"><pre>systemct enable gunicorn_ourcase
+</pre></div>
+</div>
+<p>now this script should be run after boot. Try if it&#8217;s working (reboot and use <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">gunicorn_ourcase</span></tt>).</p>
+<p>That&#8217;s all for gunicorn.</p>
+</div>
+<div class="section" id="django-project-deployment">
+<h3>django project deployment<a class="headerlink" href="#django-project-deployment" title="Permalink to this headline">¶</a></h3>
+<p>Deploying django project is topic for longer tutorial then is this. So I&#8217;ll make it as small as possible.</p>
+<p>If you&#8217;ve just developed django project with test server, it mades a tons of things for you without any notices. In reality it&#8217;s not as easy - everything isn&#8217;t done automaticaly and django is prepared for that - but you need to <em>activate</em> this futures, since it&#8217;s not by default.</p>
+<div class="section" id="directories">
+<h4>Directories<a class="headerlink" href="#directories" title="Permalink to this headline">¶</a></h4>
+<p>Nice example is with <strong>static</strong> files. There are e.g. some CSS styles for django administration page. These needs to be in special folder and we&#8217;ll tell nginx that when website asks for file <tt class="docutils literal"><span class="pre">style.css</span></tt>, it should looks into <tt class="docutils literal"><span class="pre">~/var/www/test/ourcase/static/style.css</span></tt>.</p>
+<p>But how to find all this static files? Right now they are sourced from django installation directory (probably something like <tt class="docutils literal"><span class="pre">/var/www/test/venv/lib/python3.4/django/...</span></tt>. <tt class="docutils literal"><span class="pre">manage.py</span></tt> has a special command for this, but first we need to tell him few details in <tt class="docutils literal"><span class="pre">settings.py</span></tt>.</p>
+<p>The most common configuration is to has a special directory for static files where you can edit them, past them etc. Then there will be static directory, where you won&#8217;t do any changes - this will be for <tt class="docutils literal"><span class="pre">manage.py</span></tt> command - it will collects them from your special directory, from django installation directory etc. In templates, when you wan&#8217;t to use e.g. some static image on background, you use <tt class="docutils literal"><span class="pre">{</span> <span class="pre">STATIC_URL}/static_images/mybgrnd.png</span></tt>.</p>
+<p>To do this we&#8217;ll add this to <tt class="docutils literal"><span class="pre">settings.py</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s">&#39;/static/&#39;</span>
+<span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&quot;static&quot;</span><span class="p">)</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&quot;sfiles&quot;</span><span class="p">),</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>all your static files used should now be placed inside <tt class="docutils literal"><span class="pre">/var/www/test/ourcase/sfiles</span></tt>. If you just want to try it, create this directory and <tt class="docutils literal"><span class="pre">touch</span> <span class="pre">sfiles/example.png</span></tt> inside it.</p>
+<p>Now run <tt class="docutils literal"><span class="pre">./manage.py</span> <span class="pre">collectstatic</span></tt>. It should ask you if you really want to do that (and you want). Process will start and after it&#8217;s finish you&#8217;ll have collected all static files inside <tt class="docutils literal"><span class="pre">static</span></tt> folder. This you need to do every time you change something inside <tt class="docutils literal"><span class="pre">sfiles</span></tt> folder.</p>
+<p>Websites also usually has <tt class="docutils literal"><span class="pre">media</span></tt> folder, which is used for user files - for example images to blog posts. Usually we use <tt class="docutils literal"><span class="pre">MEDIA_URL</span></tt> for calling things from media dir in templates.</p>
+<p>Configuration should be same as with django testing server and you don&#8217;t need to do any special changes here. My looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">MEDIA_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&quot;media&quot;</span><span class="p">)</span>
+<span class="n">MEDIA_URL</span> <span class="o">=</span> <span class="s">&#39;/media/&#39;</span>
+<span class="n">ADMIN_MEDIA_PREFIX</span> <span class="o">=</span> <span class="s">&#39;/media/admin/&#39;</span>
+</pre></div>
+</div>
+<p>and all user files (uploaded images, sounds...) are inside <cite>/var/www/test/ourcase/media`</cite> directory. You don&#8217;t need to do something like <tt class="docutils literal"><span class="pre">collectstatics</span></tt> here.</p>
+<p>Steps for other directories should be same.</p>
+<p>Enough for directories. But some othere changes are needed to deploy django project. In some cases I don&#8217;t really know why I need to add this to <tt class="docutils literal"><span class="pre">settings.py</span></tt>, but I know what that does and it&#8217;s just working.</p>
+</div>
+<div class="section" id="templates">
+<h4>Templates<a class="headerlink" href="#templates" title="Permalink to this headline">¶</a></h4>
+<p>I had to add this for templates:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">TEMPLATE_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">&#39;templates&#39;</span><span class="p">),)</span>
+<span class="n">TEMPLATE_LOADERS</span> <span class="o">=</span> <span class="p">(</span>
+<span class="s">&#39;django.template.loaders.filesystem.Loader&#39;</span><span class="p">,</span>
+<span class="s">&#39;django.template.loaders.app_directories.Loader&#39;</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>where I&#8217;ve put my <tt class="docutils literal"><span class="pre">base.html</span></tt> which is used in all other templates in whole website (in every app). If you use <tt class="docutils literal"><span class="pre">flatpages</span></tt>, you can also make a directory inside <tt class="docutils literal"><span class="pre">templates</span></tt> called <tt class="docutils literal"><span class="pre">flatpages</span></tt>, where you can copy <tt class="docutils literal"><span class="pre">base.html`</span> <span class="pre">as</span> <span class="pre">``default.html</span></tt> and use this template as base for flatpages.</p>
+</div>
+<div class="section" id="site-id">
+<h4>SITE_ID<a class="headerlink" href="#site-id" title="Permalink to this headline">¶</a></h4>
+<p>For some purpouses is needed to set SITE_ID. In my case it was because of <tt class="docutils literal"><span class="pre">flatpages</span></tt>. It&#8217;s easy:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">SITE_ID</span> <span class="o">=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="allowed-hosts">
+<h4>ALLOWED_HOSTS<a class="headerlink" href="#allowed-hosts" title="Permalink to this headline">¶</a></h4>
+<p>You need to past all your domains here. If your domain is <tt class="docutils literal"><span class="pre">www.example.com</span></tt> and I guess <tt class="docutils literal"><span class="pre">example.com</span></tt> also, it should looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;example.com&#39;</span><span class="p">,</span> <span class="s">&#39;www.example.com&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="debug">
+<h4>DEBUG<a class="headerlink" href="#debug" title="Permalink to this headline">¶</a></h4>
+<p>This directive should be set to <strong>False</strong>. But when you are configuring your server for first time, let <strong>True</strong> there. It helps you find out bugs on your site.</p>
+<p>That&#8217;s it!</p>
+</div>
+</div>
+<div class="section" id="nginx-server-configuration">
+<h3>nginx server configuration<a class="headerlink" href="#nginx-server-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Last part is configuring <tt class="docutils literal"><span class="pre">nginx</span></tt> to make him listen on socket created by gunicorn. It&#8217;s not hard.</p>
+<p>Edit <tt class="docutils literal"><span class="pre">/etc/nginx/nginx.conf</span></tt> and paste this into <tt class="docutils literal"><span class="pre">http</span></tt> block:</p>
+<div class="highlight-python"><div class="highlight"><pre>upstream test_server {
+  server unix:/var/www/test/run/gunicorn.sock fail_timeout=10s;
+}
+
+# This is not neccessary - it&#39;s just commonly used
+# it just redirects example.com -&gt; www.example.com
+# so it isn&#39;t treated as two separate websites
+server {
+        listen 80;
+        server_name example.com;
+        return 301 $scheme://www.example.com$request_uri;
+}
+
+server {
+    listen   80;
+    server_name www.example.com;
+
+    client_max_body_size 4G;
+
+    access_log /var/www/test/logs/nginx-access.log;
+    error_log /var/www/test/logs/nginx-error.log warn;
+
+    location /static/ {
+        autoindex on;
+        alias   /var/www/test/ourcase/static/;
+    }
+
+    location /media/ {
+        autoindex on;
+        alias   /var/www/test/ourcase/media/;
+    }
+
+    location / {
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_redirect off;
+
+        if (!-f $request_filename) {
+            proxy_pass http://test_server;
+            break;
+        }
+    }
+
+    #For favicon
+    location  /favicon.ico {
+        alias /var/www/test/test/static/img/favicon.ico;
+    }
+    #For robots.txt
+    location  /robots.txt {
+        alias /var/www/test/test/static/robots.txt ;
+    }
+    # Error pages
+    error_page 500 502 503 504 /500.html;
+    location = /500.html {
+        root /var/www/test/ourcase/static/;
+    }
+}
+</pre></div>
+</div>
+<p>Ok, that&#8217;s whipping. I&#8217;ll be fast.</p>
+<p>First, we tell <cite>nginx</cite> where is socket file (<tt class="docutils literal"><span class="pre">gunicorn.sock</span></tt>) from gunicorn.</p>
+<p>Then there is redirect from non-www domain to www domain. This can be ommited or solved in other way (CNAME).</p>
+<p>Then there is main body of server configuration:
+* logs are usefull for catching bugs and errors - has multiple parameters, like how much should they bother you. Don&#8217;t forget to create log directory.
+* static and media block - these are extremaly important - this is why we played all that games with collectstatics etc. It just tells nginx where it should looks when website asks for e.g. <tt class="docutils literal"><span class="pre">/static/style.css/</span></tt> or <tt class="docutils literal"><span class="pre">/media/img/picture_of_my_cat.png</span></tt>.
+* Block with all that proxy things is also important and is used for technical background around socket communication and redirecting. Don&#8217;t care about that.
+* Favicon and robots.txt is not neccessary, but all browsers and web crawlers are still searching for them. So if you don&#8217;t like errors in your logs, add create these two things.
+* Last block is telling nginx where it should looks for error pages when something doesn&#8217;t exists.</p>
+<p>Save and exit. Next great future of <tt class="docutils literal"><span class="pre">nginx</span></tt> is it&#8217;s ability of checking configuration. Type <tt class="docutils literal"><span class="pre">nginx</span> <span class="pre">-t</span></tt> (don&#8217;t forget root permissions) and you&#8217;ll see if configuration is synctactically correct. Don&#8217;t forget about that stupid <tt class="docutils literal"><span class="pre">;</span></tt>.</p>
+<p>Finally enable <tt class="docutils literal"><span class="pre">nginx</span></tt> to be runned after reboot:</p>
+<div class="highlight-python"><div class="highlight"><pre>systemctl enable nginx
+</pre></div>
+</div>
+</div>
+<div class="section" id="some-sugarcandy">
+<h3>Some sugarcandy<a class="headerlink" href="#some-sugarcandy" title="Permalink to this headline">¶</a></h3>
+<p>Install with <tt class="docutils literal"><span class="pre">pip</span></tt> package called <tt class="docutils literal"><span class="pre">setproctitle</span></tt>. It&#8217;s usefull for displaying more info about runned processes like gunicorn in system process managers (<tt class="docutils literal"><span class="pre">htop</span></tt>, <tt class="docutils literal"><span class="pre">ps</span></tt>, ...).</p>
+</div>
+</div>
+<div class="section" id="debugging">
+<h2>Debugging<a class="headerlink" href="#debugging" title="Permalink to this headline">¶</a></h2>
+<p>That&#8217;s it. Now restart computer and see if it doesn&#8217;t explode.
+You can anylyze <tt class="docutils literal"><span class="pre">nginx</span></tt> or <tt class="docutils literal"><span class="pre">gunicorn</span></tt> with <tt class="docutils literal"><span class="pre">systemctl</span></tt>, e.g.:</p>
+<div class="highlight-python"><div class="highlight"><pre>systemctl status gunicorn_ourcase
+</pre></div>
+</div>
+<p>and some informations should be also in log files. Try to get to your website from browser and see what happens. Don&#8217;t forget that browser likes caching and press <strong>CTRL+r</strong> for reload to see changes you&#8217;ve made.</p>
+<p>After every change in configuration of nginx you need to restart it by running <tt class="docutils literal"><span class="pre">nginx</span> <span class="pre">-s</span> <span class="pre">reload</span></tt>.</p>
+<p>To see what processes are spawned you can use your task manager like <tt class="docutils literal"><span class="pre">htop</span></tt> or <tt class="docutils literal"><span class="pre">ps</span></tt>.</p>
+</div>
+<div class="section" id="finalization">
+<h2>Finalization<a class="headerlink" href="#finalization" title="Permalink to this headline">¶</a></h2>
+<p>That&#8217;s all! I hope this guide helped you and you has succesfuly start up your websites! :)</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Deploying nginx + django + python 3</a><ul>
+<li><a class="reference internal" href="#what-this-guide-is-about">What this guide is about</a></li>
+<li><a class="reference internal" href="#prerequisites-and-informations">Prerequisites and informations</a></li>
+<li><a class="reference internal" href="#my-choice-why-nginx-python-3-etc">My choice - why nginx, python 3 etc.</a></li>
+<li><a class="reference internal" href="#how-the-hell-all-that-works">How the hell all that works</a><ul>
+<li><a class="reference internal" href="#first-layer-nginx">First layer (nginx)</a></li>
+<li><a class="reference internal" href="#second-layer-gunicorn">Second layer (gunicorn)</a></li>
+<li><a class="reference internal" href="#third-layer-django">Third layer (django)</a></li>
+<li><a class="reference internal" href="#wrapper-for-second-and-third-layer">Wrapper for second and third layer</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#let-s-do-it">Let&#8217;s do it</a><ul>
+<li><a class="reference internal" href="#nginx-configuration">nginx configuration</a></li>
+<li><a class="reference internal" href="#installing-python-and-virtualenv">Installing python and virtualenv</a></li>
+<li><a class="reference internal" href="#pip-installing-django-and-gunicorn">pip installing django and gunicorn</a></li>
+<li><a class="reference internal" href="#sample-django-project">Sample django project</a></li>
+<li><a class="reference internal" href="#gunicorn-and-daemonizing-it">gunicorn and daemonizing it</a></li>
+<li><a class="reference internal" href="#django-project-deployment">django project deployment</a><ul>
+<li><a class="reference internal" href="#directories">Directories</a></li>
+<li><a class="reference internal" href="#templates">Templates</a></li>
+<li><a class="reference internal" href="#site-id">SITE_ID</a></li>
+<li><a class="reference internal" href="#allowed-hosts">ALLOWED_HOSTS</a></li>
+<li><a class="reference internal" href="#debug">DEBUG</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nginx-server-configuration">nginx server configuration</a></li>
+<li><a class="reference internal" href="#some-sugarcandy">Some sugarcandy</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#debugging">Debugging</a></li>
+<li><a class="reference internal" href="#finalization">Finalization</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/ndg.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
