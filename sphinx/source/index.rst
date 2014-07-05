@@ -1,0 +1,24 @@
+.. tutos documentation master file, created by
+   sphinx-quickstart on Tue Jul  1 06:17:11 2014.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Kotrfa's guides index
+=================================
+
+Contents:
+
+.. toctree::
+   :maxdepth: 3
+
+   Arch
+   RPi
+   ndg
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
