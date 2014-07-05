@@ -102,7 +102,10 @@ are two options.
 **Example** You have this address assigned: ``192.168.0.201``. Then you
 have to type (in linux): ``ssh root@192.168.0.201``.
 
-You should end up in RPi console.
+Youshould end up in RPi console.
+
+Enough for networking just now. We'll set a proper network configuration later in this guide, but first some *musthaves*.
+
 
 First setup
 ~~~~~~~~~~~
