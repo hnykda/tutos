@@ -24,7 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
-    <link rel="next" title="3. Deploying nginx + django + python 3" href="ndg.html" />
+    <link rel="next" title="3. How domains, IP addresses and servers works" href="domains_ip_servers.html" />
     <link rel="prev" title="1. Instaling Arch linux on laptop and how to make it usable" href="Arch.html" /> 
   </head>
   <body>
@@ -35,7 +35,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="ndg.html" title="3. Deploying nginx + django + python 3"
+          <a href="domains_ip_servers.html" title="3. How domains, IP addresses and servers works"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="Arch.html" title="1. Instaling Arch linux on laptop and how to make it usable"
@@ -51,6 +51,8 @@
             
   <div class="section" id="making-raspberry-pi-usable">
 <h1>2. Making Raspberry Pi usable<a class="headerlink" href="#making-raspberry-pi-usable" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>2.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>After 3 months of using RPi, I decided to make this tutorial for same
 people as I&#8217;m - who looks for easy, understandable way to make RPi as
 awesome as possible.</p>
@@ -62,17 +64,6 @@ that thanks to Archlinux ARM operating system. The device will be
 line. Don&#8217;t be scared, I will walk you through and you&#8217;ll thank me then
 :) . You don&#8217;t need some special knowledge about computers and linux
 systems.</p>
-<div class="section" id="some-notes-before-you-start">
-<h2>2.1. Some notes before you start<a class="headerlink" href="#some-notes-before-you-start" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>When I feel that some topic is covered solidly somewhere else, I will
-redirect you there.So thing about this also as summary of materials.</li>
-<li>On many place it is not only RPi-related</li>
-<li>You will have to learn some basics about unix systems - naturaly on
-the way</li>
-<li>Sometimes I&#8217;ll simplify things. Feel free to find more info about
-that :)</li>
-</ul>
 </div>
 <div class="section" id="what-you-get-on-when-you-succesfully-finish">
 <h2>2.2. What you get on when you succesfully finish<a class="headerlink" href="#what-you-get-on-when-you-succesfully-finish" title="Permalink to this headline">¶</a></h2>
@@ -101,7 +92,7 @@ login to it (or have contact to your network administrator :) )</li>
 <div class="section" id="what-you-don-t-need">
 <h2>2.4. What you don&#8217;t need<a class="headerlink" href="#what-you-don-t-need" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Second monitor or ability to connect RPi to some monitor</li>
+<li>Monitor or ability to connect RPi to some monitor</li>
 </ul>
 </div>
 <div class="section" id="start">
@@ -154,79 +145,8 @@ to find active devices in your network.</li>
 have to type (in linux): <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">root&#64;192.168.0.201</span></tt>.</p>
 <p>You should end up in RPi console.</p>
 </div>
-<div class="section" id="tutorial-for-used-utilities">
-<h3>2.5.3. Tutorial for used utilities<a class="headerlink" href="#tutorial-for-used-utilities" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="vim">
-<h4>2.5.3.1. Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h4>
-<p>We&#8217;ll need text editor to configure everything and most of our time
-we&#8217;ll spend in command line. How to edit files inside terminal? There
-are multiple console-based terminal. I choosed one of them, which is
-called <tt class="docutils literal"><span class="pre">[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))</span></tt>. We
-will install it in next chapters, but I will tell you some basics here
-(you can try them later).</p>
-<p>You can edit a file in vim by typing <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">&lt;file&gt;</span></tt>. Vim has three
-modes, while I will tell you about two of them. Command and insert mode.
-In command mode, you press special keys to make something. It&#8217;s the
-basic mode and you cannot edit file in it. Press <tt class="docutils literal"><span class="pre">ESC</span></tt> to get into
-command mode. To edit a file, press <tt class="docutils literal"><span class="pre">i</span></tt>. Now you are in insert mode
-and you can navigate by arrows and type, delete etc. as you know from
-other text editors.</p>
-<p>After you make a change, you can save the file. To do it, get to command
-mode (<tt class="docutils literal"><span class="pre">ESC</span></tt>). Now write <tt class="docutils literal"><span class="pre">:w</span></tt>. This will save the file. To exit, type
-<tt class="docutils literal"><span class="pre">:q</span></tt>. That&#8217;s all you need for now. More about <tt class="docutils literal"><span class="pre">vim</span></tt> is under command
-<tt class="docutils literal"><span class="pre">vimtutor</span></tt>.</p>
-</div>
-<div class="section" id="systemd">
-<h4>2.5.3.2. Systemd<a class="headerlink" href="#systemd" title="Permalink to this headline">¶</a></h4>
-<p><tt class="docutils literal"><span class="pre">`systemd</span></tt> &lt;<a class="reference external" href="http://en.wikipedia.org/wiki/Systemd">http://en.wikipedia.org/wiki/Systemd</a>&gt;`__ is astonishingly
-great and also astonishingly hated package, but thats not neccessary to
-know now. Briefly - <tt class="docutils literal"><span class="pre">systemd</span></tt> cares about running processes in the
-background. These are called daemons. For example in next chapter we
-will use SSH - it will run at background. There is also package, which
-takes care of automatically connect to internet (again in next
-chapters).</p>
-<p><tt class="docutils literal"><span class="pre">systemd</span></tt> is controlled by <tt class="docutils literal"><span class="pre">systemctl</span></tt>. To start some program, which
-is in this context called <strong>service</strong> (and we will stick to that), just
-run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">&lt;unit&gt;</span></tt>. There are other usefull (and that&#8217;s 90%
-of what you need to know about systemctl) commands (all starts with
-<tt class="docutils literal"><span class="pre">systemctl</span></tt> and ends with <tt class="docutils literal"><span class="pre">desired_unit</span></tt> - watch example):</p>
-<ul class="simple">
-<li>enable - this allow to run service after boot (but it will not start
-imediately)</li>
-<li>disable - this will make device not to start after boot</li>
-<li>start - this will imediatelly start a service (but will not enable it
-- it won&#8217;t be run after boot)</li>
-<li>stop - stop service imediately (but not disable)</li>
-<li>status - this will print out all information in pretty format - you
-can find if it is enabled, started, if <strong>there are any errors</strong> etc.</li>
-</ul>
-<p><strong>Example</strong> There is service, which takes care about connection to
-network. We will cover it in special chapter, but we will just play with
-that for a minute. It&#8217;s called <tt class="docutils literal"><span class="pre">systemd-networkd</span></tt>. Try to start it,
-enable it, disable it and then stop it and get status to see what every
-command does by trying these:</p>
-<ul class="simple">
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
-<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">systemd-networkd</span></tt></li>
-</ul>
-<p>Last thing you need to know about systemd for our guide is where these
-services has it&#8217;s own configuration files. They are all stored in
-<tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/</span></tt>. For example, I&#8217;ve noticed SSH service.
-Configuration file for this service is in
-<tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/sshd.service</span></tt>. You can type
-<tt class="docutils literal"><span class="pre">cat</span> <span class="pre">/usr/lib/systemd/system/sshd.service</span></tt> to see what is inside and
-of course it can be edited.</p>
-<p><tt class="docutils literal"><span class="pre">systemctl</span></tt> just looks inside these folders when you call command for
-starting/enabling/... specific unit.</p>
-</div>
-</div>
 <div class="section" id="first-setup">
-<h3>2.5.4. First setup<a class="headerlink" href="#first-setup" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.3. First setup<a class="headerlink" href="#first-setup" title="Permalink to this headline">¶</a></h3>
 <p>This is covered over the internet, so I will just redirect you.
 <a class="reference external" href="http://elinux.org/ArchLinux_Install_Guide">elinux</a> - from this guide
 finish these parts (in RPi console):</p>
@@ -278,7 +198,7 @@ keyboard and monitor, you can repair it. If not, you can try to edit
 mistake on other computer by inserting SD card. Otherwise, reinstall...</p>
 </div>
 <div class="section" id="installing-some-sugar-candy">
-<h3>2.5.5. Installing some sugar candy<a class="headerlink" href="#installing-some-sugar-candy" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.4. Installing some sugar candy<a class="headerlink" href="#installing-some-sugar-candy" title="Permalink to this headline">¶</a></h3>
 <p>For our purpouses we will install usefull things, which will help as
 maintaing the system. So, run this:
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vim</span> <span class="pre">zsh</span> <span class="pre">wget</span> <span class="pre">ranger</span> <span class="pre">htop</span> <span class="pre">lynx</span></tt></p>
@@ -306,13 +226,13 @@ what tasks are running, how much CPU/MEM is used, kill processes and so
 on * <strong>lynx</strong> - browser - no kidding :)</p>
 </div>
 <div class="section" id="some-configurations">
-<h3>2.5.6. Some configurations<a class="headerlink" href="#some-configurations" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.5. Some configurations<a class="headerlink" href="#some-configurations" title="Permalink to this headline">¶</a></h3>
 <p>I assume you installed <tt class="docutils literal"><span class="pre">zsh</span></tt> with <tt class="docutils literal"><span class="pre">oh-my-zsh</span></tt> (changed your shell)
 and also vim. You are connected as created user (from now, I will name
 him <strong>bob</strong>). You are in Bob&#8217;s home directory - check it with typing
 <tt class="docutils literal"><span class="pre">pwd</span></tt>. It will print <tt class="docutils literal"><span class="pre">/home/bob</span></tt>.</p>
 <div class="section" id="make-vim-usable">
-<h4>2.5.6.1. Make vim usable<a class="headerlink" href="#make-vim-usable" title="Permalink to this headline">¶</a></h4>
+<h4>2.5.5.1. Make vim usable<a class="headerlink" href="#make-vim-usable" title="Permalink to this headline">¶</a></h4>
 <p>Edit .vimrc file: <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">.vimrc</span></tt> and insert this:</p>
 <div class="highlight-python"><div class="highlight"><pre>syntax on
 set number
@@ -345,45 +265,24 @@ vnoremap &lt;silent&gt; # :call VisualSelection(&#39;b&#39;)&lt;CR&gt;
 <p>it will customize vim a bit, so it will be easier to edit files in it.</p>
 </div>
 <div class="section" id="journaling">
-<h4>2.5.6.2. Journaling<a class="headerlink" href="#journaling" title="Permalink to this headline">¶</a></h4>
+<h4>2.5.5.2. Journaling<a class="headerlink" href="#journaling" title="Permalink to this headline">¶</a></h4>
 <p>Journaling is one of the most important things you need to have. It just
 record everything systemd does. It is part of <tt class="docutils literal"><span class="pre">systemd</span></tt> quite
 customizable. We will save journals in memory, because of limited wear
 of SD cards. We will also compress them and then limit size for them on
 40 MB.</p>
-<p>Open file <tt class="docutils literal"><span class="pre">/etc/system/journal.conf</span></tt> and set it as this:</p>
+<p>Open file <tt class="docutils literal"><span class="pre">/etc/system/journal.conf</span></tt> and uncomment these lines:</p>
 <div class="highlight-python"><div class="highlight"><pre>[Journal]
 Storage=volatile
 Compress=yes
-#Seal=yes
-#SplitMode=login
-#SyncIntervalSec=5m
-#RateLimitInterval=30s
-#RateLimitBurst=1000
-#SystemMaxUse=50M
-#SystemKeepFree=
-#SystemMaxFileSize=15M
+...
 RuntimeMaxUse=40M
-#RuntimeKeepFree=
-#RuntimeMaxFileSize=
-#MaxRetentionSec=
-#MaxFileSec=1month
-#ForwardToSyslog=yes
-#ForwardToKMsg=no
-#ForwardToConsole=no
-#ForwardToWall=yes
-#TTYPath=/dev/console
-#MaxLevelStore=debug
-#MaxLevelSyslog=debug
-#MaxLevelKMsg=notice
-#MaxLevelConsole=info
-#MaxLevelWall=emerg
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="network-configuration">
-<h3>2.5.7. Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.6. Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
 <p>For reasons I will mention in future, we need to set RPi to connect with
 <strong>static ip</strong>. This will assure that the IP address of RPi will be still
 the same and you can connect it. Right now is probably getting
@@ -410,7 +309,7 @@ future versions of system it can change to something other, for example
 chapters.</p>
 <p>In this part you&#8217;ll need to get address of your router. <a class="reference external" href="http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm">How to obtain
 it</a>?</p>
-<p>And what is static address? Whatever you want. Almost. As you know your
+<p>And how to choose static address? As you know your
 router is assigning IP address automatically (it is called DHCP). But
 not randomly in full range. It has some range of IP addresses which it
 can assign. Standard is this: router has standard IP adress
@@ -509,17 +408,17 @@ suppy) and turn it on. It should reconnect normally with
 again.</p>
 </div>
 <div class="section" id="timesynchronization">
-<h3>2.5.8. Timesynchronization<a class="headerlink" href="#timesynchronization" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.7. Timesynchronization<a class="headerlink" href="#timesynchronization" title="Permalink to this headline">¶</a></h3>
 <p>You&#8217;ve maybe noticed that time is quite weird on your RPi. It is beacuse
 it does not have real hardware clock. Every time RPi is waken up, it
 thinks that is June 1970. You don&#8217;t have to care about it, but after
 boot it would be fine that time is correctly set. You can do it by using
 really great part of <tt class="docutils literal"><span class="pre">systemd</span></tt>. Go ahead and enable service, which
 takes care about that: <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">systemd-timesyncd</span></tt>. Thats
-all. It will start after next reboot. If you want it to start now, just</p>
+all. It will start after next reboot. If you want it to start now, just run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemd-timesyncd</span></tt>.</p>
 </div>
 <div class="section" id="configuring-ssh">
-<h3>2.5.9. Configuring SSH<a class="headerlink" href="#configuring-ssh" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.8. Configuring SSH<a class="headerlink" href="#configuring-ssh" title="Permalink to this headline">¶</a></h3>
 <p>We will open RPi to world and in that case we need to secure it a bit.
 Service, which takes care about SSH is called <tt class="docutils literal"><span class="pre">sshd</span></tt>. &#8220;Where&#8221; it is?
 It is runned by systemd, so <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">sshd</span></tt> will show you some
@@ -560,7 +459,8 @@ edit <tt class="docutils literal"><span class="pre">~/.ssh/config</span></tt> to
 </div>
 <p>since now, when you wan&#8217;t to connect to RPi you can just type
 <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">my_superpc</span></tt> and it will take care about rest.</p>
-<p><strong>Screen</strong> You can live without that, but you shouldn&#8217;t! It makes you
+<p><strong>Screen</strong></p>
+<p>You can live without that, but you shouldn&#8217;t! It makes you
 more productive and you don&#8217;t need to be afraid of some mishmash caused
 by accidently closing terminal during update or lossing connection.
 Learn more about what the screen is
@@ -578,7 +478,7 @@ is now screen created, it will create new one. If it is, it will attach
 it.</p>
 </div>
 <div class="section" id="speeding-rpi-up">
-<h3>2.5.10. Speeding RPi up<a class="headerlink" href="#speeding-rpi-up" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.9. Speeding RPi up<a class="headerlink" href="#speeding-rpi-up" title="Permalink to this headline">¶</a></h3>
 <p>Archlinux ARM for RPi is prepared to be tweaked. And now it is possible
 to speed RPi up by overclocking it&#8217;s processor without avoiding your
 waranty. How to do it? Just edit file <tt class="docutils literal"><span class="pre">/boot/config.txt</span></tt> and find this
@@ -612,7 +512,7 @@ this:</p>
 means it is faster.</p>
 </div>
 <div class="section" id="other-tweaks-of-boot-config-txt">
-<h3>2.5.11. Other tweaks of /boot/config.txt<a class="headerlink" href="#other-tweaks-of-boot-config-txt" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.10. Other tweaks of /boot/config.txt<a class="headerlink" href="#other-tweaks-of-boot-config-txt" title="Permalink to this headline">¶</a></h3>
 <p>Since you don&#8217;t need any of gpu memory - which cares about shiny things
 like windows etc., you can disable it in favor of the rest of memory
 which we use.</p>
@@ -626,7 +526,7 @@ which we use.</p>
 </div>
 </div>
 <div class="section" id="making-rpi-visible-from-outside">
-<h3>2.5.12. Making RPi visible from outside<a class="headerlink" href="#making-rpi-visible-from-outside" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.11. Making RPi visible from outside<a class="headerlink" href="#making-rpi-visible-from-outside" title="Permalink to this headline">¶</a></h3>
 <p>Now we need to configure access from outside. You will need to configure
 you router. You have to make a &#8220;port forwarding&#8221;. Remember port from
 ssh? I told you to think about them as a tunnels. These tunnels are also
@@ -655,11 +555,11 @@ is open (it means it accepts requests
 <p>Since now, you can ssh from anywhere.</p>
 </div>
 <div class="section" id="webserver">
-<h3>2.5.13. Webserver<a class="headerlink" href="#webserver" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.12. Webserver<a class="headerlink" href="#webserver" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="setting-up-nginx">
-<h3>2.5.14. Setting up nginx<a class="headerlink" href="#setting-up-nginx" title="Permalink to this headline">¶</a></h3>
-<p>Similiar to ssh handling &#8220;sshish&#8221; requests, Nginx is handling almost
+<h3>2.5.13. Setting up nginx<a class="headerlink" href="#setting-up-nginx" title="Permalink to this headline">¶</a></h3>
+<p>Similiar to <tt class="docutils literal"><span class="pre">ssh</span></tt> handling <em>sshish</em> requests, Nginx is handling almost
 everything else and even... <strong>WebServers</strong>! Install nginx with
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">nginx</span></tt>. For security reasons create special user for it,
 for example using: <tt class="docutils literal"><span class="pre">useradd</span> <span class="pre">-m</span> <span class="pre">-G</span> <span class="pre">wheel</span> <span class="pre">-s</span> <span class="pre">/usr/bin/zsh</span> <span class="pre">nginx</span></tt> and
@@ -732,7 +632,7 @@ index Hello world example. Try that without <tt class="docutils literal"><span c
 same! Default port for webpages is <strong>80</strong> (similiar to 22 for SSH). So
 it can be omited.</p>
 <div class="section" id="ftp">
-<h4>2.5.14.1. FTP<a class="headerlink" href="#ftp" title="Permalink to this headline">¶</a></h4>
+<h4>2.5.13.1. FTP<a class="headerlink" href="#ftp" title="Permalink to this headline">¶</a></h4>
 <p>This will cover the most easy solution for FTP. Don&#8217;t use this
 configuration in real, just for test purpouses. If you didn&#8217;t download
 <tt class="docutils literal"><span class="pre">vsftp</span></tt>, do it now by <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vsftp</span></tt>. Now we will create some
@@ -776,47 +676,14 @@ be simpler), but I just like it...</p>
 guides on the internet how to grant access only some users, password
 protected etc.</p>
 </div>
-<div class="section" id="domains">
-<h4>2.5.14.2. Domains<a class="headerlink" href="#domains" title="Permalink to this headline">¶</a></h4>
-<p>How does it happen, that someone type something.com and see some
-webpages? Where this <em>something.com</em> come from?</p>
-<p>A little background. On internet we have IP addresses to give every
-computer it&#8217;s specific name. Because we don&#8217;t like these awfull numbers
-(like 123.28.13.234), we have nicknames for them. For example - you
-know, that when you type <tt class="docutils literal"><span class="pre">google.com</span></tt>, you get to google page. But
-that happens even you type: <tt class="docutils literal"><span class="pre">74.125.224.72</span></tt>. In first example it do
-this:</p>
-<ol class="arabic simple">
-<li>It takes name <tt class="docutils literal"><span class="pre">google.com</span></tt></li>
-<li>Goes to world databank of IP addresses</li>
-<li>Find out which IP address belongs to this name</li>
-<li>Get you to this address</li>
-</ol>
-<p>You can <a class="reference external" href="http://www.godaddy.com/">buy</a> your own domain and then
-redirect it to your IP address. You have to buy it from them and then
-add <strong>AAA record</strong>. Usually it is on there administration website. Then,
-after few minutes, it is registered in this world databank.</p>
-<p>It&#8217;s not so easy. Not every one has it&#8217;s own IP &#8220;public&#8221; address and
-even worse, it can change! And that is not what you want - then you
-should have had to change it every time your IP get changed. You have to
-ask to you IPS (a company, which is offering you and internet) if you
-address is &#8220;static&#8221; or &#8220;dynamic&#8221;. My IPS (UPC CZ) told me that my is
-&#8220;dynamic&#8221;. But after a little research I found out that it means that my
-IP address can &#8220;theoreticaly&#8221; change. In real, it is same for few years
-now :) . It is relatively common, so maybe you are lucky.</p>
-<p>If you don&#8217;t want to buy &#8220;first level domains&#8221; (the one which are just
-something.com) and second level is enough (like
-something.somethingelse.com), then you can take a look [here]
-(<a class="reference external" href="http://www.getfreedomain.name/">http://www.getfreedomain.name/</a>).</p>
-</div>
 </div>
 <div class="section" id="system-analyzing-and-cleaning">
-<h3>2.5.15. System analyzing and cleaning<a class="headerlink" href="#system-analyzing-and-cleaning" title="Permalink to this headline">¶</a></h3>
+<h3>2.5.14. System analyzing and cleaning<a class="headerlink" href="#system-analyzing-and-cleaning" title="Permalink to this headline">¶</a></h3>
 <p>Use your friend <tt class="docutils literal"><span class="pre">systemd-analyze</span></tt>. It will show you which units are
 loading long time. Also <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span></tt> is great for finding failed
 units.</p>
 <div class="section" id="disable-things-that-you-dont-need">
-<h4>2.5.15.1. Disable things that you dont need<a class="headerlink" href="#disable-things-that-you-dont-need" title="Permalink to this headline">¶</a></h4>
+<h4>2.5.14.1. Disable things that you dont need<a class="headerlink" href="#disable-things-that-you-dont-need" title="Permalink to this headline">¶</a></h4>
 <p>I guess you don&#8217;t use ipv6 (if you don&#8217;t know what it is, you don&#8217;t need
 it :D). <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">ip6tables</span></tt>. In case you use sshguard, you
 need also edit file <tt class="docutils literal"><span class="pre">/cat</span> <span class="pre">/usr/lib/systemd/system/sshguard.service</span></tt>
@@ -912,39 +779,33 @@ enough of power to boot up and supply USB)</li>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">2. Making Raspberry Pi usable</a><ul>
-<li><a class="reference internal" href="#some-notes-before-you-start">2.1. Some notes before you start</a></li>
+<li><a class="reference internal" href="#introduction">2.1. Introduction</a></li>
 <li><a class="reference internal" href="#what-you-get-on-when-you-succesfully-finish">2.2. What you get on when you succesfully finish</a></li>
 <li><a class="reference internal" href="#what-you-will-need">2.3. What you will need</a></li>
 <li><a class="reference internal" href="#what-you-don-t-need">2.4. What you don&#8217;t need</a></li>
 <li><a class="reference internal" href="#start">2.5. Start</a><ul>
 <li><a class="reference internal" href="#installing-archlinux-arm-to-sd-card">2.5.1. Installing Archlinux ARM to SD card</a></li>
 <li><a class="reference internal" href="#little-networking">2.5.2. Little networking</a></li>
-<li><a class="reference internal" href="#tutorial-for-used-utilities">2.5.3. Tutorial for used utilities</a><ul>
-<li><a class="reference internal" href="#vim">2.5.3.1. Vim</a></li>
-<li><a class="reference internal" href="#systemd">2.5.3.2. Systemd</a></li>
+<li><a class="reference internal" href="#first-setup">2.5.3. First setup</a></li>
+<li><a class="reference internal" href="#installing-some-sugar-candy">2.5.4. Installing some sugar candy</a></li>
+<li><a class="reference internal" href="#some-configurations">2.5.5. Some configurations</a><ul>
+<li><a class="reference internal" href="#make-vim-usable">2.5.5.1. Make vim usable</a></li>
+<li><a class="reference internal" href="#journaling">2.5.5.2. Journaling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#first-setup">2.5.4. First setup</a></li>
-<li><a class="reference internal" href="#installing-some-sugar-candy">2.5.5. Installing some sugar candy</a></li>
-<li><a class="reference internal" href="#some-configurations">2.5.6. Some configurations</a><ul>
-<li><a class="reference internal" href="#make-vim-usable">2.5.6.1. Make vim usable</a></li>
-<li><a class="reference internal" href="#journaling">2.5.6.2. Journaling</a></li>
+<li><a class="reference internal" href="#network-configuration">2.5.6. Network configuration</a></li>
+<li><a class="reference internal" href="#timesynchronization">2.5.7. Timesynchronization</a></li>
+<li><a class="reference internal" href="#configuring-ssh">2.5.8. Configuring SSH</a></li>
+<li><a class="reference internal" href="#speeding-rpi-up">2.5.9. Speeding RPi up</a></li>
+<li><a class="reference internal" href="#other-tweaks-of-boot-config-txt">2.5.10. Other tweaks of /boot/config.txt</a></li>
+<li><a class="reference internal" href="#making-rpi-visible-from-outside">2.5.11. Making RPi visible from outside</a></li>
+<li><a class="reference internal" href="#webserver">2.5.12. Webserver</a></li>
+<li><a class="reference internal" href="#setting-up-nginx">2.5.13. Setting up nginx</a><ul>
+<li><a class="reference internal" href="#ftp">2.5.13.1. FTP</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#network-configuration">2.5.7. Network configuration</a></li>
-<li><a class="reference internal" href="#timesynchronization">2.5.8. Timesynchronization</a></li>
-<li><a class="reference internal" href="#configuring-ssh">2.5.9. Configuring SSH</a></li>
-<li><a class="reference internal" href="#speeding-rpi-up">2.5.10. Speeding RPi up</a></li>
-<li><a class="reference internal" href="#other-tweaks-of-boot-config-txt">2.5.11. Other tweaks of /boot/config.txt</a></li>
-<li><a class="reference internal" href="#making-rpi-visible-from-outside">2.5.12. Making RPi visible from outside</a></li>
-<li><a class="reference internal" href="#webserver">2.5.13. Webserver</a></li>
-<li><a class="reference internal" href="#setting-up-nginx">2.5.14. Setting up nginx</a><ul>
-<li><a class="reference internal" href="#ftp">2.5.14.1. FTP</a></li>
-<li><a class="reference internal" href="#domains">2.5.14.2. Domains</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#system-analyzing-and-cleaning">2.5.15. System analyzing and cleaning</a><ul>
-<li><a class="reference internal" href="#disable-things-that-you-dont-need">2.5.15.1. Disable things that you dont need</a></li>
+<li><a class="reference internal" href="#system-analyzing-and-cleaning">2.5.14. System analyzing and cleaning</a><ul>
+<li><a class="reference internal" href="#disable-things-that-you-dont-need">2.5.14.1. Disable things that you dont need</a></li>
 </ul>
 </li>
 </ul>
@@ -966,8 +827,8 @@ enough of power to boot up and supply USB)</li>
   <p class="topless"><a href="Arch.html"
                         title="previous chapter">1. Instaling Arch linux on laptop and how to make it usable</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="ndg.html"
-                        title="next chapter">3. Deploying nginx + django + python 3</a></p>
+  <p class="topless"><a href="domains_ip_servers.html"
+                        title="next chapter">3. How domains, IP addresses and servers works</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/my_wr/RPi.txt"
@@ -997,7 +858,7 @@ enough of power to boot up and supply USB)</li>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="ndg.html" title="3. Deploying nginx + django + python 3"
+          <a href="domains_ip_servers.html" title="3. How domains, IP addresses and servers works"
              >next</a> |</li>
         <li class="right" >
           <a href="Arch.html" title="1. Instaling Arch linux on laptop and how to make it usable"

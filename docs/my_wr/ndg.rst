@@ -9,22 +9,13 @@ I finally made it and now after several months I decided to share my experiences
 
 What this guide is about
 ========================
-We'll deploy (that means making website available to the world) ``django`` project with server engine ``nginx`` using ``gunicorn`` for that. We'll also use virtual enviroment of python and installation will be static - it will not depend on your system packages.
+We'll deploy (that means making website available to the world) ``django`` project with server engine ``nginx`` using ``gunicorn`` for that. We'll also use virtual enviroment of python and installation will be static - it will not depend on your system-wide python installation.
 
 Prerequisites and informations
 ==============================
 I'm using linux and commands I'm going to introduce are thought to be run in bash shell. Sometimes root privilegies might be required and I'll **not** remark that. If you are not familiar with linux, please read my other guides.
 
-You do not need any special knowledge. But keep in mind that this is not guide how django, nginx or gunicorn work! This is about how it should be bringed togather to work. 
-
-All you need is some time, some knowledge how to install programs and enough inteligence to type inside terminal. Oh, and one **EXTREMELY IMPORTANT THING** - use google. Sometimes I'll not explain everything to the tiniest detail when I know that there are plenty of great guides.
-
-Sometimes I'll be improper in explaining some terms. This might be mainly because of two reasons:
-
-1. I don't understand it to explain you more 
-2. It's not neccessary you to know it
-
-I'm hoping to explain all things somehow *human-likely*. If you want to know technical details, just find them on your own :) .
+You do not need any special knowledge. But keep in mind that this is not guide how django, nginx or gunicorn work! This is about how it should be bringed together to work. 
 
 My choice - why nginx, python 3 etc.
 ==========================================

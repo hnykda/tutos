@@ -1,6 +1,9 @@
 Making Raspberry Pi usable
 ==========================
 
+Introduction
+----------------
+
 After 3 months of using RPi, I decided to make this tutorial for same
 people as I'm - who looks for easy, understandable way to make RPi as
 awesome as possible.
@@ -13,17 +16,6 @@ that thanks to Archlinux ARM operating system. The device will be
 line. Don't be scared, I will walk you through and you'll thank me then
 :) . You don't need some special knowledge about computers and linux
 systems.
-
-Some notes before you start
----------------------------
-
--  When I feel that some topic is covered solidly somewhere else, I will
-   redirect you there.So thing about this also as summary of materials.
--  On many place it is not only RPi-related
--  You will have to learn some basics about unix systems - naturaly on
-   the way
--  Sometimes I'll simplify things. Feel free to find more info about
-   that :)
 
 What you get on when you succesfully finish
 -------------------------------------------
@@ -51,7 +43,7 @@ What you will need
 What you don't need
 -------------------
 
--  Second monitor or ability to connect RPi to some monitor
+-  Monitor or ability to connect RPi to some monitor
 
 Start
 -----
@@ -111,83 +103,6 @@ are two options.
 have to type (in linux): ``ssh root@192.168.0.201``.
 
 You should end up in RPi console.
-
-Tutorial for used utilities
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Vim
-^^^
-
-We'll need text editor to configure everything and most of our time
-we'll spend in command line. How to edit files inside terminal? There
-are multiple console-based terminal. I choosed one of them, which is
-called ``[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))``. We
-will install it in next chapters, but I will tell you some basics here
-(you can try them later).
-
-You can edit a file in vim by typing ``vim <file>``. Vim has three
-modes, while I will tell you about two of them. Command and insert mode.
-In command mode, you press special keys to make something. It's the
-basic mode and you cannot edit file in it. Press ``ESC`` to get into
-command mode. To edit a file, press ``i``. Now you are in insert mode
-and you can navigate by arrows and type, delete etc. as you know from
-other text editors.
-
-After you make a change, you can save the file. To do it, get to command
-mode (``ESC``). Now write ``:w``. This will save the file. To exit, type
-``:q``. That's all you need for now. More about ``vim`` is under command
-``vimtutor``.
-
-Systemd
-^^^^^^^
-
-```systemd`` <http://en.wikipedia.org/wiki/Systemd>`__ is astonishingly
-great and also astonishingly hated package, but thats not neccessary to
-know now. Briefly - ``systemd`` cares about running processes in the
-background. These are called daemons. For example in next chapter we
-will use SSH - it will run at background. There is also package, which
-takes care of automatically connect to internet (again in next
-chapters).
-
-``systemd`` is controlled by ``systemctl``. To start some program, which
-is in this context called **service** (and we will stick to that), just
-run ``systemctl start <unit>``. There are other usefull (and that's 90%
-of what you need to know about systemctl) commands (all starts with
-``systemctl`` and ends with ``desired_unit`` - watch example):
-
--  enable - this allow to run service after boot (but it will not start
-   imediately)
--  disable - this will make device not to start after boot
--  start - this will imediatelly start a service (but will not enable it
-   - it won't be run after boot)
--  stop - stop service imediately (but not disable)
--  status - this will print out all information in pretty format - you
-   can find if it is enabled, started, if **there are any errors** etc.
-
-**Example** There is service, which takes care about connection to
-network. We will cover it in special chapter, but we will just play with
-that for a minute. It's called ``systemd-networkd``. Try to start it,
-enable it, disable it and then stop it and get status to see what every
-command does by trying these:
-
--  ``systemctl start systemd-networkd``
--  ``systemctl status systemd-networkd``
--  ``systemctl enable systemd-networkd``
--  ``systemctl status systemd-networkd``
--  ``systemctl disable systemd-networkd``
--  ``systemctl status systemd-networkd``
--  ``systemctl stop systemd-networkd``
-
-Last thing you need to know about systemd for our guide is where these
-services has it's own configuration files. They are all stored in
-``/usr/lib/systemd/system/``. For example, I've noticed SSH service.
-Configuration file for this service is in
-``/usr/lib/systemd/system/sshd.service``. You can type
-``cat /usr/lib/systemd/system/sshd.service`` to see what is inside and
-of course it can be edited.
-
-``systemctl`` just looks inside these folders when you call command for
-starting/enabling/... specific unit.
 
 First setup
 ~~~~~~~~~~~
@@ -336,36 +251,15 @@ customizable. We will save journals in memory, because of limited wear
 of SD cards. We will also compress them and then limit size for them on
 40 MB.
 
-Open file ``/etc/system/journal.conf`` and set it as this:
+Open file ``/etc/system/journal.conf`` and uncomment these lines:
 
 ::
 
     [Journal]
     Storage=volatile
     Compress=yes
-    #Seal=yes
-    #SplitMode=login
-    #SyncIntervalSec=5m
-    #RateLimitInterval=30s
-    #RateLimitBurst=1000
-    #SystemMaxUse=50M
-    #SystemKeepFree=
-    #SystemMaxFileSize=15M
+    ...
     RuntimeMaxUse=40M
-    #RuntimeKeepFree=
-    #RuntimeMaxFileSize=
-    #MaxRetentionSec=
-    #MaxFileSec=1month
-    #ForwardToSyslog=yes
-    #ForwardToKMsg=no
-    #ForwardToConsole=no
-    #ForwardToWall=yes
-    #TTYPath=/dev/console
-    #MaxLevelStore=debug
-    #MaxLevelSyslog=debug
-    #MaxLevelKMsg=notice
-    #MaxLevelConsole=info
-    #MaxLevelWall=emerg
 
 Network configuration
 ~~~~~~~~~~~~~~~~~~~~~
@@ -402,7 +296,7 @@ chapters.
 In this part you'll need to get address of your router. `How to obtain
 it <http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm>`__?
 
-And what is static address? Whatever you want. Almost. As you know your
+And how to choose static address? As you know your
 router is assigning IP address automatically (it is called DHCP). But
 not randomly in full range. It has some range of IP addresses which it
 can assign. Standard is this: router has standard IP adress
@@ -524,7 +418,7 @@ thinks that is June 1970. You don't have to care about it, but after
 boot it would be fine that time is correctly set. You can do it by using
 really great part of ``systemd``. Go ahead and enable service, which
 takes care about that: ``systemctl enable systemd-timesyncd``. Thats
-all. It will start after next reboot. If you want it to start now, just
+all. It will start after next reboot. If you want it to start now, just run ``systemctl start systemd-timesyncd``. 
 
 Configuring SSH
 ~~~~~~~~~~~~~~~
@@ -579,7 +473,9 @@ edit ``~/.ssh/config`` to this:
 since now, when you wan't to connect to RPi you can just type
 ``ssh my_superpc`` and it will take care about rest.
 
-**Screen** You can live without that, but you shouldn't! It makes you
+**Screen** 
+
+You can live without that, but you shouldn't! It makes you
 more productive and you don't need to be afraid of some mishmash caused
 by accidently closing terminal during update or lossing connection.
 Learn more about what the screen is
@@ -696,7 +592,7 @@ Webserver
 Setting up nginx
 ~~~~~~~~~~~~~~~~
 
-Similiar to ssh handling "sshish" requests, Nginx is handling almost
+Similiar to ``ssh`` handling *sshish* requests, Nginx is handling almost
 everything else and even... **WebServers**! Install nginx with
 ``pacman -S nginx``. For security reasons create special user for it,
 for example using: ``useradd -m -G wheel -s /usr/bin/zsh nginx`` and
@@ -834,42 +730,7 @@ You can now connect to ftp by typing this in your browser:
 guides on the internet how to grant access only some users, password
 protected etc.
 
-Domains
-^^^^^^^
 
-How does it happen, that someone type something.com and see some
-webpages? Where this *something.com* come from?
-
-A little background. On internet we have IP addresses to give every
-computer it's specific name. Because we don't like these awfull numbers
-(like 123.28.13.234), we have nicknames for them. For example - you
-know, that when you type ``google.com``, you get to google page. But
-that happens even you type: ``74.125.224.72``. In first example it do
-this:
-
-1. It takes name ``google.com``
-2. Goes to world databank of IP addresses
-3. Find out which IP address belongs to this name
-4. Get you to this address
-
-You can `buy <http://www.godaddy.com/>`__ your own domain and then
-redirect it to your IP address. You have to buy it from them and then
-add **AAA record**. Usually it is on there administration website. Then,
-after few minutes, it is registered in this world databank.
-
-It's not so easy. Not every one has it's own IP "public" address and
-even worse, it can change! And that is not what you want - then you
-should have had to change it every time your IP get changed. You have to
-ask to you IPS (a company, which is offering you and internet) if you
-address is "static" or "dynamic". My IPS (UPC CZ) told me that my is
-"dynamic". But after a little research I found out that it means that my
-IP address can "theoreticaly" change. In real, it is same for few years
-now :) . It is relatively common, so maybe you are lucky.
-
-If you don't want to buy "first level domains" (the one which are just
-something.com) and second level is enough (like
-something.somethingelse.com), then you can take a look [here]
-(http://www.getfreedomain.name/).
 
 System analyzing and cleaning
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
