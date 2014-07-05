@@ -10,6 +10,8 @@ Everything I've learned I've learned on the internet, which is full of great gui
 
 There is also missing bridge between guides for beginners (or **normal** users) and for professionals. Unfortunately for me I'm somewhere middle of this two groups.
 
+Second motivation for me was also the fact that I've terrible memory and started to forget all useful things. So this also serves as kind of a notebook for me.
+
 What are these guides about
 ----------------------------
 
@@ -22,6 +24,15 @@ Main areas of these guides are:
 * Raspberry Pi
 * Configuration of server
 * Domains, IP addresses, redirecting
+
+Disclaimer
+----------
+
+Keep in mind that I'm not profesional. 
+
+Everything you find here is without absolutly no waranty and I'm not responsible for any inconveniences or issues that might occurs. 
+
+Solutions I propose also don't have to be the best or might be far from perfect! On several parts of these guides exists different configurations, tools, packages... This is just one of them which I chose. Feel free to find more about them and find which fits you best!
 
 Some remarks
 ------------
