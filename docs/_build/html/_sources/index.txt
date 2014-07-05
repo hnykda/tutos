@@ -11,12 +11,12 @@ Contents:
 .. toctree::
    :maxdepth: 2
     
-   my_wr/intro
-   my_wr/nec_know
-   my_wr/domains_ip_servers
-   my_wr/ndg
-   my_wr/Arch
-   my_wr/RPi
+   source/intro
+   source/nec_know
+   source/domains_ip_servers
+   source/ndg
+   source/Arch
+   source/RPi
 
 
 Indices and tables

@@ -17,8 +17,8 @@ line. Don't be scared, I will walk you through and you'll thank me then
 :) . You don't need some special knowledge about computers and linux
 systems.
 
-What you get on when you succesfully finish
--------------------------------------------
+What you get
+------------
 
 From "bare" RPi you'll get:
 
@@ -108,7 +108,7 @@ Enough for networking just now. We'll set a proper network configuration later i
 
 
 First setup
-~~~~~~~~~~~
+-----------
 
 This is covered over the internet, so I will just redirect you.
 `elinux <http://elinux.org/Arch Linux_Install_Guide>`__ - from this guide
@@ -167,7 +167,7 @@ keyboard and monitor, you can repair it. If not, you can try to edit
 mistake on other computer by inserting SD card. Otherwise, reinstall...
 
 Installing some sugar candy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+---------------------------
 
 For our purpouses we will install usefull things, which will help as
 maintaing the system. So, run this:
@@ -202,7 +202,7 @@ what tasks are running, how much CPU/MEM is used, kill processes and so
 on \* **lynx** - browser - no kidding :)
 
 Some configurations
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 I assume you installed ``zsh`` with ``oh-my-zsh`` (changed your shell)
 and also vim. You are connected as created user (from now, I will name
@@ -210,7 +210,7 @@ him **bob**). You are in Bob's home directory - check it with typing
 ``pwd``. It will print ``/home/bob``.
 
 Make vim usable
-^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~
 
 Edit .vimrc file: ``vim .vimrc`` and insert this:
 
@@ -246,7 +246,7 @@ Edit .vimrc file: ``vim .vimrc`` and insert this:
 it will customize vim a bit, so it will be easier to edit files in it.
 
 Journaling
-^^^^^^^^^^
+~~~~~~~~~~
 
 Journaling is one of the most important things you need to have. It just
 record everything systemd does. It is part of ``systemd`` quite
@@ -265,7 +265,7 @@ Open file ``/etc/system/journal.conf`` and uncomment these lines:
     RuntimeMaxUse=40M
 
 Network configuration
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 For reasons I will mention in future, we need to set RPi to connect with
 **static ip**. This will assure that the IP address of RPi will be still
@@ -413,7 +413,7 @@ suppy) and turn it on. It should reconnect normally with
 again.
 
 Timesynchronization
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 You've maybe noticed that time is quite weird on your RPi. It is beacuse
 it does not have real hardware clock. Every time RPi is waken up, it
@@ -424,7 +424,7 @@ takes care about that: ``systemctl enable systemd-timesyncd``. Thats
 all. It will start after next reboot. If you want it to start now, just run ``systemctl start systemd-timesyncd``. 
 
 Configuring SSH
-~~~~~~~~~~~~~~~
+-------------------
 
 We will open RPi to world and in that case we need to secure it a bit.
 Service, which takes care about SSH is called ``sshd``. "Where" it is?
@@ -498,7 +498,7 @@ is now screen created, it will create new one. If it is, it will attach
 it.
 
 Speeding RPi up
-~~~~~~~~~~~~~~~
+----------------
 
 Arch Linux ARM for RPi is prepared to be tweaked. And now it is possible
 to speed RPi up by overclocking it's processor without avoiding your
@@ -539,7 +539,7 @@ After next boot your RPi will be able to get even to the 1000 MHz. That
 means it is faster.
 
 Other tweaks of /boot/config.txt
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 Since you don't need any of gpu memory - which cares about shiny things
 like windows etc., you can disable it in favor of the rest of memory
@@ -555,7 +555,7 @@ which we use.
     #cma_offline_start=16
 
 Making RPi visible from outside
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--------------------------------
 
 Now we need to configure access from outside. You will need to configure
 you router. You have to make a "port forwarding". Remember port from
@@ -590,8 +590,7 @@ is open (it means it accepts requests
 Since now, you can ssh from anywhere.
 
 Webserver
-~~~~~~~~~
-
+----------
 Setting up nginx
 ~~~~~~~~~~~~~~~~
 
@@ -736,14 +735,14 @@ protected etc.
 
 
 System analyzing and cleaning
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------------
 
 Use your friend ``systemd-analyze``. It will show you which units are
 loading long time. Also ``systemctl status`` is great for finding failed
 units.
 
 Disable things that you dont need
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 I guess you don't use ipv6 (if you don't know what it is, you don't need
 it :D). ``systemctl disable ip6tables``. In case you use sshguard, you
@@ -827,7 +826,7 @@ That's all for now! I will see if this is used by someone and than I
 will see if I will continue.
 
 Troubleshooting
-~~~~~~~~~~~~~~~
+-----------------
 
 -  RPi don't boot - unplug everything from USB ports (there may be not
    enough of power to boot up and supply USB)
