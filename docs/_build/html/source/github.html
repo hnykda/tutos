@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Simple GitHub repo and ReadTheDocs set up &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="simple-github-repo-and-readthedocs-set-up">
+<h1>Simple GitHub repo and ReadTheDocs set up<a class="headerlink" href="#simple-github-repo-and-readthedocs-set-up" title="Permalink to this headline">¶</a></h1>
+<p>I&#8217;ve just wanted to set up a GitHub repository for this guide and I found that it&#8217;s really ubearable to set so simple thing as this.</p>
+<p>Here is short guide which should walk you through:</p>
+<ol class="arabic simple">
+<li>Creating repository on GitHub</li>
+<li>Cloning it into your local machine</li>
+<li>Submitting changes from your local machine using SSH</li>
+<li>Submitting changes from repository on GitHub</li>
+<li>Generating documentation with <a class="reference external" href="https://readthedocs.org/">ReadTheDocs</a> and <cite>sphinx &lt;http://sphinx-doc.org/&gt;_</cite>.</li>
+</ol>
+<div class="section" id="creating-repository-on-github">
+<h2>Creating repository on GitHub<a class="headerlink" href="#creating-repository-on-github" title="Permalink to this headline">¶</a></h2>
+<p>If you&#8217;ve found this guide, I guess you are inteligent enough to create account on GitHub, so we&#8217;ll skip this step. Same with installing git and SSH on your machine. Use google if you are lost.</p>
+<p>To create a directory just go to your profile (e.g. <a class="reference external" href="https://github.com/your_username">https://github.com/your_username</a>), click on <strong>repositories</strong> and then click on <strong>NEW</strong>. It&#8217;s important to make repository <strong>public</strong> (default choice). You can also create README and LICENCE file - do it, if you want.</p>
+<p>When repository is created, copy <strong>Subversion checkout URL</strong> which can be found in right panel of repository view. In my case it&#8217;s:</p>
+<div class="highlight-python"><div class="highlight"><pre>https://github.com/kotrfa/test_repo
+</pre></div>
+</div>
+</div>
+<div class="section" id="cloning-repository">
+<h2>Cloning repository<a class="headerlink" href="#cloning-repository" title="Permalink to this headline">¶</a></h2>
+<p>Open terminal and choose folder where you&#8217;d like to clone your repository. In my case it is just my home directory. Go to this folder and run:</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/kotrfa/test_repo
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">cd</span></tt> inside this folder. You should see LICENCE and README (in case you&#8217;ve created them) but it might be empty if you haven&#8217;t insert anything through browser to your repository yet.</p>
+</div>
+<div class="section" id="setting-up-git">
+<h2>Setting up git<a class="headerlink" href="#setting-up-git" title="Permalink to this headline">¶</a></h2>
+<p>Now we need to initialize git folder. To do this run:</p>
+<div class="highlight-python"><div class="highlight"><pre>git init
+</pre></div>
+</div>
+<p>this will create <tt class="docutils literal"><span class="pre">.git</span></tt> folder with all important informations. You don&#8217;t need to mess with that for now.</p>
+<p>Next thing we have to do is to setup username. To do this run:</p>
+<div class="highlight-python"><div class="highlight"><pre>git config --global user.email &quot;your_email@your_mail.something&quot;
+git config --global user.name &quot;your_username&quot;
+</pre></div>
+</div>
+<p>Let&#8217;s test it now by creating file:</p>
+<div class="highlight-python"><div class="highlight"><pre>touch test_file.txt
+</pre></div>
+</div>
+<p>now we have to add this file to git&#8217;s eye - that it has to look if this file changed and in case it does, it will upgrade it on the remote repository on GitHub. Do that by:</p>
+<div class="highlight-python"><div class="highlight"><pre>git add test_file.txt
+</pre></div>
+</div>
+<p>and now tell git that this file is prepared to be upgraded:</p>
+<div class="highlight-python"><div class="highlight"><pre>git commit test.md -m &quot;testing file&quot;
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">-m</span></tt> switch is for message and string <tt class="docutils literal"><span class="pre">&quot;testing</span> <span class="pre">file&quot;</span></tt> is the message which just gives some info about this <tt class="docutils literal"><span class="pre">commit</span></tt>.</p>
+<p>Now we will send this changes to remote repository on GitHub. It&#8217;s pretty easy:</p>
+<div class="highlight-python"><div class="highlight"><pre>git push
+</pre></div>
+</div>
+<p>and type your username and password as it asks for it.</p>
+<p>If this work, we can set connection without necessity typing our credentials every time.</p>
+</div>
+<div class="section" id="setting-up-ssh">
+<h2>Setting up SSH<a class="headerlink" href="#setting-up-ssh" title="Permalink to this headline">¶</a></h2>
+<p>For some reasons it&#8217;s not really straigth forward to set up this.</p>
+<p>First you have to go on GitHub website and go to <strong>Account settings</strong>. Navigate to <strong>SSH Keys</strong> and click on <strong>SSH Key</strong>.</p>
+<p>Title is whatever you want to call it. Key field is what is interesting.</p>
+<p>Go again to console and type:</p>
+<div class="highlight-python"><div class="highlight"><pre>ssh-keygen -t rsa -C &quot;your_email_on_GitHub@mail.something&quot;
+</pre></div>
+</div>
+<p>and choose password as you want (or none).</p>
+<p>It will generate SSH key inside <tt class="docutils literal"><span class="pre">~/.ssh</span></tt> and it has two parts - public (with <tt class="docutils literal"><span class="pre">.pub</span></tt> ending) and private. Content of the public must be copied into <strong>Key</strong> field on the GitHub page.</p>
+<p>Now, when you&#8217;d like to work in github repository you&#8217;ve to run:</p>
+<div class="highlight-python"><div class="highlight"><pre>eval `ssh-agent -s`;ssh-add ~/.ssh/github_private_key
+</pre></div>
+</div>
+<p>this should do the trick. Now you can <tt class="docutils literal"><span class="pre">git</span> <span class="pre">push</span></tt> as you wish without necessity to insert credentials.</p>
+</div>
+<div class="section" id="submitting-changes-from-repository">
+<h2>Submitting changes from repository<a class="headerlink" href="#submitting-changes-from-repository" title="Permalink to this headline">¶</a></h2>
+<p>To do that just use:</p>
+<div class="highlight-python"><div class="highlight"><pre>git pull
+</pre></div>
+</div>
+</div>
+<div class="section" id="generating-docs-with-sphinx-and-rtd">
+<h2>Generating docs with sphinx and RtD<a class="headerlink" href="#generating-docs-with-sphinx-and-rtd" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="local-sphinx-generator">
+<h3>Local sphinx generator<a class="headerlink" href="#local-sphinx-generator" title="Permalink to this headline">¶</a></h3>
+<p>Install <tt class="docutils literal"><span class="pre">sphinx</span></tt> using <tt class="docutils literal"><span class="pre">pip</span></tt> and navigate yourself into git directory. Create <tt class="docutils literal"><span class="pre">docs</span></tt> folder there and go inside. Run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">sphinx</span><span class="o">-</span><span class="n">quickstart</span>
+</pre></div>
+</div>
+<p>and set to your needs.</p>
+<p>Add your source rst files into some directory inside <tt class="docutils literal"><span class="pre">docs</span></tt>, for example <tt class="docutils literal"><span class="pre">source</span></tt>. Now edit <tt class="docutils literal"><span class="pre">index.rst</span></tt> and add there <tt class="docutils literal"><span class="pre">source/filenames.rst</span></tt>. In my case:</p>
+<div class="highlight-python"><div class="highlight"><pre>.. toctree::
+   :maxdepth: 3
+
+   source/intro
+   source/nec_know
+   source/domains_ip_servers
+   source/ndg
+   source/Arch
+   source/RPi
+</pre></div>
+</div>
+<p>where <tt class="docutils literal"><span class="pre">maxdepth</span></tt> says how much level should TOC has. Another useful directives are <tt class="docutils literal"><span class="pre">:glob:</span></tt>. In previous example I should just use <tt class="docutils literal"><span class="pre">source/*</span></tt> and it would load all <tt class="docutils literal"><span class="pre">.rst</span></tt> files inside <tt class="docutils literal"><span class="pre">source</span></tt> dir. If you&#8217;d like to have TOC numbered, just add <tt class="docutils literal"><span class="pre">:numbered:</span></tt>.</p>
+<p>Now just run:</p>
+<div class="highlight-python"><div class="highlight"><pre>make html
+</pre></div>
+</div>
+<p>and it will make a HTML pages for you inside <tt class="docutils literal"><span class="pre">build/html</span></tt> directory.</p>
+<p>Go to the main git folder (in my case <tt class="docutils literal"><span class="pre">~/test_repo</span></tt>) and add, commit and push all changes:</p>
+<div class="highlight-python"><div class="highlight"><pre>git add --all
+git commit -a -m &quot;first docs&quot;
+git push
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-the-docs-configuration">
+<h3>Read the Docs configuration<a class="headerlink" href="#read-the-docs-configuration" title="Permalink to this headline">¶</a></h3>
+<p>Go to the <a class="reference external" href="https://readthedocs.org/">ReadTheDocs</a> and create an account there.</p>
+<p>Click on the dasboard and then on <strong>import</strong>. Name your project and add your git url inside <strong>Repo</strong>. In my case it&#8217;s:</p>
+<div class="highlight-python"><div class="highlight"><pre>https://github.com/kotrfa/test_repo
+</pre></div>
+</div>
+<p>Repository type is <strong>Git</strong> and documentation <strong>Sphinx Html</strong>. Rest is basicaly optional. Now just click on <strong>Create</strong> and wait.</p>
+<p>Now you just have to wait :) . RtD will build your project every time it detects changes. Usually it was imediately, but sometimes it takes even several minutes.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Simple GitHub repo and ReadTheDocs set up</a><ul>
+<li><a class="reference internal" href="#creating-repository-on-github">Creating repository on GitHub</a></li>
+<li><a class="reference internal" href="#cloning-repository">Cloning repository</a></li>
+<li><a class="reference internal" href="#setting-up-git">Setting up git</a></li>
+<li><a class="reference internal" href="#setting-up-ssh">Setting up SSH</a></li>
+<li><a class="reference internal" href="#submitting-changes-from-repository">Submitting changes from repository</a></li>
+<li><a class="reference internal" href="#generating-docs-with-sphinx-and-rtd">Generating docs with sphinx and RtD</a><ul>
+<li><a class="reference internal" href="#local-sphinx-generator">Local sphinx generator</a></li>
+<li><a class="reference internal" href="#read-the-docs-configuration">Read the Docs configuration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/github.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

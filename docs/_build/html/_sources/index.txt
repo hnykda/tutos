@@ -17,7 +17,7 @@ Contents:
    source/ndg
    source/Arch
    source/RPi
-
+   source/git_rtd
 
 Indices and tables
 ==================
