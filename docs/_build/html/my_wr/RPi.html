@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>2. Making Raspberry Pi usable &mdash; tutos 0.5 documentation</title>
+    <title>Making Raspberry Pi usable &mdash; tutos 0.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,8 +24,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
-    <link rel="next" title="3. How domains, IP addresses and servers works" href="domains_ip_servers.html" />
-    <link rel="prev" title="1. Instaling Arch linux on laptop and how to make it usable" href="Arch.html" /> 
+    <link rel="prev" title="Installing Arch Linux on laptop and how to make it usable" href="Arch.html" /> 
   </head>
   <body>
     <div class="related">
@@ -35,10 +34,7 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="domains_ip_servers.html" title="3. How domains, IP addresses and servers works"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="Arch.html" title="1. Instaling Arch linux on laptop and how to make it usable"
+          <a href="Arch.html" title="Installing Arch Linux on laptop and how to make it usable"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>
@@ -50,23 +46,23 @@
           <div class="body">
             
   <div class="section" id="making-raspberry-pi-usable">
-<h1>2. Making Raspberry Pi usable<a class="headerlink" href="#making-raspberry-pi-usable" title="Permalink to this headline">¶</a></h1>
+<h1>Making Raspberry Pi usable<a class="headerlink" href="#making-raspberry-pi-usable" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
-<h2>2.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>After 3 months of using RPi, I decided to make this tutorial for same
 people as I&#8217;m - who looks for easy, understandable way to make RPi as
 awesome as possible.</p>
 <p>In this tutorial I will walk you through whole process of making from
 Raspberry Pi secure, reliable, efficient, fast and easy to maintain
-server for variable purpouses as is FTP, web hosting, sharing... All
-that thanks to Archlinux ARM operating system. The device will be
+server for variable purposes as is FTP, web hosting, sharing... All
+that thanks to Arch Linux ARM operating system. The device will be
 &#8220;headless&#8221; - it means, there will be no fancy windows etc., just command
 line. Don&#8217;t be scared, I will walk you through and you&#8217;ll thank me then
 :) . You don&#8217;t need some special knowledge about computers and linux
 systems.</p>
 </div>
 <div class="section" id="what-you-get-on-when-you-succesfully-finish">
-<h2>2.2. What you get on when you succesfully finish<a class="headerlink" href="#what-you-get-on-when-you-succesfully-finish" title="Permalink to this headline">¶</a></h2>
+<h2>What you get on when you succesfully finish<a class="headerlink" href="#what-you-get-on-when-you-succesfully-finish" title="Permalink to this headline">¶</a></h2>
 <p>From &#8220;bare&#8221; RPi you&#8217;ll get:</p>
 <ul class="simple">
 <li>Safely to connect to your RPi from anywhere</li>
@@ -76,12 +72,12 @@ more)</li>
 </ul>
 </div>
 <div class="section" id="what-you-will-need">
-<h2>2.3. What you will need<a class="headerlink" href="#what-you-will-need" title="Permalink to this headline">¶</a></h2>
+<h2>What you will need<a class="headerlink" href="#what-you-will-need" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Raspberry Pi (doesn&#8217;t matter which model) with power supply</li>
 <li>SD Card as a main hardisk for RPi</li>
 <li>SD Card reader on computer with internet access</li>
-<li>Ethernet LAN cable or USB wifi bundle</li>
+<li>Ethernet LAN cable or USB Wi-Fi bundle</li>
 <li>Other computer (preferably with linux, but nevermind if you use
 Windows or Mac)</li>
 <li>Possibility to physically get to your router and know credentials to
@@ -90,29 +86,29 @@ login to it (or have contact to your network administrator :) )</li>
 </ul>
 </div>
 <div class="section" id="what-you-don-t-need">
-<h2>2.4. What you don&#8217;t need<a class="headerlink" href="#what-you-don-t-need" title="Permalink to this headline">¶</a></h2>
+<h2>What you don&#8217;t need<a class="headerlink" href="#what-you-don-t-need" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Monitor or ability to connect RPi to some monitor</li>
 </ul>
 </div>
 <div class="section" id="start">
-<h2>2.5. Start<a class="headerlink" href="#start" title="Permalink to this headline">¶</a></h2>
+<h2>Start<a class="headerlink" href="#start" title="Permalink to this headline">¶</a></h2>
 <p>So you have just bare RPi, SD card, power supply, ethernet cable
 (RJ-45). So let&#8217;s start! There are houndreds of guides, but I haven&#8217;t
 found them satisfaing.</p>
-<div class="section" id="installing-archlinux-arm-to-sd-card">
-<h3>2.5.1. Installing Archlinux ARM to SD card<a class="headerlink" href="#installing-archlinux-arm-to-sd-card" title="Permalink to this headline">¶</a></h3>
-<p>Go <a class="reference external" href="http://archlinuxarm.org/platforms/armv6/raspberry-pi">here</a> and
-make first 3 steps. That&#8217;s it! You have done it. You have you Archlinux
+<div class="section" id="installing-arch-linux-arm-to-sd-card">
+<h3>Installing Arch Linux ARM to SD card<a class="headerlink" href="#installing-arch-linux-arm-to-sd-card" title="Permalink to this headline">¶</a></h3>
+<p>Go <a class="reference external" href="http://ArchLinuxarm.org/platforms/armv6/raspberry-pi">here</a> and
+make first 3 steps. That&#8217;s it! You have done it. You have you Arch Linux
 ARM SD card :)</p>
 </div>
 <div class="section" id="little-networking">
-<h3>2.5.2. Little networking<a class="headerlink" href="#little-networking" title="Permalink to this headline">¶</a></h3>
+<h3>Little networking<a class="headerlink" href="#little-networking" title="Permalink to this headline">¶</a></h3>
 <p>I guess you probably have some of &#8220;home router&#8221; (&#8220;box with internet&#8221;)
-and when you want to connect e.g by wifi with your laptop or mobile
+and when you want to connect e.g by Wi-Fi with your laptop or mobile
 phone, it just connects (after inserting password). You need to test
 first what happens, when you try to connect by ethernet cable, for
-example with your laptop. Turn off wifi and check it. Did your computer
+example with your laptop. Turn off Wi-Fi and check it. Did your computer
 connects to the network (or even internet) as usuall?</p>
 <p>If yes, it is great! You can procced. It is what we need - we need RPi,
 when it boots up, to automatically connect to the network. Then we will
@@ -146,7 +142,7 @@ have to type (in linux): <tt class="docutils literal"><span class="pre">ssh</spa
 <p>You should end up in RPi console.</p>
 </div>
 <div class="section" id="first-setup">
-<h3>2.5.3. First setup<a class="headerlink" href="#first-setup" title="Permalink to this headline">¶</a></h3>
+<h3>First setup<a class="headerlink" href="#first-setup" title="Permalink to this headline">¶</a></h3>
 <p>This is covered over the internet, so I will just redirect you.
 <a class="reference external" href="http://elinux.org/ArchLinux_Install_Guide">elinux</a> - from this guide
 finish these parts (in RPi console):</p>
@@ -198,7 +194,7 @@ keyboard and monitor, you can repair it. If not, you can try to edit
 mistake on other computer by inserting SD card. Otherwise, reinstall...</p>
 </div>
 <div class="section" id="installing-some-sugar-candy">
-<h3>2.5.4. Installing some sugar candy<a class="headerlink" href="#installing-some-sugar-candy" title="Permalink to this headline">¶</a></h3>
+<h3>Installing some sugar candy<a class="headerlink" href="#installing-some-sugar-candy" title="Permalink to this headline">¶</a></h3>
 <p>For our purpouses we will install usefull things, which will help as
 maintaing the system. So, run this:
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vim</span> <span class="pre">zsh</span> <span class="pre">wget</span> <span class="pre">ranger</span> <span class="pre">htop</span> <span class="pre">lynx</span></tt></p>
@@ -226,13 +222,13 @@ what tasks are running, how much CPU/MEM is used, kill processes and so
 on * <strong>lynx</strong> - browser - no kidding :)</p>
 </div>
 <div class="section" id="some-configurations">
-<h3>2.5.5. Some configurations<a class="headerlink" href="#some-configurations" title="Permalink to this headline">¶</a></h3>
+<h3>Some configurations<a class="headerlink" href="#some-configurations" title="Permalink to this headline">¶</a></h3>
 <p>I assume you installed <tt class="docutils literal"><span class="pre">zsh</span></tt> with <tt class="docutils literal"><span class="pre">oh-my-zsh</span></tt> (changed your shell)
 and also vim. You are connected as created user (from now, I will name
 him <strong>bob</strong>). You are in Bob&#8217;s home directory - check it with typing
 <tt class="docutils literal"><span class="pre">pwd</span></tt>. It will print <tt class="docutils literal"><span class="pre">/home/bob</span></tt>.</p>
 <div class="section" id="make-vim-usable">
-<h4>2.5.5.1. Make vim usable<a class="headerlink" href="#make-vim-usable" title="Permalink to this headline">¶</a></h4>
+<h4>Make vim usable<a class="headerlink" href="#make-vim-usable" title="Permalink to this headline">¶</a></h4>
 <p>Edit .vimrc file: <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">.vimrc</span></tt> and insert this:</p>
 <div class="highlight-python"><div class="highlight"><pre>syntax on
 set number
@@ -265,7 +261,7 @@ vnoremap &lt;silent&gt; # :call VisualSelection(&#39;b&#39;)&lt;CR&gt;
 <p>it will customize vim a bit, so it will be easier to edit files in it.</p>
 </div>
 <div class="section" id="journaling">
-<h4>2.5.5.2. Journaling<a class="headerlink" href="#journaling" title="Permalink to this headline">¶</a></h4>
+<h4>Journaling<a class="headerlink" href="#journaling" title="Permalink to this headline">¶</a></h4>
 <p>Journaling is one of the most important things you need to have. It just
 record everything systemd does. It is part of <tt class="docutils literal"><span class="pre">systemd</span></tt> quite
 customizable. We will save journals in memory, because of limited wear
@@ -282,7 +278,7 @@ RuntimeMaxUse=40M
 </div>
 </div>
 <div class="section" id="network-configuration">
-<h3>2.5.6. Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
+<h3>Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h3>
 <p>For reasons I will mention in future, we need to set RPi to connect with
 <strong>static ip</strong>. This will assure that the IP address of RPi will be still
 the same and you can connect it. Right now is probably getting
@@ -408,7 +404,7 @@ suppy) and turn it on. It should reconnect normally with
 again.</p>
 </div>
 <div class="section" id="timesynchronization">
-<h3>2.5.7. Timesynchronization<a class="headerlink" href="#timesynchronization" title="Permalink to this headline">¶</a></h3>
+<h3>Timesynchronization<a class="headerlink" href="#timesynchronization" title="Permalink to this headline">¶</a></h3>
 <p>You&#8217;ve maybe noticed that time is quite weird on your RPi. It is beacuse
 it does not have real hardware clock. Every time RPi is waken up, it
 thinks that is June 1970. You don&#8217;t have to care about it, but after
@@ -418,7 +414,7 @@ takes care about that: <tt class="docutils literal"><span class="pre">systemctl<
 all. It will start after next reboot. If you want it to start now, just run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemd-timesyncd</span></tt>.</p>
 </div>
 <div class="section" id="configuring-ssh">
-<h3>2.5.8. Configuring SSH<a class="headerlink" href="#configuring-ssh" title="Permalink to this headline">¶</a></h3>
+<h3>Configuring SSH<a class="headerlink" href="#configuring-ssh" title="Permalink to this headline">¶</a></h3>
 <p>We will open RPi to world and in that case we need to secure it a bit.
 Service, which takes care about SSH is called <tt class="docutils literal"><span class="pre">sshd</span></tt>. &#8220;Where&#8221; it is?
 It is runned by systemd, so <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">sshd</span></tt> will show you some
@@ -443,7 +439,7 @@ chance that someone will try to brutal force your credentials.</p>
 port which should be used (in default is assumed port 22).
 <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">-p</span> <span class="pre">1234</span> <span class="pre">bob&#64;ip.address</span></tt> will do it for you :) .</p>
 <p>The next thing we are going to do is set up <tt class="docutils literal"><span class="pre">sshguard</span></tt>. More about it
-<a class="reference external" href="https://wiki.archlinux.org/index.php/Sshguard">here</a>. You don&#8217;t need
+<a class="reference external" href="https://wiki.ArchLinux.org/index.php/Sshguard">here</a>. You don&#8217;t need
 more :) . Just remember to use your port (in my case 1234) for settings.</p>
 <p>It is anoying still typing same username and password when we want to
 connect to RPi. And now, we have to add &#8220;-p 1234&#8221; also. We will make it
@@ -465,7 +461,7 @@ more productive and you don&#8217;t need to be afraid of some mishmash caused
 by accidently closing terminal during update or lossing connection.
 Learn more about what the screen is
 (<a class="reference external" href="http://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/">here</a>,
-<a class="reference external" href="https://wiki.archlinux.org/index.php/GNU_Screen">here</a> and
+<a class="reference external" href="https://wiki.ArchLinux.org/index.php/GNU_Screen">here</a> and
 <a class="reference external" href="http://www.thegeekstuff.com/2010/07/screen-command-examples/">here</a>),
 install it (<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">screen</span></tt>), use it and love it.</p>
 <p>It can be handy to automatically ssh into screen sesion. For that I use
@@ -478,8 +474,8 @@ is now screen created, it will create new one. If it is, it will attach
 it.</p>
 </div>
 <div class="section" id="speeding-rpi-up">
-<h3>2.5.9. Speeding RPi up<a class="headerlink" href="#speeding-rpi-up" title="Permalink to this headline">¶</a></h3>
-<p>Archlinux ARM for RPi is prepared to be tweaked. And now it is possible
+<h3>Speeding RPi up<a class="headerlink" href="#speeding-rpi-up" title="Permalink to this headline">¶</a></h3>
+<p>Arch Linux ARM for RPi is prepared to be tweaked. And now it is possible
 to speed RPi up by overclocking it&#8217;s processor without avoiding your
 waranty. How to do it? Just edit file <tt class="docutils literal"><span class="pre">/boot/config.txt</span></tt> and find this
 part:</p>
@@ -512,7 +508,7 @@ this:</p>
 means it is faster.</p>
 </div>
 <div class="section" id="other-tweaks-of-boot-config-txt">
-<h3>2.5.10. Other tweaks of /boot/config.txt<a class="headerlink" href="#other-tweaks-of-boot-config-txt" title="Permalink to this headline">¶</a></h3>
+<h3>Other tweaks of /boot/config.txt<a class="headerlink" href="#other-tweaks-of-boot-config-txt" title="Permalink to this headline">¶</a></h3>
 <p>Since you don&#8217;t need any of gpu memory - which cares about shiny things
 like windows etc., you can disable it in favor of the rest of memory
 which we use.</p>
@@ -526,7 +522,7 @@ which we use.</p>
 </div>
 </div>
 <div class="section" id="making-rpi-visible-from-outside">
-<h3>2.5.11. Making RPi visible from outside<a class="headerlink" href="#making-rpi-visible-from-outside" title="Permalink to this headline">¶</a></h3>
+<h3>Making RPi visible from outside<a class="headerlink" href="#making-rpi-visible-from-outside" title="Permalink to this headline">¶</a></h3>
 <p>Now we need to configure access from outside. You will need to configure
 you router. You have to make a &#8220;port forwarding&#8221;. Remember port from
 ssh? I told you to think about them as a tunnels. These tunnels are also
@@ -555,10 +551,10 @@ is open (it means it accepts requests
 <p>Since now, you can ssh from anywhere.</p>
 </div>
 <div class="section" id="webserver">
-<h3>2.5.12. Webserver<a class="headerlink" href="#webserver" title="Permalink to this headline">¶</a></h3>
+<h3>Webserver<a class="headerlink" href="#webserver" title="Permalink to this headline">¶</a></h3>
 </div>
 <div class="section" id="setting-up-nginx">
-<h3>2.5.13. Setting up nginx<a class="headerlink" href="#setting-up-nginx" title="Permalink to this headline">¶</a></h3>
+<h3>Setting up nginx<a class="headerlink" href="#setting-up-nginx" title="Permalink to this headline">¶</a></h3>
 <p>Similiar to <tt class="docutils literal"><span class="pre">ssh</span></tt> handling <em>sshish</em> requests, Nginx is handling almost
 everything else and even... <strong>WebServers</strong>! Install nginx with
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">nginx</span></tt>. For security reasons create special user for it,
@@ -632,7 +628,7 @@ index Hello world example. Try that without <tt class="docutils literal"><span c
 same! Default port for webpages is <strong>80</strong> (similiar to 22 for SSH). So
 it can be omited.</p>
 <div class="section" id="ftp">
-<h4>2.5.13.1. FTP<a class="headerlink" href="#ftp" title="Permalink to this headline">¶</a></h4>
+<h4>FTP<a class="headerlink" href="#ftp" title="Permalink to this headline">¶</a></h4>
 <p>This will cover the most easy solution for FTP. Don&#8217;t use this
 configuration in real, just for test purpouses. If you didn&#8217;t download
 <tt class="docutils literal"><span class="pre">vsftp</span></tt>, do it now by <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vsftp</span></tt>. Now we will create some
@@ -678,12 +674,12 @@ protected etc.</p>
 </div>
 </div>
 <div class="section" id="system-analyzing-and-cleaning">
-<h3>2.5.14. System analyzing and cleaning<a class="headerlink" href="#system-analyzing-and-cleaning" title="Permalink to this headline">¶</a></h3>
+<h3>System analyzing and cleaning<a class="headerlink" href="#system-analyzing-and-cleaning" title="Permalink to this headline">¶</a></h3>
 <p>Use your friend <tt class="docutils literal"><span class="pre">systemd-analyze</span></tt>. It will show you which units are
 loading long time. Also <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span></tt> is great for finding failed
 units.</p>
 <div class="section" id="disable-things-that-you-dont-need">
-<h4>2.5.14.1. Disable things that you dont need<a class="headerlink" href="#disable-things-that-you-dont-need" title="Permalink to this headline">¶</a></h4>
+<h4>Disable things that you dont need<a class="headerlink" href="#disable-things-that-you-dont-need" title="Permalink to this headline">¶</a></h4>
 <p>I guess you don&#8217;t use ipv6 (if you don&#8217;t know what it is, you don&#8217;t need
 it :D). <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">ip6tables</span></tt>. In case you use sshguard, you
 need also edit file <tt class="docutils literal"><span class="pre">/cat</span> <span class="pre">/usr/lib/systemd/system/sshguard.service</span></tt>
@@ -695,14 +691,14 @@ and from <strong>Wants</strong> delete ip6tables. Like this:</p>
 </div>
 </div>
 <div class="section" id="usefull-utilites">
-<h2>2.6. Usefull utilites<a class="headerlink" href="#usefull-utilites" title="Permalink to this headline">¶</a></h2>
+<h2>Usefull utilites<a class="headerlink" href="#usefull-utilites" title="Permalink to this headline">¶</a></h2>
 <p>Simple to use, just install them and run:</p>
 <ul class="simple">
 <li>iftop - for internet usage</li>
 <li>iotop - for disk usage</li>
 </ul>
 <div class="section" id="torrents">
-<h3>2.6.1. Torrents<a class="headerlink" href="#torrents" title="Permalink to this headline">¶</a></h3>
+<h3>Torrents<a class="headerlink" href="#torrents" title="Permalink to this headline">¶</a></h3>
 <p>Your RPi is maybe running 24/7, so why not to use it for torrents? But
 how, when there is no GUI? It&#8217;s pretty simple. We will use transmission
 - popular torrent client. Install it by <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">transmission-cli</span></tt>
@@ -748,7 +744,7 @@ configured in config file :) .</p>
 </div>
 </div>
 <div class="section" id="backups">
-<h2>2.7. Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h2>
+<h2>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h2>
 <p>For backups I choosed <tt class="docutils literal"><span class="pre">rdiff-backup</span></tt>. It&#8217;s so stupid but works
 (almost) as expected. More about it&#8217;s usage you can find in it&#8217;s manual
 pages. For my example I&#8217;ll redirect you to dir with configs in this
@@ -757,11 +753,11 @@ to do SSH backup every day in 4AM. If I&#8217;m on local network I also do
 backup to my disc on other PC.</p>
 </div>
 <div class="section" id="final">
-<h2>2.8. Final<a class="headerlink" href="#final" title="Permalink to this headline">¶</a></h2>
+<h2>Final<a class="headerlink" href="#final" title="Permalink to this headline">¶</a></h2>
 <p>That&#8217;s all for now! I will see if this is used by someone and than I
 will see if I will continue.</p>
 <div class="section" id="troubleshooting">
-<h3>2.8.1. Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
+<h3>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li>RPi don&#8217;t boot - unplug everything from USB ports (there may be not
 enough of power to boot up and supply USB)</li>
@@ -778,45 +774,45 @@ enough of power to boot up and supply USB)</li>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">2. Making Raspberry Pi usable</a><ul>
-<li><a class="reference internal" href="#introduction">2.1. Introduction</a></li>
-<li><a class="reference internal" href="#what-you-get-on-when-you-succesfully-finish">2.2. What you get on when you succesfully finish</a></li>
-<li><a class="reference internal" href="#what-you-will-need">2.3. What you will need</a></li>
-<li><a class="reference internal" href="#what-you-don-t-need">2.4. What you don&#8217;t need</a></li>
-<li><a class="reference internal" href="#start">2.5. Start</a><ul>
-<li><a class="reference internal" href="#installing-archlinux-arm-to-sd-card">2.5.1. Installing Archlinux ARM to SD card</a></li>
-<li><a class="reference internal" href="#little-networking">2.5.2. Little networking</a></li>
-<li><a class="reference internal" href="#first-setup">2.5.3. First setup</a></li>
-<li><a class="reference internal" href="#installing-some-sugar-candy">2.5.4. Installing some sugar candy</a></li>
-<li><a class="reference internal" href="#some-configurations">2.5.5. Some configurations</a><ul>
-<li><a class="reference internal" href="#make-vim-usable">2.5.5.1. Make vim usable</a></li>
-<li><a class="reference internal" href="#journaling">2.5.5.2. Journaling</a></li>
+<li><a class="reference internal" href="#">Making Raspberry Pi usable</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#what-you-get-on-when-you-succesfully-finish">What you get on when you succesfully finish</a></li>
+<li><a class="reference internal" href="#what-you-will-need">What you will need</a></li>
+<li><a class="reference internal" href="#what-you-don-t-need">What you don&#8217;t need</a></li>
+<li><a class="reference internal" href="#start">Start</a><ul>
+<li><a class="reference internal" href="#installing-arch-linux-arm-to-sd-card">Installing Arch Linux ARM to SD card</a></li>
+<li><a class="reference internal" href="#little-networking">Little networking</a></li>
+<li><a class="reference internal" href="#first-setup">First setup</a></li>
+<li><a class="reference internal" href="#installing-some-sugar-candy">Installing some sugar candy</a></li>
+<li><a class="reference internal" href="#some-configurations">Some configurations</a><ul>
+<li><a class="reference internal" href="#make-vim-usable">Make vim usable</a></li>
+<li><a class="reference internal" href="#journaling">Journaling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#network-configuration">2.5.6. Network configuration</a></li>
-<li><a class="reference internal" href="#timesynchronization">2.5.7. Timesynchronization</a></li>
-<li><a class="reference internal" href="#configuring-ssh">2.5.8. Configuring SSH</a></li>
-<li><a class="reference internal" href="#speeding-rpi-up">2.5.9. Speeding RPi up</a></li>
-<li><a class="reference internal" href="#other-tweaks-of-boot-config-txt">2.5.10. Other tweaks of /boot/config.txt</a></li>
-<li><a class="reference internal" href="#making-rpi-visible-from-outside">2.5.11. Making RPi visible from outside</a></li>
-<li><a class="reference internal" href="#webserver">2.5.12. Webserver</a></li>
-<li><a class="reference internal" href="#setting-up-nginx">2.5.13. Setting up nginx</a><ul>
-<li><a class="reference internal" href="#ftp">2.5.13.1. FTP</a></li>
+<li><a class="reference internal" href="#network-configuration">Network configuration</a></li>
+<li><a class="reference internal" href="#timesynchronization">Timesynchronization</a></li>
+<li><a class="reference internal" href="#configuring-ssh">Configuring SSH</a></li>
+<li><a class="reference internal" href="#speeding-rpi-up">Speeding RPi up</a></li>
+<li><a class="reference internal" href="#other-tweaks-of-boot-config-txt">Other tweaks of /boot/config.txt</a></li>
+<li><a class="reference internal" href="#making-rpi-visible-from-outside">Making RPi visible from outside</a></li>
+<li><a class="reference internal" href="#webserver">Webserver</a></li>
+<li><a class="reference internal" href="#setting-up-nginx">Setting up nginx</a><ul>
+<li><a class="reference internal" href="#ftp">FTP</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#system-analyzing-and-cleaning">2.5.14. System analyzing and cleaning</a><ul>
-<li><a class="reference internal" href="#disable-things-that-you-dont-need">2.5.14.1. Disable things that you dont need</a></li>
+<li><a class="reference internal" href="#system-analyzing-and-cleaning">System analyzing and cleaning</a><ul>
+<li><a class="reference internal" href="#disable-things-that-you-dont-need">Disable things that you dont need</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#usefull-utilites">2.6. Usefull utilites</a><ul>
-<li><a class="reference internal" href="#torrents">2.6.1. Torrents</a></li>
+<li><a class="reference internal" href="#usefull-utilites">Usefull utilites</a><ul>
+<li><a class="reference internal" href="#torrents">Torrents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#backups">2.7. Backups</a></li>
-<li><a class="reference internal" href="#final">2.8. Final</a><ul>
-<li><a class="reference internal" href="#troubleshooting">2.8.1. Troubleshooting</a></li>
+<li><a class="reference internal" href="#backups">Backups</a></li>
+<li><a class="reference internal" href="#final">Final</a><ul>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
 </ul>
 </li>
 </ul>
@@ -825,10 +821,7 @@ enough of power to boot up and supply USB)</li>
 
   <h4>Previous topic</h4>
   <p class="topless"><a href="Arch.html"
-                        title="previous chapter">1. Instaling Arch linux on laptop and how to make it usable</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="domains_ip_servers.html"
-                        title="next chapter">3. How domains, IP addresses and servers works</a></p>
+                        title="previous chapter">Installing Arch Linux on laptop and how to make it usable</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/my_wr/RPi.txt"
@@ -858,10 +851,7 @@ enough of power to boot up and supply USB)</li>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="domains_ip_servers.html" title="3. How domains, IP addresses and servers works"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="Arch.html" title="1. Instaling Arch linux on laptop and how to make it usable"
+          <a href="Arch.html" title="Installing Arch Linux on laptop and how to make it usable"
              >previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>

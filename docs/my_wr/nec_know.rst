@@ -1,13 +1,15 @@
-Neccessary knowledge
+Necessary knowledge
 ====================
+
+Here I cover two things that I encourage to use during this guide.
 
 Vim
 ---
 
 We'll need text editor to configure everything and most of our time
 we'll spend in command line. How to edit files inside terminal? There
-are multiple console-based terminal. I choosed one of them, which is
-called ``[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))``. We
+are multiple console-based terminal. I chose one of them, which is
+called `vim <http://en.wikipedia.org/wiki/Vim_(text_editor)>`_. We
 will install it in next chapters, but I will tell you some basics here
 (you can try them later). 
 
@@ -29,8 +31,8 @@ Of course feel free to use other editor.
 Systemd
 --------
 
-```systemd`` <http://en.wikipedia.org/wiki/Systemd>`__ is astonishingly
-great and also astonishingly hated package, but thats not neccessary to
+`systemd <http://en.wikipedia.org/wiki/Systemd>`_ is astonishingly
+great and also astonishingly hated package, but that’s not necessary to
 know now. Briefly - ``systemd`` cares about running processes in the
 background. These are called daemons. For example in next chapter we
 will use SSH - it will run at background. There is also package, which
@@ -39,16 +41,16 @@ chapters).
 
 ``systemd`` is controlled by ``systemctl``. To start some program, which
 is in this context called **service** (and we will stick to that), just
-run ``systemctl start <unit>``. There are other usefull (and that's 90%
+run ``systemctl start <unit>``. There are other useful (and that's 90%
 of what you need to know about systemctl) commands (all starts with
 ``systemctl`` and ends with ``desired_unit`` - watch example):
 
 -  enable - this allow to run service after boot (but it will not start
-   imediately)
+   immediately)
 -  disable - this will make device not to start after boot
--  start - this will imediatelly start a service (but will not enable it
+-  start - this will immediately start a service (but will not enable it
    - it won't be run after boot)
--  stop - stop service imediately (but not disable)
+-  stop - stop service immediately (but not disable)
 -  status - this will print out all information in pretty format - you
    can find if it is enabled, started, if **there are any errors** etc.
 

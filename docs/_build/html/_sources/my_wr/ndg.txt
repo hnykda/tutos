@@ -3,31 +3,31 @@ Deploying nginx + django + python 3
 ==============================================
 Hello,
 
-due to the lacks of informations about deploying latests version of django (1.6+) with latest nginx (1.6+) using gunicorn (18+) inside virtual enviroment of python 3 (3.4+), it was really hard for a beginner like me to deploy a django project. 
+due to the lacks of informations about deploying latests version of django (1.6+) with latest nginx (1.6+) using gunicorn (18+) inside virtual environment of python 3 (3.4+), it was really hard for a beginner like me to deploy a django project. 
 
 I finally made it and now after several months I decided to share my experiences with all the world. So again:
 
 What this guide is about
 ========================
-We'll deploy (that means making website available to the world) ``django`` project with server engine ``nginx`` using ``gunicorn`` for that. We'll also use virtual enviroment of python and installation will be static - it will not depend on your system-wide python installation.
+We'll deploy (that means making website available to the world) ``django`` project with server engine ``nginx`` using ``gunicorn`` for that. We'll also use virtual environment of python and installation will be static - it will not depend on your system-wide python installation.
 
 Prerequisites and informations
 ==============================
-I'm using linux and commands I'm going to introduce are thought to be run in bash shell. Sometimes root privilegies might be required and I'll **not** remark that. If you are not familiar with linux, please read my other guides.
+I'm using Linux and commands I'm going to introduce are thought to be run in bash shell. Sometimes root privileges might be required and I'll **not** remark that. If you are not familiar with Linux, please read my other guides.
 
-You do not need any special knowledge. But keep in mind that this is not guide how django, nginx or gunicorn work! This is about how it should be bringed together to work. 
+You do not need any special knowledge. But keep in mind that this is not guide how django, nginx or gunicorn work! This is about how it should be brought together to work. 
 
 My choice - why nginx, python 3 etc.
 ==========================================
-I'm not the one who tried all of possible choices. I've just tried a lot of them and this one was first of them which worked. So I sticked to it. 
+I'm not the one who tried all of possible choices. I've just tried a lot of them and this one was first of them which worked. So I stuck to it. 
 
-I choosed ``nginx`` over ``apache`` because this seems to be *trend* today thanks to apache's age. It's also seems to me easier. 
+I've chosen ``nginx`` over ``apache`` because this seems to be *trend* today thanks to Apache’s age. It's also seems to me easier. 
 
-I choosed ``django`` because I love python. And I'm quite new to it so when I decided to learn this great language, I started with ``python 3``. It was somehow logical because I could choose what I want and the newer one is of course better investment to the future.
+I've chosen ``django`` because I love python. And I'm quite new to it so when I decided to learn this great language, I started with ``python 3``. It was somehow logical because I could choose what I want and the newer one is of course better investment to the future.
 
 Gunicorn is just so easy to use and I've found great documentations and guides for it.
 
-Virtual enviroment is necessity. You don't want all python projects (not just django websites) depend on one specific configuration. It's not stable (one package can hurt other) nor secure. We'll use **hard** *virtualenv* because it's also safer - you can update this version when you want and not with every time your distribution says to you.
+Virtual environment is necessity. You don't want all python projects (not just django websites) depend on one specific configuration. It's not stable (one package can hurt other) nor secure. We'll use **hard** *virtualenv* because it's also safer - you can update this version when you want and not with every time your distribution says to you.
 
 How the hell all that works
 ===========================
@@ -36,11 +36,11 @@ We have five terms: ``nginx``, ``python``, ``virtualenv``, ``gunicorn`` and ``dj
 
 First layer (nginx)
 -------------------
-``nginx`` is what cares about requests from the world. It's what catchs your request (e.g. `Google <google.com>`_) and redirects it to according folder (in case of static HTML page with index.html, not our case), or to some application.
+``nginx`` is what cares about requests from the world. It's what catches your request (e.g. `Google <google.com>`_) and redirects it to according folder (in case of static HTML page with index.html, not our case), or to some application.
 
 Second layer (gunicorn)
 ----------------------------------
- This application in our case is ``gunicorn``. It's powered by ``python`` and it basically makes a magical communication channel ``nginx``~``django app``. This tunnel is represented by **socket** (we'll get to it). Why can't do this ``nginx``? It's just not clever enough (better - it just hasn't do that and that's absolutly OK in Unix philosophy). Gunicorn can make *server* similiar to django testserver. But it can also **serve** django app content to ``nginx`` and hence solving nginx's limitation.
+This application in our case is ``gunicorn``. It's powered by ``python`` and it basically makes a magical communication channel ``nginx``~``django app``. This tunnel is represented by **socket** (we'll get to it). Why can't do this ``nginx``? It's just not clever enough (better - it just hasn't do that and that's absolutely OK in Unix philosophy). Gunicorn can make *server* similar to django test server. But it can also **serve** django app content to ``nginx`` and hence solving nginx's limitation.
 
 Third layer (django)
 --------------------
@@ -50,19 +50,19 @@ Wrapper for second and third layer
 ----------------------------------
 ``python`` is *engine* of ``gunicorn`` even for ``django``. This ``python`` is running inside *sandbox* called virtualenv. Gunicorn will **activate** this virtualenv for us and *run* django app. 
 
-That's all. Not that hard, huh? Basically **nginx~gunicorn~django**. ``python`` is powering it and ``virtualenv`` is just wraps python version (it is not neccesity to have virtualenv, if it's easier to understand it).
+That's all. Not that hard, huh? Basically **nginx~gunicorn~django**. ``python`` is powering it and ``virtualenv`` is just wraps python version (it is not necessity to have virtualenv, if it's easier to understand it).
 
 Let's do it
 ===========
 
 nginx configuration
 -------------------
-Covered in other tutorial, you must be able to make it to the point that you are able to see *nxinx welcome page*.
+Covered in other tutorial, you must be able to make it to the point that you are able to see *nginx welcome page*.
 
 
 Installing python and virtualenv
 --------------------------------
-About virtual enviroments there is tons of guides on the internet - feel free to educate yourself :D . Here is my brief guide.
+About virtual environments there is tons of guides on the internet - feel free to educate yourself :D . Here is my brief guide.
 
 To do that we'll need to install ``python-virtualenv``. Install it and then create some folder for our test case. Let it be ``/var/www/test``. Also install ``python`` of version 3, if you haven't done that before. 
 
@@ -70,25 +70,25 @@ We'll now create *sandbox* of python for our test case inside this folder (``/va
 
     virtualenv --python=python3 --always-copy venv
 
-What happened here? We created python *sandbox* called **venv** in current directory. It use **python3** as default choice and we copied all neccesary files for life of this installation (by default there are only symlinked to the system one).
+What happened here? We created python *sandbox* called **venv** in current directory. It use **python3** as default choice and we copied all necessary files for life of this installation (by default there are only symlinked to the system one).
 
-What now? We need to switch from *system* python installation to *venv* python installation. First try to type ``python -c "import sys; print(sys.path)"``. The output is similiar to this:
+What now? We need to switch from *system* python installation to *venv* python installation. First try to type ``python -c "import sys; print(sys.path)"``. The output is similar to this:
 ::
 
     ['', '/usr/lib/python34.zip', '/usr/lib/python3.4', '/usr/lib/python3.4/plat-linux', '/usr/lib/python3.4/lib-dynload', '/usr/lib/python3.4/site-packages']
 
-where you can notice that current default ``python`` interpreter get's it's config from somwhere in ``/usr/lib/...``. 
+where you can notice that current default ``python`` interpreter gets it's config from somewhere in ``/usr/lib/...``. 
 
 We will now activate our virtualenv by this command:
 ``source /var/www/test/venv/bin/activate``. Now try same command as above (``python -c ...``) and it should print instead of ``/usr/lib/...`` something starting with ``/var/www/test/venv/...``. If yes, it's working :) .
 
-To quit from this enviroment and get to your system-wide, type ``deactivate``.
+To quit from this environment and get to your system-wide, type ``deactivate``.
 
 pip installing django and gunicorn
 -----------------------------------
 One of the best advantages of ``python 3.4`` is a fact that ``pip`` is installed by default. What is ``pip``? ``pip`` is installer for python packages. 
 
-All python packages can be found `here <https://pypi.python.org/pypi>`_. Of course you can find you package there (try for example with ``django``), download it and build it with python on your own. But that souns like a lot of work. Let's ``pip`` do it for us.
+All python packages can be found `here <https://pypi.python.org/pypi>`_. Of course you can find you package there (try for example with ``django``), download it and build it with python on your own. But that sound like a lot of work. Let's ``pip`` do it for us.
 
 Assure yourself you are working in our virtualenv (you can again **activate** it) and type this:
 ::
@@ -112,7 +112,7 @@ and that's all you need for now with pip (although there isn't much more about p
 
 Sample django project
 ---------------------
-Now we'll need to create django project for our testcase. Go inside ``/var/www/test`` and activate our virtualenv where is ``django`` and ``gunicorn`` (you can do that again by ``source /var/www/test/venv/bin/activate``).
+Now we'll need to create django project for our test case. Go inside ``/var/www/test`` and activate our virtualenv where is ``django`` and ``gunicorn`` (you can do that again by ``source /var/www/test/venv/bin/activate``).
 
 Create django project by:
 ::
@@ -150,13 +150,13 @@ Now navigate yourself inside ``/var/www/test/ourcase/`` and run this magical com
 
 it will start something like *gunicorn server* - you should be able to see your django welcome page on ``127.0.0.1:8000``. 
 
-This is just the most stupid configuration, which is enough for this test, but not for deploying on server. For that we'll wan't to add much more. Create starting script ``/var/www/test/gunicorn_start.sh``::
+This is just the most stupid configuration, which is enough for this test, but not for deploying on server. For that we'll want to add much more. Create starting script ``/var/www/test/gunicorn_start.sh``::
 
     #!/bin/bash
      
     NAME="ourcase"                              #Name of the application (*)
     DJANGODIR=/var/www/test/ourcase             # Django project directory (*)
-    SOCKFILE=/var/www/test/run/gunicorn.sock        # we will communicte using this unix socket (*)
+    SOCKFILE=/var/www/test/run/gunicorn.sock        # we will communicate using this unix socket (*)
     USER=nginx                                        # the user to run as (*)
     GROUP=webdata                                     # the group to run as (*)
     NUM_WORKERS=1                                     # how many worker processes should Gunicorn spawn (*)
@@ -187,7 +187,7 @@ Wow! A lot happened here compared to our *stupid* variant. Everything marked wit
 
 The most important change here is that we added ``SOCKFILE`` - socket. This is the magic thingie which will enable ``nginx`` to server django project (app). Gunicorn will somehow run server as in previous stupid variant and *transfer* this into socket file in language which ``nginx`` understands. ``nginx`` is looking to this socket file and is happy to serve everything there is.
 
-It's common practice (and I strongly encouraged it) to run server as some specific user. It's for security reasons. So if you haven't done it before, create some user and group for these purpouses (ALSO IN OTHER MY TUTORIAL).
+It's common practice (and I strongly encouraged it) to run server as some specific user. It's for security reasons. So if you haven't done it before, create some user and group for these purposes (ALSO IN OTHER MY TUTORIAL).
 
 Workers are just how much computing power you enable for this website. 
 
@@ -214,7 +214,7 @@ Create new service file ``/usr/lib/systemd/system/gunicorn_ourcase.service`` and
 
 now enable it as with other units::
 
-    systemct enable gunicorn_ourcase
+    systemctl enable gunicorn_ourcase
 
 now this script should be run after boot. Try if it's working (reboot and use ``systemctl status gunicorn_ourcase``).
 
@@ -224,7 +224,7 @@ django project deployment
 -------------------------
 Deploying django project is topic for longer tutorial then is this. So I'll make it as small as possible. 
 
-If you've just developed django project with test server, it mades a tons of things for you without any notices. In reality it's not as easy - everything isn't done automaticaly and django is prepared for that - but you need to *activate* this futures, since it's not by default. 
+If you've just developed django project with test server, it makes a tons of things for you without any notices. In reality it's not as easy - everything isn't done automatically and django is prepared for that - but you need to *activate* this futures, since it's not by default. 
 
 Directories
 ***********
@@ -232,7 +232,7 @@ Nice example is with **static** files. There are e.g. some CSS styles for django
 
 But how to find all this static files? Right now they are sourced from django installation directory (probably something like ``/var/www/test/venv/lib/python3.4/django/...``. ``manage.py`` has a special command for this, but first we need to tell him few details in ``settings.py``.
 
-The most common configuration is to has a special directory for static files where you can edit them, past them etc. Then there will be static directory, where you won't do any changes - this will be for ``manage.py`` command - it will collects them from your special directory, from django installation directory etc. In templates, when you wan't to use e.g. some static image on background, you use ``{ STATIC_URL}/static_images/mybgrnd.png``.
+The most common configuration is to has a special directory for static files where you can edit them, past them etc. Then there will be static directory, where you won't do any changes - this will be for ``manage.py`` command - it will collects them from your special directory, from django installation directory etc. In templates, when you want to use e.g. some static image on background, you use ``{ STATIC_URL}/static_images/mybgrnd.png``.
 
 To do this we'll add this to ``settings.py``::
 
@@ -256,7 +256,7 @@ and all user files (uploaded images, sounds...) are inside `/var/www/test/ourcas
 
 Steps for other directories should be same.
 
-Enough for directories. But some othere changes are needed to deploy django project. In some cases I don't really know why I need to add this to ``settings.py``, but I know what that does and it's just working.
+Enough for directories. But some other changes are needed to deploy django project. In some cases I don't really know why I need to add this to ``settings.py``, but I know what that does and it's just working.
 
 Templates
 *********
@@ -271,7 +271,7 @@ where I've put my ``base.html`` which is used in all other templates in whole we
 
 SITE_ID
 *******
-For some purpouses is needed to set SITE_ID. In my case it was because of ``flatpages``. It's easy::
+For some purposes is needed to set SITE_ID. In my case it was because of ``flatpages``. It's easy::
 
     SITE_ID = 1
 
@@ -351,33 +351,33 @@ Edit ``/etc/nginx/nginx.conf`` and paste this into ``http`` block::
         }
     }
 
-Ok, that's whipping. I'll be fast.
+OK, that's whipping. I'll be fast.
 
 First, we tell `nginx` where is socket file (``gunicorn.sock``) from gunicorn.
 
-Then there is redirect from non-www domain to www domain. This can be ommited or solved in other way (CNAME).
+Then there is redirect from non-www domain to www domain. This can be omitted or solved in other way (CNAME).
 
 Then there is main body of server configuration:
-* logs are usefull for catching bugs and errors - has multiple parameters, like how much should they bother you. Don't forget to create log directory.
-* static and media block - these are extremaly important - this is why we played all that games with collectstatics etc. It just tells nginx where it should looks when website asks for e.g. ``/static/style.css/`` or ``/media/img/picture_of_my_cat.png``.
+* logs are useful for catching bugs and errors - has multiple parameters, like how much should they bother you. Don't forget to create log directory.
+* static and media block - these are extremely important - this is why we played all that games with collectstatics etc. It just tells nginx where it should looks when website asks for e.g. ``/static/style.css/`` or ``/media/img/picture_of_my_cat.png``.
 * Block with all that proxy things is also important and is used for technical background around socket communication and redirecting. Don't care about that.
-* Favicon and robots.txt is not neccessary, but all browsers and web crawlers are still searching for them. So if you don't like errors in your logs, add create these two things.
+* Favicon and robots.txt is not necessary, but all browsers and web crawlers are still searching for them. So if you don't like errors in your logs, add create these two things.
 * Last block is telling nginx where it should looks for error pages when something doesn't exists.
 
-Save and exit. Next great future of ``nginx`` is it's ability of checking configuration. Type ``nginx -t`` (don't forget root permissions) and you'll see if configuration is synctactically correct. Don't forget about that stupid ``;``. 
+Save and exit. Next great future of ``nginx`` is it's ability of checking configuration. Type ``nginx -t`` (don't forget root permissions) and you'll see if configuration is syntactically correct. Don't forget about that stupid ``;``. 
 
-Finally enable ``nginx`` to be runned after reboot::
+Finally enable ``nginx`` to be ran after reboot::
 
     systemctl enable nginx
 
-Some sugarcandy
+Some sugar candy
 ----------------
-Install with ``pip`` package called ``setproctitle``. It's usefull for displaying more info about runned processes like gunicorn in system process managers (``htop``, ``ps``, ...). 
+Install with ``pip`` package called ``setproctitle``. It's useful for displaying more info about ran processes like gunicorn in system process managers (``htop``, ``ps``, ...). 
 
 Debugging
 ============
 That's it. Now restart computer and see if it doesn't explode. 
-You can anylyze ``nginx`` or ``gunicorn`` with ``systemctl``, e.g.::
+You can analyse ``nginx`` or ``gunicorn`` with ``systemctl``, e.g.::
 
     systemctl status gunicorn_ourcase
 
@@ -389,4 +389,4 @@ To see what processes are spawned you can use your task manager like ``htop`` or
 
 Finalization
 ============
-That's all! I hope this guide helped you and you has succesfuly start up your websites! :)
+That's all! I hope this guide helped you and you has successfully start up your websites! :)

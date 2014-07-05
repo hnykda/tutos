@@ -10,8 +10,8 @@ awesome as possible.
 
 In this tutorial I will walk you through whole process of making from
 Raspberry Pi secure, reliable, efficient, fast and easy to maintain
-server for variable purpouses as is FTP, web hosting, sharing... All
-that thanks to Archlinux ARM operating system. The device will be
+server for variable purposes as is FTP, web hosting, sharing... All
+that thanks to Arch Linux ARM operating system. The device will be
 "headless" - it means, there will be no fancy windows etc., just command
 line. Don't be scared, I will walk you through and you'll thank me then
 :) . You don't need some special knowledge about computers and linux
@@ -33,7 +33,7 @@ What you will need
 -  Raspberry Pi (doesn't matter which model) with power supply
 -  SD Card as a main hardisk for RPi
 -  SD Card reader on computer with internet access
--  Ethernet LAN cable or USB wifi bundle
+-  Ethernet LAN cable or USB Wi-Fi bundle
 -  Other computer (preferably with linux, but nevermind if you use
    Windows or Mac)
 -  Possibility to physically get to your router and know credentials to
@@ -52,21 +52,21 @@ So you have just bare RPi, SD card, power supply, ethernet cable
 (RJ-45). So let's start! There are houndreds of guides, but I haven't
 found them satisfaing.
 
-Installing Archlinux ARM to SD card
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Installing Arch Linux ARM to SD card
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Go `here <http://archlinuxarm.org/platforms/armv6/raspberry-pi>`__ and
-make first 3 steps. That's it! You have done it. You have you Archlinux
+Go `here <http://Arch Linuxarm.org/platforms/armv6/raspberry-pi>`__ and
+make first 3 steps. That's it! You have done it. You have you Arch Linux
 ARM SD card :)
 
 Little networking
 ~~~~~~~~~~~~~~~~~
 
 I guess you probably have some of "home router" ("box with internet")
-and when you want to connect e.g by wifi with your laptop or mobile
+and when you want to connect e.g by Wi-Fi with your laptop or mobile
 phone, it just connects (after inserting password). You need to test
 first what happens, when you try to connect by ethernet cable, for
-example with your laptop. Turn off wifi and check it. Did your computer
+example with your laptop. Turn off Wi-Fi and check it. Did your computer
 connects to the network (or even internet) as usuall?
 
 If yes, it is great! You can procced. It is what we need - we need RPi,
@@ -108,7 +108,7 @@ First setup
 ~~~~~~~~~~~
 
 This is covered over the internet, so I will just redirect you.
-`elinux <http://elinux.org/ArchLinux_Install_Guide>`__ - from this guide
+`elinux <http://elinux.org/Arch Linux_Install_Guide>`__ - from this guide
 finish these parts (in RPi console):
 
 -  Change root password
@@ -453,7 +453,7 @@ port which should be used (in default is assumed port 22).
 ``ssh -p 1234 bob@ip.address`` will do it for you :) .
 
 The next thing we are going to do is set up ``sshguard``. More about it
-`here <https://wiki.archlinux.org/index.php/Sshguard>`__. You don't need
+`here <https://wiki.Arch Linux.org/index.php/Sshguard>`__. You don't need
 more :) . Just remember to use your port (in my case 1234) for settings.
 
 It is anoying still typing same username and password when we want to
@@ -480,7 +480,7 @@ more productive and you don't need to be afraid of some mishmash caused
 by accidently closing terminal during update or lossing connection.
 Learn more about what the screen is
 (`here <http://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/>`__,
-`here <https://wiki.archlinux.org/index.php/GNU_Screen>`__ and
+`here <https://wiki.Arch Linux.org/index.php/GNU_Screen>`__ and
 `here <http://www.thegeekstuff.com/2010/07/screen-command-examples/>`__),
 install it (``pacman -S screen``), use it and love it.
 
@@ -497,7 +497,7 @@ it.
 Speeding RPi up
 ~~~~~~~~~~~~~~~
 
-Archlinux ARM for RPi is prepared to be tweaked. And now it is possible
+Arch Linux ARM for RPi is prepared to be tweaked. And now it is possible
 to speed RPi up by overclocking it's processor without avoiding your
 waranty. How to do it? Just edit file ``/boot/config.txt`` and find this
 part:
@@ -828,4 +828,3 @@ Troubleshooting
 
 -  RPi don't boot - unplug everything from USB ports (there may be not
    enough of power to boot up and supply USB)
-

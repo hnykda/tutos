@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>6. Neccessary knowledge &mdash; tutos 0.5 documentation</title>
+    <title>Necessary knowledge &mdash; tutos 0.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -24,7 +24,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
-    <link rel="prev" title="5. Deploying nginx + django + python 3" href="ndg.html" /> 
+    <link rel="next" title="How domains, IP addresses and servers works" href="domains_ip_servers.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,7 +35,10 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="ndg.html" title="5. Deploying nginx + django + python 3"
+          <a href="domains_ip_servers.html" title="How domains, IP addresses and servers works"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>
@@ -45,14 +49,15 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="neccessary-knowledge">
-<h1>6. Neccessary knowledge<a class="headerlink" href="#neccessary-knowledge" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="necessary-knowledge">
+<h1>Necessary knowledge<a class="headerlink" href="#necessary-knowledge" title="Permalink to this headline">¶</a></h1>
+<p>Here I cover two things that I encourage to use during this guide.</p>
 <div class="section" id="vim">
-<h2>6.1. Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
 <p>We&#8217;ll need text editor to configure everything and most of our time
 we&#8217;ll spend in command line. How to edit files inside terminal? There
-are multiple console-based terminal. I choosed one of them, which is
-called <tt class="docutils literal"><span class="pre">[vim](http://en.wikipedia.org/wiki/Vim_(text_editor))</span></tt>. We
+are multiple console-based terminal. I chose one of them, which is
+called <a class="reference external" href="http://en.wikipedia.org/wiki/Vim_(text_editor)">vim</a>. We
 will install it in next chapters, but I will tell you some basics here
 (you can try them later).</p>
 <p>You can edit a file in vim by typing <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">&lt;file&gt;</span></tt>. Vim has three
@@ -69,9 +74,9 @@ mode (<tt class="docutils literal"><span class="pre">ESC</span></tt>). Now write
 <p>Of course feel free to use other editor.</p>
 </div>
 <div class="section" id="systemd">
-<h2>6.2. Systemd<a class="headerlink" href="#systemd" title="Permalink to this headline">¶</a></h2>
-<p><tt class="docutils literal"><span class="pre">`systemd</span></tt> &lt;<a class="reference external" href="http://en.wikipedia.org/wiki/Systemd">http://en.wikipedia.org/wiki/Systemd</a>&gt;`__ is astonishingly
-great and also astonishingly hated package, but thats not neccessary to
+<h2>Systemd<a class="headerlink" href="#systemd" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Systemd">systemd</a> is astonishingly
+great and also astonishingly hated package, but that’s not necessary to
 know now. Briefly - <tt class="docutils literal"><span class="pre">systemd</span></tt> cares about running processes in the
 background. These are called daemons. For example in next chapter we
 will use SSH - it will run at background. There is also package, which
@@ -79,21 +84,21 @@ takes care of automatically connect to internet (again in next
 chapters).</p>
 <p><tt class="docutils literal"><span class="pre">systemd</span></tt> is controlled by <tt class="docutils literal"><span class="pre">systemctl</span></tt>. To start some program, which
 is in this context called <strong>service</strong> (and we will stick to that), just
-run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">&lt;unit&gt;</span></tt>. There are other usefull (and that&#8217;s 90%
+run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">&lt;unit&gt;</span></tt>. There are other useful (and that&#8217;s 90%
 of what you need to know about systemctl) commands (all starts with
 <tt class="docutils literal"><span class="pre">systemctl</span></tt> and ends with <tt class="docutils literal"><span class="pre">desired_unit</span></tt> - watch example):</p>
 <ul class="simple">
 <li>enable - this allow to run service after boot (but it will not start
-imediately)</li>
+immediately)</li>
 <li>disable - this will make device not to start after boot</li>
-<li>start - this will imediatelly start a service (but will not enable it
+<li>start - this will immediately start a service (but will not enable it
 - it won&#8217;t be run after boot)</li>
-<li>stop - stop service imediately (but not disable)</li>
+<li>stop - stop service immediately (but not disable)</li>
 <li>status - this will print out all information in pretty format - you
 can find if it is enabled, started, if <strong>there are any errors</strong> etc.</li>
 </ul>
 <div class="section" id="example">
-<h3>6.2.1. Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
 <p>There is service, which takes care about connection to
 network. We will cover it in special chapter for RPi, but we will just play with
 that for a minute now. It&#8217;s called <tt class="docutils literal"><span class="pre">systemd-networkd</span></tt>. Try to start it,
@@ -129,10 +134,10 @@ starting/enabling/... specific unit.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">6. Neccessary knowledge</a><ul>
-<li><a class="reference internal" href="#vim">6.1. Vim</a></li>
-<li><a class="reference internal" href="#systemd">6.2. Systemd</a><ul>
-<li><a class="reference internal" href="#example">6.2.1. Example</a></li>
+<li><a class="reference internal" href="#">Necessary knowledge</a><ul>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#systemd">Systemd</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 </ul>
@@ -140,8 +145,11 @@ starting/enabling/... specific unit.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="ndg.html"
-                        title="previous chapter">5. Deploying nginx + django + python 3</a></p>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="domains_ip_servers.html"
+                        title="next chapter">How domains, IP addresses and servers works</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/my_wr/nec_know.txt"
@@ -171,7 +179,10 @@ starting/enabling/... specific unit.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="ndg.html" title="5. Deploying nginx + django + python 3"
+          <a href="domains_ip_servers.html" title="How domains, IP addresses and servers works"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
              >previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>

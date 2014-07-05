@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>1. Instaling Arch linux on laptop and how to make it usable &mdash; tutos 0.5 documentation</title>
+    <title>Installing Arch Linux on laptop and how to make it usable &mdash; tutos 0.5 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
     <link rel="next" title="2. Making Raspberry Pi usable" href="RPi.html" />
-    <link rel="prev" title="Welcome to tutos’s documentation!" href="../index.html" /> 
+    <link rel="prev" title="Deploying nginx + django + python 3" href="ndg.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,7 +38,7 @@
           <a href="RPi.html" title="2. Making Raspberry Pi usable"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Welcome to tutos’s documentation!"
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>
@@ -49,84 +49,84 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="instaling-arch-linux-on-laptop-and-how-to-make-it-usable">
-<h1>1. Instaling Arch linux on laptop and how to make it usable<a class="headerlink" href="#instaling-arch-linux-on-laptop-and-how-to-make-it-usable" title="Permalink to this headline">¶</a></h1>
-<p>In this tutorial I&#8217;d like to cover all steps from installing Archlinux
-OS to stable, secure, and working system with working WiFi, windows
+  <div class="section" id="installing-arch-linux-on-laptop-and-how-to-make-it-usable">
+<h1>Installing Arch Linux on laptop and how to make it usable<a class="headerlink" href="#installing-arch-linux-on-laptop-and-how-to-make-it-usable" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial I&#8217;d like to cover all steps from installing Arch Linux
+OS to stable, secure, and working system with working Wi-Fi, windows
 manager (i3) etc.</p>
 <p>All my current configs are in this repository. Feel free to inspire from
 them (as I did from others).</p>
-<div class="section" id="instalation">
-<h2>1.1. Instalation<a class="headerlink" href="#instalation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>There are tons of step-by-step guides how to install Arch so I will not
 go to deep here. Just look here: . Anyway, short summary:</p>
 <div class="section" id="primary-installation">
-<h3>1.1.1. Primary installation<a class="headerlink" href="#primary-installation" title="Permalink to this headline">¶</a></h3>
+<h3>Primary installation<a class="headerlink" href="#primary-installation" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="partitioning">
-<h4>1.1.1.1. Partitioning<a class="headerlink" href="#partitioning" title="Permalink to this headline">¶</a></h4>
+<h4>Partitioning<a class="headerlink" href="#partitioning" title="Permalink to this headline">¶</a></h4>
 <p>You have to prepare disc(s) where you&#8217;ll install Arch Linux. One disc
-can be separated to more partitions. I recommend you to use two partions
+can be separated to more partitions. I recommend you to use two partitions
 for Arch Linux. One for system and second for user data (alias &#8220;home
 directory&#8221;). You can of course have one or more - as you wish. In this
 tutorial I will use 2 partition. It doesn&#8217;t matter if there are next
 partitions with other systems (next Linux, Windows...). How big
-paritions should be? I recommend you 40GB-50GB for system and rest for
+partitions should be? I recommend you 40GB-50GB for system and rest for
 home. The easiest way to partition is to use GParted. If you are using
-linux, you can download from your distribution and make it from there.
+Linux, you can download from your distribution and make it from there.
 Of course, you&#8217;ll not be able to resize, create etc. partitions on disc
-which is currently used. In that case, or if you don&#8217;t have linux, there
+which is currently used. In that case, or if you don&#8217;t have Linux, there
 is GParted life distribution - make a booting USB flash with that. In
 GParted you have to create two partitions with previously stated sizes
-and format them to filesystem &#8220;ext4&#8221;. Piece of cake. For convenience
+and format them to file system &#8220;ext4&#8221;. Piece of cake. For convenience
 it&#8217;s fine to label them also (when you create partition, you can add
 label).</p>
-<p>There might be problem with your bios - it don&#8217;t have to has booting
+<p>There might be problem with your BIOS - it don&#8217;t have to has booting
 from USB flash as default. You need to change an order of priority in
 your BIOS (the &#8220;thing&#8221; before operating systems boots up). Google is
 your friend :) .</p>
 </div>
-<div class="section" id="installing-arch">
-<h4>1.1.1.2. Installing Arch<a class="headerlink" href="#installing-arch" title="Permalink to this headline">¶</a></h4>
-<p>Now you have prepared disc for installation. Download last iso of
-archlinux and make a booting USB flash with that. When you&#8217;ll be done
+<div class="section" id="installing-arch-linux">
+<h4>Installing Arch Linux<a class="headerlink" href="#installing-arch-linux" title="Permalink to this headline">¶</a></h4>
+<p>Now you have prepared disc for installation. Download last ISO of
+Arch Linux and make a booting USB flash with that. When you&#8217;ll be done
 with that, insert USB flash to PC and run it. It should boot up to
-Archlinux prompt (terminal, console). Now we need to connect to the
-internet. You can use command <em>``wifi-menu`` or just plug in ethernet
-cable. To check if you are connect, try ``ping google.com``. If you get
+Arch Linux prompt (terminal, console). Now we need to connect to the
+internet. You can use command <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt> or just plug in ethernet
+cable. To check if you are connect, try <tt class="docutils literal"><span class="pre">ping</span> <span class="pre">google.com</span></tt>. If you get
 response, it&#8217;s working. Now we need to join prepared partitions to
 currently running OS. Which are they? You can find it out by typing
-``lsblk``. There will be listed all partitions. You care about the two
+<tt class="docutils literal"><span class="pre">lsblk</span></tt>. There will be listed all partitions. You care about the two
 you partitioned earlier. You should recognize them thanks to the size.
 If you are not sure, you&#8217;ll find it out in a minute. In my case, there
 is /dev/sda5 for system (40GB) and /dev/sda6 for home. Of course it
-might differ from yours, so subtitute it to your case. Do *
-``mount /dev/sda5 /mnt`` * check if it is empty ``ls /mnt``. If you
-don&#8217;t see anything (or there is only something like *lost+found</em>), it&#8217;s
+might differ from yours, so substitute it to your case. Do *
+<tt class="docutils literal"><span class="pre">mount</span> <span class="pre">/dev/sda5</span> <span class="pre">/mnt</span></tt> * check if it is empty <tt class="docutils literal"><span class="pre">ls</span> <span class="pre">/mnt</span></tt>. If you
+don&#8217;t see anything (or there is only something like <em>lost+found</em>), it&#8217;s
 our partition :). * Create directory for home <tt class="docutils literal"><span class="pre">mkdir</span> <span class="pre">/mnt/home</span></tt> *
 <tt class="docutils literal"><span class="pre">mount</span> <span class="pre">/dev/sda6</span> <span class="pre">/mnt/home</span></tt></p>
-<p>Now we can physically install Archlinux. Type <tt class="docutils literal"><span class="pre">pacstrap</span> <span class="pre">/mnt</span> <span class="pre">base</span></tt> and
+<p>Now we can physically install Arch Linux. Type <tt class="docutils literal"><span class="pre">pacstrap</span> <span class="pre">/mnt</span> <span class="pre">base</span></tt> and
 waits. It will download and install packages.</p>
 </div>
 <div class="section" id="post-install">
-<h4>1.1.1.3. Post install<a class="headerlink" href="#post-install" title="Permalink to this headline">¶</a></h4>
+<h4>Post install<a class="headerlink" href="#post-install" title="Permalink to this headline">¶</a></h4>
 <p>Now we need to tell system which partition is system disc and which home
-partition. This will help us a little: <tt class="docutils literal"><span class="pre">gefstab</span></tt></p>
-<p>Link some zoneinfo</p>
+partition. This will help us a little: <tt class="docutils literal"><span class="pre">genfstab</span></tt></p>
+<p>Link some zone info</p>
 <p>TODO</p>
 </div>
 <div class="section" id="change-root-settings">
-<h4>1.1.1.4. Change root settings<a class="headerlink" href="#change-root-settings" title="Permalink to this headline">¶</a></h4>
+<h4>Change root settings<a class="headerlink" href="#change-root-settings" title="Permalink to this headline">¶</a></h4>
 <p>Now we will change root to new system - from the current one, which is
 the USB one, we will magically get to the new. This magic will happen by
 command: <tt class="docutils literal"><span class="pre">arch-chroot</span> <span class="pre">/mnt</span></tt>.</p>
-<p>We need to install packages for conneting to the internet as we did on
+<p>We need to install packages for connecting to the internet as we did on
 the start of installation. For that, we will need these packages (which
 are included on this USB version, but not on installation):
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">dialog</span> <span class="pre">wpa_actiond</span> <span class="pre">ifplugd</span> <span class="pre">wpa_suppicant</span> <span class="pre">sudo</span> <span class="pre">zsh</span></tt> That
-should be sufficient for making wifi or wired connection in our new
+should be sufficient for making Wi-Fi or wired connection in our new
 system, when we finish work from here. There are also two useful
 packages <em>sudo</em> and <em>zsh</em>. I will cover them in next paragraph.</p>
-<p>In linux, there is always one user, which is equivalent to god. His name
+<p>In Linux, there is always one user, which is equivalent to god. His name
 is &#8220;root&#8221;. You are currently login as him. We will change a password for
 him. Type <tt class="docutils literal"><span class="pre">passwd</span></tt> and set new password. We also want to add regular
 user (think about it as a god who is creating humans). This can be done
@@ -137,7 +137,7 @@ sandbox for his files and <tt class="docutils literal"><span class="pre">-G</spa
 Remember installing sudo and mentioning root? It is better working as
 bob (being god all the time means a lot of responsibility), but
 sometimes has some superpowers as root has. Sudo will do it for as.
-<tt class="docutils literal"><span class="pre">sudo</span></tt> can grant you superusers privilegies. More about it here. Now
+<tt class="docutils literal"><span class="pre">sudo</span></tt> can grant you superusers privileges. More about it here. Now
 the wheel group. Every user, who is in wheel group, will have this
 ability to use sudo. Type: <tt class="docutils literal"><span class="pre">visudo</span></tt> and find this line:
 <tt class="docutils literal"><span class="pre">#</span> <span class="pre">%wheel</span> <span class="pre">ALL=(ALL)</span> <span class="pre">ALL</span></tt> and delete # character (for future reference,
@@ -149,9 +149,9 @@ now. We will make this also for root by <tt class="docutils literal"><span class
 thing - we need to set password for bob. Do it by typing <tt class="docutils literal"><span class="pre">passwd</span> <span class="pre">bob</span></tt>.</p>
 </div>
 <div class="section" id="bootloader">
-<h4>1.1.1.5. Bootloader<a class="headerlink" href="#bootloader" title="Permalink to this headline">¶</a></h4>
+<h4>Bootloader<a class="headerlink" href="#bootloader" title="Permalink to this headline">¶</a></h4>
 <p>We need to tell to your PC what systems are installed and add you the
-ability to choose between them (windows, linux(es)...). For that we will
+ability to choose between them (windows, Linux(other distros)...). For that we will
 need one or two more packages <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">grub</span></tt>. If you have windows
 installed on other partitions, also install <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">os-prober</span></tt>.
 When you boot your PC there is APROXIMATELY this sequence: * BIOS - it
@@ -159,17 +159,17 @@ then looks to the beginning of your disc for first part of GRUB * GRUB
 first stage - if it is found, GRUB takes control and then looks for
 other files with more informations and pass control to GRUB second stage
 * GRUB second stage - it gives you option to choose system you want to
-boot up and then kick it up * OS will boot up this is unprecise, but
-sufficient for our purpouses and to be honest, for 90% of what you need
-on <em>daily</em> baisis (personally, I don&#8217;t know more than this :) ). BIOS is
+boot up and then kick it up * OS will boot up this is not precise, but
+sufficient for our purposes and to be honest, for 90% of what you need
+on <em>daily</em> basis (personally, I don&#8217;t know more than this :) ). BIOS is
 installed from factory. So our work is to install GRUB stages. Resolve
-which disc you wan&#8217;t to use - I recommend you to use the first one,
-which is usally called /dev/sda. If you have only one disc in PC, it is
+which disc you want to use - I recommend you to use the first one,
+which is usually called /dev/sda. If you have only one disc in PC, it is
 this one :) .</p>
 <p><strong>CAUTION</strong> - notice that I&#8217;m not speaking about partition, in which
 case I&#8217;d need to add number after sda. First stage of GRUB is somehow
-&#8220;partition&#8221; independent. Ok, now install it:
-<tt class="docutils literal"><span class="pre">grub-install</span> <span class="pre">--traget=i386-pc</span> <span class="pre">--recheck</span> <span class="pre">/dev/sda</span></tt> again - now number
+&#8220;partition&#8221; independent. OK, now install it:
+<tt class="docutils literal"><span class="pre">grub-install</span> <span class="pre">--target=i386-pc</span> <span class="pre">--recheck</span> <span class="pre">/dev/sda</span></tt> again - now number
 after sda. Of course, change <strong>a</strong> to your case. Now we need to install
 second stage of GRUB. It will be to the current system partition, so run
 <tt class="docutils literal"><span class="pre">grub-mkconfig</span> <span class="pre">-o</span> <span class="pre">/boot/grub/grub.cfg</span></tt>. Now you are ready to restart
@@ -183,27 +183,27 @@ find what went wrong. Don&#8217;t panic :).</p>
 </div>
 </div>
 <div class="section" id="making-system-usable">
-<h2>1.2. Making system usable<a class="headerlink" href="#making-system-usable" title="Permalink to this headline">¶</a></h2>
+<h2>Making system usable<a class="headerlink" href="#making-system-usable" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="login-in">
-<h3>1.2.1. Login in<a class="headerlink" href="#login-in" title="Permalink to this headline">¶</a></h3>
-<p>You should be looking to the Arch linux console with asking for username
+<h3>Login in<a class="headerlink" href="#login-in" title="Permalink to this headline">¶</a></h3>
+<p>You should be looking to the Arch Linux console with asking for username
 and password. You have two options now: sign in as bob or as a root. For
 now, I recommend you to join as a root because we will maintain the
 system for a while. But for future, always use regular user for common
-tasks and when you need root privilegies, use <tt class="docutils literal"><span class="pre">sudo</span></tt> command. So,
+tasks and when you need root privileges., use <tt class="docutils literal"><span class="pre">sudo</span></tt> command. So,
 username is <tt class="docutils literal"><span class="pre">root</span></tt> and password is the one you specified in the past.
 If you forgot it, you can again boot up from USB flash, arch chroot and
 change it.</p>
 </div>
 <div class="section" id="setting-connection">
-<h3>1.2.2. Setting connection<a class="headerlink" href="#setting-connection" title="Permalink to this headline">¶</a></h3>
-<p>We will setup simple connection manager, which will autoconnect to known
-wifi networks and autoconnect if you plug in a ethernet cable. If you&#8217;ll
-want to connect to new yet unknown wifi network, you will use
-<tt class="docutils literal"><span class="pre">wifi-menu</span></tt>.</p>
-<p>So now connect to internet using <tt class="docutils literal"><span class="pre">wifi-menu</span></tt>. Now we will enable
+<h3>Setting connection<a class="headerlink" href="#setting-connection" title="Permalink to this headline">¶</a></h3>
+<p>We will set up simple connection manager, which will auto connect to known
+Wi-Fi networks and auto connect if you plug in a ethernet cable. If you&#8217;ll
+want to connect to new yet unknown Wi-Fi network, you will use
+<tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt>.</p>
+<p>So now connect to internet using <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt>. Now we will enable
 networking daemon (things which runs silently on the background) to
-start after boot. For that we&#8217;ll need how is your wifi or ethernet
+start after boot. For that we&#8217;ll need how is your Wi-Fi or ethernet
 device inside your laptop called. We can find it by typing <tt class="docutils literal"><span class="pre">ip</span> <span class="pre">addr</span></tt>.
 Output should be similar to this:</p>
 <div class="highlight-python"><div class="highlight"><pre>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default
@@ -223,13 +223,13 @@ Output should be similar to this:</p>
 <p>Now we are ready to start autoconnect to known networks. Let&#8217;s do that
 by <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">netctl-auto&#64;wlp3s0</span></tt> and
 <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">netctl-ifplugd&#64;enp2s0</span></tt>. That&#8217;s it. Now, if you wan&#8217;t
-to connect to unknown wifi, just type (needs root) <tt class="docutils literal"><span class="pre">wifi-menu</span></tt> and
+to connect to unknown Wi-Fi, just type (needs root) <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt> and
 when you want cable connection, just plug it in :) .</p>
 </div>
 <div class="section" id="graphic-enviroment">
-<h3>1.2.3. Graphic enviroment<a class="headerlink" href="#graphic-enviroment" title="Permalink to this headline">¶</a></h3>
+<h3>Graphic enviroment<a class="headerlink" href="#graphic-enviroment" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="installing-i3">
-<h4>1.2.3.1. Installing i3<a class="headerlink" href="#installing-i3" title="Permalink to this headline">¶</a></h4>
+<h4>Installing i3<a class="headerlink" href="#installing-i3" title="Permalink to this headline">¶</a></h4>
 <p>As I sad before, we are going to use <a class="reference external" href="http://i3wm.org/">I3</a>. Take a
 look at there webpage and guide. For make it run we will need to install
 these <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">i3</span> <span class="pre">dmenu</span> <span class="pre">xorg</span> <span class="pre">xorg-xinit</span></tt>. It might ask you about
@@ -267,7 +267,7 @@ enviroment) Xorg is running on seventh tty. In our case it will be the
 first one.</p>
 </div>
 <div class="section" id="configuring-i3-status-bar">
-<h4>1.2.3.2. Configuring i3 status bar<a class="headerlink" href="#configuring-i3-status-bar" title="Permalink to this headline">¶</a></h4>
+<h4>Configuring i3 status bar<a class="headerlink" href="#configuring-i3-status-bar" title="Permalink to this headline">¶</a></h4>
 <p>i3status bar is just what is is - status bar. After install you need to
 edit it a bit. It&#8217;s located in <tt class="docutils literal"><span class="pre">~/.i3status</span></tt>. Usually it is necessary
 to adjust these: <strong>battery</strong> You have to find out <strong>number* of your
@@ -280,7 +280,7 @@ type <tt class="docutils literal"><span class="pre">ip</span> <span class="pre">
 keep it as is :) ) .</p>
 </div>
 <div class="section" id="installing-terminal">
-<h4>1.2.3.3. Installing terminal<a class="headerlink" href="#installing-terminal" title="Permalink to this headline">¶</a></h4>
+<h4>Installing terminal<a class="headerlink" href="#installing-terminal" title="Permalink to this headline">¶</a></h4>
 <p>My choice of terminal with i3 is
 <a class="reference external" href="https://wiki.archlinux.org/index.php/rxvt-unicode">urxvt</a>. Let&#8217;s
 install it: <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">rxvt-unicode</span> <span class="pre">rxvt-unicode-terminfo</span></tt>.
@@ -361,7 +361,7 @@ There you can type program you&#8217;d like to run and press entre. Open urxvt
 for now :) .</p>
 </div>
 <div class="section" id="install-yaourt-and-aur">
-<h4>1.2.3.4. Install yaourt and AUR<a class="headerlink" href="#install-yaourt-and-aur" title="Permalink to this headline">¶</a></h4>
+<h4>Install yaourt and AUR<a class="headerlink" href="#install-yaourt-and-aur" title="Permalink to this headline">¶</a></h4>
 <p>Archlinux has several <a class="reference external" href="https://wiki.archlinux.org/index.php/The_Arch_Linux_Repositories">official
 repositories</a>
 and also unofficial <a class="reference external" href="https://wiki.archlinux.org/index.php/AUR">AUR</a>.
@@ -387,7 +387,7 @@ be aware of that!</p>
 </div>
 </div>
 <div class="section" id="some-other-usefull-packages-to-make-system-usefull">
-<h3>1.2.4. Some other usefull packages to make system usefull<a class="headerlink" href="#some-other-usefull-packages-to-make-system-usefull" title="Permalink to this headline">¶</a></h3>
+<h3>Some other usefull packages to make system usefull<a class="headerlink" href="#some-other-usefull-packages-to-make-system-usefull" title="Permalink to this headline">¶</a></h3>
 <p><strong>Office suite</strong> My choice of office suite (alternative to MS Office) is
 Libre office.
 <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">libreoffice-writer</span> <span class="pre">libreoffice-calc</span> <span class="pre">libreoffice-impress</span></tt>.
@@ -411,11 +411,11 @@ web-browser and can&#8217;t run graphical enviroment. <strong>Console based file
 manager</strong> <tt class="docutils literal"><span class="pre">ranger</span></tt> - vim like bindings, tabs, written in python and
 fast file manager? YES! <strong>media player</strong> <tt class="docutils literal"><span class="pre">vlc</span></tt> should be sufficient.</p>
 <div class="section" id="fonts">
-<h4>1.2.4.1. Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h4>
+<h4>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h4>
 <p>Install <tt class="docutils literal"><span class="pre">ttf-dejavu</span> <span class="pre">ttf-inconsolata</span></tt>.</p>
 </div>
 <div class="section" id="nice-look-of-gtk2-apps">
-<h4>1.2.4.2. Nice look of GTK2 apps<a class="headerlink" href="#nice-look-of-gtk2-apps" title="Permalink to this headline">¶</a></h4>
+<h4>Nice look of GTK2 apps<a class="headerlink" href="#nice-look-of-gtk2-apps" title="Permalink to this headline">¶</a></h4>
 <p>You maybe noticed that apps looks bit awfull. For configuration like
 this exists great tool called <tt class="docutils literal"><span class="pre">lxappearance</span></tt>. Install also simple
 greybird theme from AUR - so we&#8217;ll need to use yaourt:
@@ -425,9 +425,9 @@ greybird theme from AUR - so we&#8217;ll need to use yaourt:
 </div>
 </div>
 <div class="section" id="multiple-monitors">
-<h3>1.2.5. Multiple monitors<a class="headerlink" href="#multiple-monitors" title="Permalink to this headline">¶</a></h3>
+<h3>Multiple monitors<a class="headerlink" href="#multiple-monitors" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="arandr-xrandr">
-<h4>1.2.5.1. arandr (xrandr)<a class="headerlink" href="#arandr-xrandr" title="Permalink to this headline">¶</a></h4>
+<h4>arandr (xrandr)<a class="headerlink" href="#arandr-xrandr" title="Permalink to this headline">¶</a></h4>
 <p>For multiple monitor configuration I love app called <tt class="docutils literal"><span class="pre">arandr</span></tt>. Install
 it :) . Now just run it and you should be able to configure layouts,
 positions, resolutions etc. as you wish. You can even save your layout.</p>
@@ -439,7 +439,7 @@ notebook monitor is as follows:
 This knowledge will be usefull in next chapter.</p>
 </div>
 <div class="section" id="automatically-detect-dis-connected-monitor-and-change-layout">
-<h4>1.2.5.2. Automatically detect (dis)connected monitor and change layout<a class="headerlink" href="#automatically-detect-dis-connected-monitor-and-change-layout" title="Permalink to this headline">¶</a></h4>
+<h4>Automatically detect (dis)connected monitor and change layout<a class="headerlink" href="#automatically-detect-dis-connected-monitor-and-change-layout" title="Permalink to this headline">¶</a></h4>
 <p>There is <strong>low level</strong> thing called <tt class="docutils literal"><span class="pre">udev</span></tt> which cares about
 everything what you connect to your PC. We will tell it to run a script,
 which has script for <tt class="docutils literal"><span class="pre">xrandr</span></tt>.</p>
@@ -479,14 +479,14 @@ of <tt class="docutils literal"><span class="pre">exec</span> <span class="pre">
 </div>
 </div>
 <div class="section" id="bluetooth">
-<h4>1.2.5.3. Bluetooth<a class="headerlink" href="#bluetooth" title="Permalink to this headline">¶</a></h4>
+<h4>Bluetooth<a class="headerlink" href="#bluetooth" title="Permalink to this headline">¶</a></h4>
 <p>Use <tt class="docutils literal"><span class="pre">bluez</span></tt> and <tt class="docutils literal"><span class="pre">bluez-utils</span></tt>. Configuration and usage is on the
 Arch wiki. But be aware of the fact that <tt class="docutils literal"><span class="pre">bluez</span></tt> and generally
 bluetooth on linux is TERRIBLY document. <tt class="docutils literal"><span class="pre">bluez</span></tt> hasn&#8217;t it&#8217;s own
 documentation and all you can get is old mailing list. UAAAAA!!!</p>
 </div>
 <div class="section" id="some-other-tunnies">
-<h4>1.2.5.4. Some other tunnies<a class="headerlink" href="#some-other-tunnies" title="Permalink to this headline">¶</a></h4>
+<h4>Some other tunnies<a class="headerlink" href="#some-other-tunnies" title="Permalink to this headline">¶</a></h4>
 <p><strong>Nicer look of Java aplications and colors in manual pages and less</strong>
 open <tt class="docutils literal"><span class="pre">.zshenv</span></tt> and add:</p>
 <div class="highlight-python"><div class="highlight"><pre>export _JAVA_OPTIONS=&#39;-Dawt.useSystemAAFontSettings=on&#39;
@@ -511,7 +511,7 @@ them. Install <tt class="docutils literal"><span class="pre">vim-systemd</span><
 </div>
 </div>
 <div class="section" id="automounting-discs-mounting-and-umounting-as-normal-user">
-<h2>1.3. Automounting discs, mounting and umounting as normal user<a class="headerlink" href="#automounting-discs-mounting-and-umounting-as-normal-user" title="Permalink to this headline">¶</a></h2>
+<h2>Automounting discs, mounting and umounting as normal user<a class="headerlink" href="#automounting-discs-mounting-and-umounting-as-normal-user" title="Permalink to this headline">¶</a></h2>
 <p>We will use <tt class="docutils literal"><span class="pre">devmon</span></tt>, which is part of <tt class="docutils literal"><span class="pre">udevil</span></tt> package. Add this
 line to <tt class="docutils literal"><span class="pre">~/.i3/config</span></tt>:</p>
 <div class="highlight-python"><div class="highlight"><pre>exec --no-startup-id &quot;devmon --no-gui&quot;
@@ -523,22 +523,22 @@ removable devices type <tt class="docutils literal"><span class="pre">devmon</sp
 <tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">--mount</span> <span class="pre">/dev/sdb1</span></tt> (change of course <tt class="docutils literal"><span class="pre">sdb1</span></tt>. Use
 <tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">-h</span></tt> for help.</p>
 <div class="section" id="writing-to-ntfs-discs">
-<h3>1.3.1. Writing to NTFS discs<a class="headerlink" href="#writing-to-ntfs-discs" title="Permalink to this headline">¶</a></h3>
+<h3>Writing to NTFS discs<a class="headerlink" href="#writing-to-ntfs-discs" title="Permalink to this headline">¶</a></h3>
 <p>To have possibility to write to NTFS formated drives is good to install
 <tt class="docutils literal"><span class="pre">ntfs-3g</span></tt>. Next on Arch wiki :) .</p>
 </div>
 <div class="section" id="power-control-and-power-consumption">
-<h3>1.3.2. Power control and power consumption<a class="headerlink" href="#power-control-and-power-consumption" title="Permalink to this headline">¶</a></h3>
+<h3>Power control and power consumption<a class="headerlink" href="#power-control-and-power-consumption" title="Permalink to this headline">¶</a></h3>
 <p>For laptops there is great tool called
 <a class="reference external" href="https://wiki.archlinux.org/index.php/TLP">tlp</a>. <tt class="docutils literal"><span class="pre">powertop</span></tt> can be
 also handy, but don&#8217;t trust it too much...</p>
 </div>
 <div class="section" id="backups">
-<h3>1.3.3. Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h3>
+<h3>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h3>
 <p>TODO - same as RPI</p>
 </div>
 <div class="section" id="sound">
-<h3>1.3.4. Sound<a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h3>
+<h3>Sound<a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h3>
 <p>To allow sound, install
 <tt class="docutils literal"><span class="pre">alsa-firmware</span> <span class="pre">alsa-utils</span> <span class="pre">alsa-plugins</span> <span class="pre">pulseaudio-alsa</span> <span class="pre">pulseaudio</span></tt>. It
 usually works out of the box, but is necessary run pulseaudio. Add this
@@ -560,7 +560,7 @@ volume master {
 </div>
 </div>
 <div class="section" id="using-spare-memory-for-browser-cache">
-<h3>1.3.5. Using spare memory for browser cache<a class="headerlink" href="#using-spare-memory-for-browser-cache" title="Permalink to this headline">¶</a></h3>
+<h3>Using spare memory for browser cache<a class="headerlink" href="#using-spare-memory-for-browser-cache" title="Permalink to this headline">¶</a></h3>
 <p>If you have spare memory (RAM), it&#8217;s bad :D . Use it for something. It&#8217;s
 a pitty it isn&#8217;t used for something useful - like adding cache from
 browser to it.</p>
@@ -581,48 +581,48 @@ it&#8217;s slow. To do this, follow these links:
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">1. Instaling Arch linux on laptop and how to make it usable</a><ul>
-<li><a class="reference internal" href="#instalation">1.1. Instalation</a><ul>
-<li><a class="reference internal" href="#primary-installation">1.1.1. Primary installation</a><ul>
-<li><a class="reference internal" href="#partitioning">1.1.1.1. Partitioning</a></li>
-<li><a class="reference internal" href="#installing-arch">1.1.1.2. Installing Arch</a></li>
-<li><a class="reference internal" href="#post-install">1.1.1.3. Post install</a></li>
-<li><a class="reference internal" href="#change-root-settings">1.1.1.4. Change root settings</a></li>
-<li><a class="reference internal" href="#bootloader">1.1.1.5. Bootloader</a></li>
+<li><a class="reference internal" href="#">Installing Arch Linux on laptop and how to make it usable</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#primary-installation">Primary installation</a><ul>
+<li><a class="reference internal" href="#partitioning">Partitioning</a></li>
+<li><a class="reference internal" href="#installing-arch-linux">Installing Arch Linux</a></li>
+<li><a class="reference internal" href="#post-install">Post install</a></li>
+<li><a class="reference internal" href="#change-root-settings">Change root settings</a></li>
+<li><a class="reference internal" href="#bootloader">Bootloader</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#making-system-usable">1.2. Making system usable</a><ul>
-<li><a class="reference internal" href="#login-in">1.2.1. Login in</a></li>
-<li><a class="reference internal" href="#setting-connection">1.2.2. Setting connection</a></li>
-<li><a class="reference internal" href="#graphic-enviroment">1.2.3. Graphic enviroment</a><ul>
-<li><a class="reference internal" href="#installing-i3">1.2.3.1. Installing i3</a></li>
-<li><a class="reference internal" href="#configuring-i3-status-bar">1.2.3.2. Configuring i3 status bar</a></li>
-<li><a class="reference internal" href="#installing-terminal">1.2.3.3. Installing terminal</a></li>
-<li><a class="reference internal" href="#install-yaourt-and-aur">1.2.3.4. Install yaourt and AUR</a></li>
+<li><a class="reference internal" href="#making-system-usable">Making system usable</a><ul>
+<li><a class="reference internal" href="#login-in">Login in</a></li>
+<li><a class="reference internal" href="#setting-connection">Setting connection</a></li>
+<li><a class="reference internal" href="#graphic-enviroment">Graphic enviroment</a><ul>
+<li><a class="reference internal" href="#installing-i3">Installing i3</a></li>
+<li><a class="reference internal" href="#configuring-i3-status-bar">Configuring i3 status bar</a></li>
+<li><a class="reference internal" href="#installing-terminal">Installing terminal</a></li>
+<li><a class="reference internal" href="#install-yaourt-and-aur">Install yaourt and AUR</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#some-other-usefull-packages-to-make-system-usefull">1.2.4. Some other usefull packages to make system usefull</a><ul>
-<li><a class="reference internal" href="#fonts">1.2.4.1. Fonts</a></li>
-<li><a class="reference internal" href="#nice-look-of-gtk2-apps">1.2.4.2. Nice look of GTK2 apps</a></li>
+<li><a class="reference internal" href="#some-other-usefull-packages-to-make-system-usefull">Some other usefull packages to make system usefull</a><ul>
+<li><a class="reference internal" href="#fonts">Fonts</a></li>
+<li><a class="reference internal" href="#nice-look-of-gtk2-apps">Nice look of GTK2 apps</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#multiple-monitors">1.2.5. Multiple monitors</a><ul>
-<li><a class="reference internal" href="#arandr-xrandr">1.2.5.1. arandr (xrandr)</a></li>
-<li><a class="reference internal" href="#automatically-detect-dis-connected-monitor-and-change-layout">1.2.5.2. Automatically detect (dis)connected monitor and change layout</a></li>
-<li><a class="reference internal" href="#bluetooth">1.2.5.3. Bluetooth</a></li>
-<li><a class="reference internal" href="#some-other-tunnies">1.2.5.4. Some other tunnies</a></li>
+<li><a class="reference internal" href="#multiple-monitors">Multiple monitors</a><ul>
+<li><a class="reference internal" href="#arandr-xrandr">arandr (xrandr)</a></li>
+<li><a class="reference internal" href="#automatically-detect-dis-connected-monitor-and-change-layout">Automatically detect (dis)connected monitor and change layout</a></li>
+<li><a class="reference internal" href="#bluetooth">Bluetooth</a></li>
+<li><a class="reference internal" href="#some-other-tunnies">Some other tunnies</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#automounting-discs-mounting-and-umounting-as-normal-user">1.3. Automounting discs, mounting and umounting as normal user</a><ul>
-<li><a class="reference internal" href="#writing-to-ntfs-discs">1.3.1. Writing to NTFS discs</a></li>
-<li><a class="reference internal" href="#power-control-and-power-consumption">1.3.2. Power control and power consumption</a></li>
-<li><a class="reference internal" href="#backups">1.3.3. Backups</a></li>
-<li><a class="reference internal" href="#sound">1.3.4. Sound</a></li>
-<li><a class="reference internal" href="#using-spare-memory-for-browser-cache">1.3.5. Using spare memory for browser cache</a></li>
+<li><a class="reference internal" href="#automounting-discs-mounting-and-umounting-as-normal-user">Automounting discs, mounting and umounting as normal user</a><ul>
+<li><a class="reference internal" href="#writing-to-ntfs-discs">Writing to NTFS discs</a></li>
+<li><a class="reference internal" href="#power-control-and-power-consumption">Power control and power consumption</a></li>
+<li><a class="reference internal" href="#backups">Backups</a></li>
+<li><a class="reference internal" href="#sound">Sound</a></li>
+<li><a class="reference internal" href="#using-spare-memory-for-browser-cache">Using spare memory for browser cache</a></li>
 </ul>
 </li>
 </ul>
@@ -630,8 +630,8 @@ it&#8217;s slow. To do this, follow these links:
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../index.html"
-                        title="previous chapter">Welcome to tutos&#8217;s documentation!</a></p>
+  <p class="topless"><a href="ndg.html"
+                        title="previous chapter">Deploying nginx + django + python 3</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="RPi.html"
                         title="next chapter">2. Making Raspberry Pi usable</a></p>
@@ -667,7 +667,7 @@ it&#8217;s slow. To do this, follow these links:
           <a href="RPi.html" title="2. Making Raspberry Pi usable"
              >next</a> |</li>
         <li class="right" >
-          <a href="../index.html" title="Welcome to tutos’s documentation!"
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
              >previous</a> |</li>
         <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
       </ul>
