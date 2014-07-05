@@ -1,5 +1,5 @@
-tutos
-=====
+CURRENTLY IN PROGRESS! - 2 HOURS - tutos
+===========================================
 
 This repository is for tutorials and guides about Archlinux in general and also about Archlinux ARM on RPi specific configuration. 
 
