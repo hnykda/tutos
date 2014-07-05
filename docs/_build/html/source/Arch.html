@@ -1,0 +1,680 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installing Arch Linux on laptop and how to make it usable &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
+    <link rel="next" title="Making Raspberry Pi usable" href="RPi.html" />
+    <link rel="prev" title="Deploying nginx + django + python 3" href="ndg.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="RPi.html" title="Making Raspberry Pi usable"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installing-arch-linux-on-laptop-and-how-to-make-it-usable">
+<h1>Installing Arch Linux on laptop and how to make it usable<a class="headerlink" href="#installing-arch-linux-on-laptop-and-how-to-make-it-usable" title="Permalink to this headline">¶</a></h1>
+<p>In this tutorial I&#8217;d like to cover all steps from installing Arch Linux
+OS to stable, secure, and working system with working Wi-Fi, windows
+manager (i3) etc.</p>
+<p>All my current configs are in this repository. Feel free to inspire from
+them (as I did from others).</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>There are tons of step-by-step guides how to install Arch so I will not
+go to deep here. Just look here: . Anyway, short summary:</p>
+<div class="section" id="primary-installation">
+<h3>Primary installation<a class="headerlink" href="#primary-installation" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="partitioning">
+<h4>Partitioning<a class="headerlink" href="#partitioning" title="Permalink to this headline">¶</a></h4>
+<p>You have to prepare disc(s) where you&#8217;ll install Arch Linux. One disc
+can be separated to more partitions. I recommend you to use two partitions
+for Arch Linux. One for system and second for user data (alias &#8220;home
+directory&#8221;). You can of course have one or more - as you wish. In this
+tutorial I will use 2 partition. It doesn&#8217;t matter if there are next
+partitions with other systems (next Linux, Windows...). How big
+partitions should be? I recommend you 40GB-50GB for system and rest for
+home. The easiest way to partition is to use GParted. If you are using
+Linux, you can download from your distribution and make it from there.
+Of course, you&#8217;ll not be able to resize, create etc. partitions on disc
+which is currently used. In that case, or if you don&#8217;t have Linux, there
+is GParted life distribution - make a booting USB flash with that. In
+GParted you have to create two partitions with previously stated sizes
+and format them to file system &#8220;ext4&#8221;. Piece of cake. For convenience
+it&#8217;s fine to label them also (when you create partition, you can add
+label).</p>
+<p>There might be problem with your BIOS - it don&#8217;t have to has booting
+from USB flash as default. You need to change an order of priority in
+your BIOS (the &#8220;thing&#8221; before operating systems boots up). Google is
+your friend :) .</p>
+</div>
+<div class="section" id="installing-arch-linux">
+<h4>Installing Arch Linux<a class="headerlink" href="#installing-arch-linux" title="Permalink to this headline">¶</a></h4>
+<p>Now you have prepared disc for installation. Download last ISO of
+Arch Linux and make a booting USB flash with that. When you&#8217;ll be done
+with that, insert USB flash to PC and run it. It should boot up to
+Arch Linux prompt (terminal, console). Now we need to connect to the
+internet. You can use command <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt> or just plug in ethernet
+cable. To check if you are connect, try <tt class="docutils literal"><span class="pre">ping</span> <span class="pre">google.com</span></tt>. If you get
+response, it&#8217;s working. Now we need to join prepared partitions to
+currently running OS. Which are they? You can find it out by typing
+<tt class="docutils literal"><span class="pre">lsblk</span></tt>. There will be listed all partitions. You care about the two
+you partitioned earlier. You should recognize them thanks to the size.
+If you are not sure, you&#8217;ll find it out in a minute. In my case, there
+is /dev/sda5 for system (40GB) and /dev/sda6 for home. Of course it
+might differ from yours, so substitute it to your case. Do *
+<tt class="docutils literal"><span class="pre">mount</span> <span class="pre">/dev/sda5</span> <span class="pre">/mnt</span></tt> * check if it is empty <tt class="docutils literal"><span class="pre">ls</span> <span class="pre">/mnt</span></tt>. If you
+don&#8217;t see anything (or there is only something like <em>lost+found</em>), it&#8217;s
+our partition :). * Create directory for home <tt class="docutils literal"><span class="pre">mkdir</span> <span class="pre">/mnt/home</span></tt> *
+<tt class="docutils literal"><span class="pre">mount</span> <span class="pre">/dev/sda6</span> <span class="pre">/mnt/home</span></tt></p>
+<p>Now we can physically install Arch Linux. Type <tt class="docutils literal"><span class="pre">pacstrap</span> <span class="pre">/mnt</span> <span class="pre">base</span></tt> and
+waits. It will download and install packages.</p>
+</div>
+<div class="section" id="post-install">
+<h4>Post install<a class="headerlink" href="#post-install" title="Permalink to this headline">¶</a></h4>
+<p>Now we need to tell system which partition is system disc and which home
+partition. This will help us a little: <tt class="docutils literal"><span class="pre">genfstab</span></tt></p>
+<p>Link some zone info</p>
+<p>TODO</p>
+</div>
+<div class="section" id="change-root-settings">
+<h4>Change root settings<a class="headerlink" href="#change-root-settings" title="Permalink to this headline">¶</a></h4>
+<p>Now we will change root to new system - from the current one, which is
+the USB one, we will magically get to the new. This magic will happen by
+command: <tt class="docutils literal"><span class="pre">arch-chroot</span> <span class="pre">/mnt</span></tt>.</p>
+<p>We need to install packages for connecting to the internet as we did on
+the start of installation. For that, we will need these packages (which
+are included on this USB version, but not on installation):
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">dialog</span> <span class="pre">wpa_actiond</span> <span class="pre">ifplugd</span> <span class="pre">wpa_suppicant</span> <span class="pre">sudo</span> <span class="pre">zsh</span></tt> That
+should be sufficient for making Wi-Fi or wired connection in our new
+system, when we finish work from here. There are also two useful
+packages <em>sudo</em> and <em>zsh</em>. I will cover them in next paragraph.</p>
+<p>In Linux, there is always one user, which is equivalent to god. His name
+is &#8220;root&#8221;. You are currently login as him. We will change a password for
+him. Type <tt class="docutils literal"><span class="pre">passwd</span></tt> and set new password. We also want to add regular
+user (think about it as a god who is creating humans). This can be done
+by: <tt class="docutils literal"><span class="pre">useradd</span> <span class="pre">-m</span> <span class="pre">-G</span> <span class="pre">wheel</span> <span class="pre">-s</span> <span class="pre">/usr/bin/zsh</span> <span class="pre">username</span></tt>, where username is
+as you wish. I will use &#8220;bob&#8221; in next chapters as default user. There
+are also some other switches in command. <tt class="docutils literal"><span class="pre">-m</span></tt> is for creating bob&#8217;s
+sandbox for his files and <tt class="docutils literal"><span class="pre">-G</span></tt> to add him to the wheel group. Why?
+Remember installing sudo and mentioning root? It is better working as
+bob (being god all the time means a lot of responsibility), but
+sometimes has some superpowers as root has. Sudo will do it for as.
+<tt class="docutils literal"><span class="pre">sudo</span></tt> can grant you superusers privileges. More about it here. Now
+the wheel group. Every user, who is in wheel group, will have this
+ability to use sudo. Type: <tt class="docutils literal"><span class="pre">visudo</span></tt> and find this line:
+<tt class="docutils literal"><span class="pre">#</span> <span class="pre">%wheel</span> <span class="pre">ALL=(ALL)</span> <span class="pre">ALL</span></tt> and delete # character (for future reference,
+this means to &#8220;uncomment line&#8221;). It will look like this
+<tt class="docutils literal"><span class="pre">%wheel</span> <span class="pre">ALL=(ALL)</span> <span class="pre">ALL</span></tt>. Save and exit (in vim just press escape and
+<tt class="docutils literal"><span class="pre">:x</span></tt>). Next switch in creating command was <tt class="docutils literal"><span class="pre">-s</span> <span class="pre">/usr/bin/zsh</span></tt>. This
+will just save your time in terminal (where you&#8217;ll be a lot). Enough for
+now. We will make this also for root by <tt class="docutils literal"><span class="pre">chsh</span> <span class="pre">-s</span> <span class="pre">/usr/bin/zsh</span></tt>. Last
+thing - we need to set password for bob. Do it by typing <tt class="docutils literal"><span class="pre">passwd</span> <span class="pre">bob</span></tt>.</p>
+</div>
+<div class="section" id="bootloader">
+<h4>Bootloader<a class="headerlink" href="#bootloader" title="Permalink to this headline">¶</a></h4>
+<p>We need to tell to your PC what systems are installed and add you the
+ability to choose between them (windows, Linux(other distros)...). For that we will
+need one or two more packages <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">grub</span></tt>. If you have windows
+installed on other partitions, also install <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">os-prober</span></tt>.
+When you boot your PC there is APROXIMATELY this sequence: * BIOS - it
+then looks to the beginning of your disc for first part of GRUB * GRUB
+first stage - if it is found, GRUB takes control and then looks for
+other files with more informations and pass control to GRUB second stage
+* GRUB second stage - it gives you option to choose system you want to
+boot up and then kick it up * OS will boot up this is not precise, but
+sufficient for our purposes and to be honest, for 90% of what you need
+on <em>daily</em> basis (personally, I don&#8217;t know more than this :) ). BIOS is
+installed from factory. So our work is to install GRUB stages. Resolve
+which disc you want to use - I recommend you to use the first one,
+which is usually called /dev/sda. If you have only one disc in PC, it is
+this one :) .</p>
+<p><strong>CAUTION</strong> - notice that I&#8217;m not speaking about partition, in which
+case I&#8217;d need to add number after sda. First stage of GRUB is somehow
+&#8220;partition&#8221; independent. OK, now install it:
+<tt class="docutils literal"><span class="pre">grub-install</span> <span class="pre">--target=i386-pc</span> <span class="pre">--recheck</span> <span class="pre">/dev/sda</span></tt> again - now number
+after sda. Of course, change <strong>a</strong> to your case. Now we need to install
+second stage of GRUB. It will be to the current system partition, so run
+<tt class="docutils literal"><span class="pre">grub-mkconfig</span> <span class="pre">-o</span> <span class="pre">/boot/grub/grub.cfg</span></tt>. Now you are ready to restart
+your PC. Do it by typing <tt class="docutils literal"><span class="pre">shutdown</span> <span class="pre">now</span></tt>, plug off USB flash and turn
+PC on again. If everything went well, you should be in white-black
+window with names of available systems. Choose Arch, of course. If not,
+just boot again from USB flash, mount system partitions with already
+installed system, arch-chroot inside it and try installing grub again or
+find what went wrong. Don&#8217;t panic :).</p>
+</div>
+</div>
+</div>
+<div class="section" id="making-system-usable">
+<h2>Making system usable<a class="headerlink" href="#making-system-usable" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="login-in">
+<h3>Login in<a class="headerlink" href="#login-in" title="Permalink to this headline">¶</a></h3>
+<p>You should be looking to the Arch Linux console with asking for username
+and password. You have two options now: sign in as bob or as a root. For
+now, I recommend you to join as a root because we will maintain the
+system for a while. But for future, always use regular user for common
+tasks and when you need root privileges., use <tt class="docutils literal"><span class="pre">sudo</span></tt> command. So,
+username is <tt class="docutils literal"><span class="pre">root</span></tt> and password is the one you specified in the past.
+If you forgot it, you can again boot up from USB flash, arch chroot and
+change it.</p>
+</div>
+<div class="section" id="setting-connection">
+<h3>Setting connection<a class="headerlink" href="#setting-connection" title="Permalink to this headline">¶</a></h3>
+<p>We will set up simple connection manager, which will auto connect to known
+Wi-Fi networks and auto connect if you plug in a ethernet cable. If you&#8217;ll
+want to connect to new yet unknown Wi-Fi network, you will use
+<tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt>.</p>
+<p>So now connect to internet using <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt>. Now we will enable
+networking daemon (things which runs silently on the background) to
+start after boot. For that we&#8217;ll need how is your Wi-Fi or ethernet
+device inside your laptop called. We can find it by typing <tt class="docutils literal"><span class="pre">ip</span> <span class="pre">addr</span></tt>.
+Output should be similar to this:</p>
+<div class="highlight-python"><div class="highlight"><pre>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: enp2s0: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc pfifo_fast state DOWN group default qlen 1000
+    link/ether e8:03:9a:97:b5:a7 brd ff:ff:ff:ff:ff:ff
+3: wlp1s0: &lt;BROADCAST,MULTICAST&gt; mtu 1500 qdisc mq state DOWN group default qlen 1000
+    link/ether 88:53:2e:c1:e4:d1 brd ff:ff:ff:ff:ff:ff
+</pre></div>
+</div>
+<p>you care about the two of them, which starts with <tt class="docutils literal"><span class="pre">wlp...</span></tt> and
+<tt class="docutils literal"><span class="pre">enp...</span></tt>. Let&#8217;s say it&#8217;s <tt class="docutils literal"><span class="pre">enp2s0</span></tt> and <tt class="docutils literal"><span class="pre">wlp3s0</span></tt>.</p>
+<p>Now we are ready to start autoconnect to known networks. Let&#8217;s do that
+by <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">netctl-auto&#64;wlp3s0</span></tt> and
+<tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">netctl-ifplugd&#64;enp2s0</span></tt>. That&#8217;s it. Now, if you wan&#8217;t
+to connect to unknown Wi-Fi, just type (needs root) <tt class="docutils literal"><span class="pre">Wi-Fi-menu</span></tt> and
+when you want cable connection, just plug it in :) .</p>
+</div>
+<div class="section" id="graphic-enviroment">
+<h3>Graphic enviroment<a class="headerlink" href="#graphic-enviroment" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="installing-i3">
+<h4>Installing i3<a class="headerlink" href="#installing-i3" title="Permalink to this headline">¶</a></h4>
+<p>As I sad before, we are going to use <a class="reference external" href="http://i3wm.org/">I3</a>. Take a
+look at there webpage and guide. For make it run we will need to install
+these <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">i3</span> <span class="pre">dmenu</span> <span class="pre">xorg</span> <span class="pre">xorg-xinit</span></tt>. It might ask you about
+some choices - just install anything. It isn&#8217;t necessary to have all
+crap from Xorg, but to figure out which is and which isn&#8217;t needed is
+just pain (<a class="reference external" href="http://wayland.freedesktop.org/">wayland</a> should solve
+this in near future). If it asks you about installing i3-status, approve
+it. Xorg is used for all advance displaing in linux. i3 needs it also.
+When you run a graphic enviroment anywhere on linux, it means that Xorg
+is runned and than there might be some windows managers etc. So now we
+just tell Xorg to run i3 after it&#8217;s start. To do that, we will edit this
+file: <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">~/.xinitrc</span></tt> to this:</p>
+<div class="highlight-python"><div class="highlight"><pre>#! /bin/bash
+exec i3
+</pre></div>
+</div>
+<p>this should be sufficient. Since now, you can start i3 by typing
+<tt class="docutils literal"><span class="pre">startx</span></tt> (try it :) ). To quit from i3 back to console press
+Windows+Shift+E or Ctrl+Alt+Del. How to actually use i3 we will cover in
+next part.</p>
+<p>We&#8217;d like to start i3 (<tt class="docutils literal"><span class="pre">startx</span></tt>) after logging in after boot. Open
+file <tt class="docutils literal"><span class="pre">/etc/profile</span></tt> and add there this:</p>
+<div class="highlight-python"><div class="highlight"><pre># autostart systemd default session on tty1
+if [[ &quot;$(tty)&quot; == &#39;/dev/tty1&#39; ]]; then
+    exec startx
+fi
+</pre></div>
+</div>
+<p>What this does? Next time you reboot your computer and you log in with
+your username and password, i3 will start :) . If you don&#8217;t want to
+start i3 and you just need console (or i3 is broken), you can just
+change <a class="reference external" href="http://www.ehow.com/how_7765949_switch-tty.html">tty</a>. Linux
+has by default 7 of them. In majority of distributions with DE (desktop
+enviroment) Xorg is running on seventh tty. In our case it will be the
+first one.</p>
+</div>
+<div class="section" id="configuring-i3-status-bar">
+<h4>Configuring i3 status bar<a class="headerlink" href="#configuring-i3-status-bar" title="Permalink to this headline">¶</a></h4>
+<p>i3status bar is just what is is - status bar. After install you need to
+edit it a bit. It&#8217;s located in <tt class="docutils literal"><span class="pre">~/.i3status</span></tt>. Usually it is necessary
+to adjust these: <strong>battery</strong> You have to find out <strong>number* of your
+battery. Type ``ls /sys/class/power_supply``. It should show something
+like ``ADP1 BAT1``. Number after ``BAT`` is you lucky number. Usually
+it&#8217;s 1 or 0. **wireless and ethernet device name</strong> Here you need to
+replace <tt class="docutils literal"><span class="pre">wlan0</span></tt> and <tt class="docutils literal"><span class="pre">eth0</span></tt> with ones you have. To find it out again
+type <tt class="docutils literal"><span class="pre">ip</span> <span class="pre">addr</span></tt>. There should be something like <tt class="docutils literal"><span class="pre">wlp1s0</span></tt> and
+<tt class="docutils literal"><span class="pre">enp2s0</span></tt> (on older distros there is still wlan0 or eth0 - in that case
+keep it as is :) ) .</p>
+</div>
+<div class="section" id="installing-terminal">
+<h4>Installing terminal<a class="headerlink" href="#installing-terminal" title="Permalink to this headline">¶</a></h4>
+<p>My choice of terminal with i3 is
+<a class="reference external" href="https://wiki.archlinux.org/index.php/rxvt-unicode">urxvt</a>. Let&#8217;s
+install it: <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">rxvt-unicode</span> <span class="pre">rxvt-unicode-terminfo</span></tt>.
+<tt class="docutils literal"><span class="pre">terminfo</span></tt> is just for some compatibility issues with sshing and
+screen.</p>
+<p>Now configure it by opening <tt class="docutils literal"><span class="pre">~/.Xdefaults</span></tt>. Add this:</p>
+<div class="highlight-python"><div class="highlight"><pre>! urxvt
+
+URxvt*geometry:                115x40
+!URxvt*font: xft:Liberation Mono:pixelsize=14:antialias=false:hinting=true
+URxvt*font: xft:Inconsolata:pixelsize=17:antialias=true:hinting=true
+URxvt*boldFont: xft:Inconsolata:bold:pixelsize=17:antialias=false:hinting=true
+!URxvt*boldFont: xft:Liberation Mono:bold:pixelsize=14:antialias=false:hinting=true
+URxvt*depth:                24
+URxvt*borderless: 1
+URxvt*scrollBar:            false
+URxvt*saveLines:  2000
+URxvt.transparent:      true
+URxvt*.shading: 10
+
+! Meta modifier for keybindings
+!URxvt.modifier: super
+
+!! perl extensions
+URxvt.perl-ext:             default,url-select,clipboard
+
+! url-select (part of urxvt-perls package)
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.url-select.autocopy:  true
+URxvt.url-select.button:    2
+URxvt.url-select.launcher:  chromium
+URxvt.url-select.underline: true
+
+! Nastavuje kopirovani
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.keysym.Shift-Control-C:   perl:clipboard:copy
+
+! disable the stupid ctrl+shift &#39;feature&#39;
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+!urxvt color scheme:
+
+URxvt*background: #2B2B2B
+URxvt*foreground: #DEDEDE
+
+URxvt*colorUL: #86a2b0
+
+! black
+URxvt*color0  : #2E3436
+URxvt*color8  : #555753
+! red
+URxvt*color1  : #CC0000
+URxvt*color9  : #EF2929
+! green
+URxvt*color2  : #4E9A06
+URxvt*color10 : #8AE234
+! yellow
+URxvt*color3  : #C4A000
+URxvt*color11 : #FCE94F
+! blue
+URxvt*color4  : #3465A4
+URxvt*color12 : #729FCF
+! magenta
+URxvt*color5  : #75507B
+URxvt*color13 : #AD7FA8
+! cyan
+URxvt*color6  : #06989A
+URxvt*color14 : #34E2E2
+! white
+URxvt*color7  : #D3D7CF
+URxvt*color15 : #EEEEEC
+</pre></div>
+</div>
+<p>now you have nice looking terminal for i3. You can start i3 by
+<tt class="docutils literal"><span class="pre">startx</span></tt> and press <tt class="docutils literal"><span class="pre">Windows+d</span></tt> to open something like <strong>run promt</strong>.
+There you can type program you&#8217;d like to run and press entre. Open urxvt
+for now :) .</p>
+</div>
+<div class="section" id="install-yaourt-and-aur">
+<h4>Install yaourt and AUR<a class="headerlink" href="#install-yaourt-and-aur" title="Permalink to this headline">¶</a></h4>
+<p>Archlinux has several <a class="reference external" href="https://wiki.archlinux.org/index.php/The_Arch_Linux_Repositories">official
+repositories</a>
+and also unofficial <a class="reference external" href="https://wiki.archlinux.org/index.php/AUR">AUR</a>.
+It&#8217;s not trivial to install packages from there and there are helpers
+for that, such as <tt class="docutils literal"><span class="pre">yaourt</span></tt>, which is equivalent to pacman for oficial
+repos.</p>
+<p>In AUR are usefull packages as Oracle Java implementation, proprietary
+software, software which is used rarely etc.</p>
+<p>To install yaourt do this: * <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">base-devel</span> <span class="pre">wget</span></tt> *
+<tt class="docutils literal"><span class="pre">wget</span> <span class="pre">https://aur.archlinux.org/packages/pa/package-query/package-query.tar.gz</span></tt>
+* <tt class="docutils literal"><span class="pre">wget</span> <span class="pre">https://aur.archlinux.org/packages/ya/yaourt/yaourt.tar.gz</span></tt>
+* <tt class="docutils literal"><span class="pre">tar</span> <span class="pre">xvf</span> <span class="pre">package-query.tar.gz</span></tt> * <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">package-query</span></tt> *
+<tt class="docutils literal"><span class="pre">makepkg</span> <span class="pre">-s</span></tt> * <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-U</span> <span class="pre">package-query*</span></tt> *
+<tt class="docutils literal"><span class="pre">tar</span> <span class="pre">xvf</span> <span class="pre">yaourt.tar.gz</span></tt> * <tt class="docutils literal"><span class="pre">cd</span> <span class="pre">yaourt</span></tt> * <tt class="docutils literal"><span class="pre">makepkg</span> <span class="pre">-s</span></tt> *
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-U</span> <span class="pre">yaourt*</span></tt></p>
+<p>That&#8217;s it. We have installed <tt class="docutils literal"><span class="pre">yaourt</span></tt> and <tt class="docutils literal"><span class="pre">package-query</span></tt> from AUR
+and you see that it is not hard, but seems a bit...</p>
+<p>...ehh - long. Now, to install something from AUR, for example
+<tt class="docutils literal"><span class="pre">copy-agent</span></tt>, just type: <tt class="docutils literal"><span class="pre">yaourt</span> <span class="pre">-S</span> <span class="pre">copy-agent</span></tt>. It will do all this
+for you :) . Why this is not allowed by default? It might be danger to
+install something from AUR, since everyone can add there something. So
+be aware of that!</p>
+</div>
+</div>
+<div class="section" id="some-other-usefull-packages-to-make-system-usefull">
+<h3>Some other usefull packages to make system usefull<a class="headerlink" href="#some-other-usefull-packages-to-make-system-usefull" title="Permalink to this headline">¶</a></h3>
+<p><strong>Office suite</strong> My choice of office suite (alternative to MS Office) is
+Libre office.
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">libreoffice-writer</span> <span class="pre">libreoffice-calc</span> <span class="pre">libreoffice-impress</span></tt>.
+(I will not type <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span></tt> since now when I&#8217;ll talk about
+installing) <strong>PDF viewer</strong> I like lightweigt and fast viewer called
+<tt class="docutils literal"><span class="pre">zathura</span></tt>. Install <tt class="docutils literal"><span class="pre">zathura</span> <span class="pre">zathura-pdf-poppler</span></tt> <strong>Text editor</strong>
+Even I use <tt class="docutils literal"><span class="pre">vim</span></tt> for 90% of my work, sometimes is usefull to has
+simple graphic text editor. I&#8217;d recommend <tt class="docutils literal"><span class="pre">geany</span></tt>. <strong>Partitioning</strong>
+Just <tt class="docutils literal"><span class="pre">gparted</span></tt>. Great tool. <strong>FTP client</strong> <tt class="docutils literal"><span class="pre">filezilla</span></tt> <strong>Graphics</strong>
+For low level use <tt class="docutils literal"><span class="pre">imagemagick</span></tt>. For something <em>normal</em> use
+<tt class="docutils literal"><span class="pre">gpicview</span></tt>. Instead of photoshop use <tt class="docutils literal"><span class="pre">gimp</span></tt>. <strong>Analyzing processes
+etc.</strong> * <tt class="docutils literal"><span class="pre">htop</span></tt> - processes * <tt class="docutils literal"><span class="pre">iotop</span></tt> - writes to disk <strong>LaTex</strong>
+All you in most cases need is <tt class="docutils literal"><span class="pre">texlive-core</span></tt>. The rest is optional and
+install it only if you need it.</p>
+<p>For editor I&#8217;d recommend <tt class="docutils literal"><span class="pre">texmaker</span></tt> for beginners and <tt class="docutils literal"><span class="pre">texworks</span></tt> for
+the rest.</p>
+<p><strong>tree</strong> Try it in terminal :) . Show structure of current folder. To
+limit <em>level</em> type <tt class="docutils literal"><span class="pre">tree</span> <span class="pre">-L</span> <span class="pre">&lt;n&gt;</span></tt>. <strong>torrents</strong> <tt class="docutils literal"><span class="pre">transmission-gtk</span></tt></p>
+<p><strong>Console-based browser</strong> <tt class="docutils literal"><span class="pre">lynx</span></tt> - it can be handy when you need
+web-browser and can&#8217;t run graphical enviroment. <strong>Console based file
+manager</strong> <tt class="docutils literal"><span class="pre">ranger</span></tt> - vim like bindings, tabs, written in python and
+fast file manager? YES! <strong>media player</strong> <tt class="docutils literal"><span class="pre">vlc</span></tt> should be sufficient.</p>
+<div class="section" id="fonts">
+<h4>Fonts<a class="headerlink" href="#fonts" title="Permalink to this headline">¶</a></h4>
+<p>Install <tt class="docutils literal"><span class="pre">ttf-dejavu</span> <span class="pre">ttf-inconsolata</span></tt>.</p>
+</div>
+<div class="section" id="nice-look-of-gtk2-apps">
+<h4>Nice look of GTK2 apps<a class="headerlink" href="#nice-look-of-gtk2-apps" title="Permalink to this headline">¶</a></h4>
+<p>You maybe noticed that apps looks bit awfull. For configuration like
+this exists great tool called <tt class="docutils literal"><span class="pre">lxappearance</span></tt>. Install also simple
+greybird theme from AUR - so we&#8217;ll need to use yaourt:
+<tt class="docutils literal"><span class="pre">yaourt</span> <span class="pre">-S</span> <span class="pre">xfce-theme-greybird</span></tt>.</p>
+<p>Now just open <tt class="docutils literal"><span class="pre">lxappearance</span></tt> (by typing <tt class="docutils literal"><span class="pre">Win+d</span></tt> and
+<tt class="docutils literal"><span class="pre">lxappearance</span></tt>) and set greybird as default theme.</p>
+</div>
+</div>
+<div class="section" id="multiple-monitors">
+<h3>Multiple monitors<a class="headerlink" href="#multiple-monitors" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="arandr-xrandr">
+<h4>arandr (xrandr)<a class="headerlink" href="#arandr-xrandr" title="Permalink to this headline">¶</a></h4>
+<p>For multiple monitor configuration I love app called <tt class="docutils literal"><span class="pre">arandr</span></tt>. Install
+it :) . Now just run it and you should be able to configure layouts,
+positions, resolutions etc. as you wish. You can even save your layout.</p>
+<p><tt class="docutils literal"><span class="pre">arandr</span></tt> is just a frontend gui for <tt class="docutils literal"><span class="pre">xrandr</span></tt>. It means that
+<em>clicking with mouse</em> is converted into shell command, which is send to
+<tt class="docutils literal"><span class="pre">xrandr</span></tt>. Command for setting HDMI1 connected monitor to right next to
+notebook monitor is as follows:
+<tt class="docutils literal"><span class="pre">xrandr</span> <span class="pre">--output</span> <span class="pre">HDMI1</span> <span class="pre">--right-of</span> <span class="pre">LVDS1</span> <span class="pre">--preferred</span> <span class="pre">--primary</span> <span class="pre">--output</span> <span class="pre">LVDS1</span> <span class="pre">--preferred</span></tt>.
+This knowledge will be usefull in next chapter.</p>
+</div>
+<div class="section" id="automatically-detect-dis-connected-monitor-and-change-layout">
+<h4>Automatically detect (dis)connected monitor and change layout<a class="headerlink" href="#automatically-detect-dis-connected-monitor-and-change-layout" title="Permalink to this headline">¶</a></h4>
+<p>There is <strong>low level</strong> thing called <tt class="docutils literal"><span class="pre">udev</span></tt> which cares about
+everything what you connect to your PC. We will tell it to run a script,
+which has script for <tt class="docutils literal"><span class="pre">xrandr</span></tt>.</p>
+<p>Create this file <tt class="docutils literal"><span class="pre">/etc/udev/rules.d/95-monitor-hotplug.rules</span></tt> and add
+this:</p>
+<div class="highlight-python"><div class="highlight"><pre>#Rule for executing commands when an external screen is plugged in.
+KERNEL==&quot;card0&quot;, SUBSYSTEM==&quot;drm&quot;, ENV{DISPLAY}=&quot;:0&quot;, ENV{XAUTHORITY}=&quot;/home/dan/.Xauthority&quot;, RUN+=&quot;/usr/local/bin/hotplug_monitor.sh&quot;
+</pre></div>
+</div>
+<p>Now we need create <tt class="docutils literal"><span class="pre">/usr/local/bin/hotplug_monitor.sh</span></tt> with this
+content:</p>
+<div class="highlight-python"><div class="highlight"><pre>#! /usr/bin/bash
+# Sets right perspective when monitor is plugged in
+# Needed by udev rule /etc/udev/rules.d/95-hotplug-monitor
+export DISPLAY=:0
+export XAUTHORITY=/home/USERNAME/.Xauthority
+
+function connect(){
+    xrandr --output HDMI1 --right-of LVDS1 --preferred --primary --output LVDS1 --preferred
+}
+
+function disconnect(){
+      xrandr --output HDMI1 --off
+}
+
+xrandr | grep &quot;HDMI1 connected&quot; &amp;&gt; /dev/null &amp;&amp; connect || disconnect
+</pre></div>
+</div>
+<p><strong>CAUTION</strong> This script is set for my layout, where LVDS1 is my laptop
+display and second monitor is connected by HDM1 (and is on the right of
+LVDS). You need to adjust it to your case.</p>
+<p>If you connect your monitor before boot, there might not be &#8220;change&#8221;
+which would cause this script to run. To solve it add this line in front
+of <tt class="docutils literal"><span class="pre">exec</span> <span class="pre">i3</span></tt> to <tt class="docutils literal"><span class="pre">~/.xinitrc</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre>/usr/local/bin/hotplug_monitor.sh &amp;
+</pre></div>
+</div>
+</div>
+<div class="section" id="bluetooth">
+<h4>Bluetooth<a class="headerlink" href="#bluetooth" title="Permalink to this headline">¶</a></h4>
+<p>Use <tt class="docutils literal"><span class="pre">bluez</span></tt> and <tt class="docutils literal"><span class="pre">bluez-utils</span></tt>. Configuration and usage is on the
+Arch wiki. But be aware of the fact that <tt class="docutils literal"><span class="pre">bluez</span></tt> and generally
+bluetooth on linux is TERRIBLY document. <tt class="docutils literal"><span class="pre">bluez</span></tt> hasn&#8217;t it&#8217;s own
+documentation and all you can get is old mailing list. UAAAAA!!!</p>
+</div>
+<div class="section" id="some-other-tunnies">
+<h4>Some other tunnies<a class="headerlink" href="#some-other-tunnies" title="Permalink to this headline">¶</a></h4>
+<p><strong>Nicer look of Java aplications and colors in manual pages and less</strong>
+open <tt class="docutils literal"><span class="pre">.zshenv</span></tt> and add:</p>
+<div class="highlight-python"><div class="highlight"><pre>export _JAVA_OPTIONS=&#39;-Dawt.useSystemAAFontSettings=on&#39;
+export EDITOR=/usr/bin/vim
+
+# Coloring less command
+export LESS=-R
+export LESS_TERMCAP_me=$(printf &#39;\e[0m&#39;)
+export LESS_TERMCAP_se=$(printf &#39;\e[0m&#39;)
+export LESS_TERMCAP_ue=$(printf &#39;\e[0m&#39;)
+export LESS_TERMCAP_mb=$(printf &#39;\e[1;32m&#39;)
+export LESS_TERMCAP_md=$(printf &#39;\e[1;34m&#39;)
+export LESS_TERMCAP_us=$(printf &#39;\e[1;32m&#39;)
+export LESS_TERMCAP_so=$(printf &#39;\e[1;44;1m&#39;)
+</pre></div>
+</div>
+<p><strong>bash/zsh competition</strong> Maybe you&#8217;ve find out that if you type start of
+some command, zsh will help you to finish it if you hit <strong>TAB</strong> key.
+It&#8217;s not supported for all commands, so add it at least for some of
+them. Install <tt class="docutils literal"><span class="pre">vim-systemd</span></tt>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="automounting-discs-mounting-and-umounting-as-normal-user">
+<h2>Automounting discs, mounting and umounting as normal user<a class="headerlink" href="#automounting-discs-mounting-and-umounting-as-normal-user" title="Permalink to this headline">¶</a></h2>
+<p>We will use <tt class="docutils literal"><span class="pre">devmon</span></tt>, which is part of <tt class="docutils literal"><span class="pre">udevil</span></tt> package. Add this
+line to <tt class="docutils literal"><span class="pre">~/.i3/config</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>exec --no-startup-id &quot;devmon --no-gui&quot;
+</pre></div>
+</div>
+<p>this will run this daemon which will take care about it for us.</p>
+<p>To unmount most recently mounted disc type <tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">-c</span></tt>. To umount all
+removable devices type <tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">-r</span></tt>. To mount connected disc type
+<tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">--mount</span> <span class="pre">/dev/sdb1</span></tt> (change of course <tt class="docutils literal"><span class="pre">sdb1</span></tt>. Use
+<tt class="docutils literal"><span class="pre">devmon</span> <span class="pre">-h</span></tt> for help.</p>
+<div class="section" id="writing-to-ntfs-discs">
+<h3>Writing to NTFS discs<a class="headerlink" href="#writing-to-ntfs-discs" title="Permalink to this headline">¶</a></h3>
+<p>To have possibility to write to NTFS formated drives is good to install
+<tt class="docutils literal"><span class="pre">ntfs-3g</span></tt>. Next on Arch wiki :) .</p>
+</div>
+<div class="section" id="power-control-and-power-consumption">
+<h3>Power control and power consumption<a class="headerlink" href="#power-control-and-power-consumption" title="Permalink to this headline">¶</a></h3>
+<p>For laptops there is great tool called
+<a class="reference external" href="https://wiki.archlinux.org/index.php/TLP">tlp</a>. <tt class="docutils literal"><span class="pre">powertop</span></tt> can be
+also handy, but don&#8217;t trust it too much...</p>
+</div>
+<div class="section" id="backups">
+<h3>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h3>
+<p>TODO - same as RPI</p>
+</div>
+<div class="section" id="sound">
+<h3>Sound<a class="headerlink" href="#sound" title="Permalink to this headline">¶</a></h3>
+<p>To allow sound, install
+<tt class="docutils literal"><span class="pre">alsa-firmware</span> <span class="pre">alsa-utils</span> <span class="pre">alsa-plugins</span> <span class="pre">pulseaudio-alsa</span> <span class="pre">pulseaudio</span></tt>. It
+usually works out of the box, but is necessary run pulseaudio. Add this
+to <tt class="docutils literal"><span class="pre">~/.i3/config</span></tt>: <tt class="docutils literal"><span class="pre">exec</span> <span class="pre">--no-startup-id</span> <span class="pre">&quot;pulseaudio</span> <span class="pre">--start</span></tt></p>
+<p>For graphical control of sound use <tt class="docutils literal"><span class="pre">pavucontrol</span></tt>.</p>
+<p>For displaying current volume on i3status, add this to <tt class="docutils literal"><span class="pre">~/.i3status</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>order += &quot;volume master&quot;
+...
+...
+...
+
+volume master {
+        format = &quot;V: %volume&quot;
+        device = &quot;default&quot;
+        mixer = &quot;Master&quot;
+        mixer_idx = 0
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-spare-memory-for-browser-cache">
+<h3>Using spare memory for browser cache<a class="headerlink" href="#using-spare-memory-for-browser-cache" title="Permalink to this headline">¶</a></h3>
+<p>If you have spare memory (RAM), it&#8217;s bad :D . Use it for something. It&#8217;s
+a pitty it isn&#8217;t used for something useful - like adding cache from
+browser to it.</p>
+<p>What does it mean? Broswer are storing tons of data to <em>cache</em> for
+faster loading next time. It&#8217;s waering out the disc (to much writes) and
+it&#8217;s slow. To do this, follow these links:
+<a class="reference external" href="https://wiki.archlinux.org/index.php/Chromium_tweaks#Cache_in_tmpfs">chromium</a>
+<a class="reference external" href="https://wiki.archlinux.org/index.php/Firefox_Ramdisk">firefox</a></p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installing Arch Linux on laptop and how to make it usable</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#primary-installation">Primary installation</a><ul>
+<li><a class="reference internal" href="#partitioning">Partitioning</a></li>
+<li><a class="reference internal" href="#installing-arch-linux">Installing Arch Linux</a></li>
+<li><a class="reference internal" href="#post-install">Post install</a></li>
+<li><a class="reference internal" href="#change-root-settings">Change root settings</a></li>
+<li><a class="reference internal" href="#bootloader">Bootloader</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#making-system-usable">Making system usable</a><ul>
+<li><a class="reference internal" href="#login-in">Login in</a></li>
+<li><a class="reference internal" href="#setting-connection">Setting connection</a></li>
+<li><a class="reference internal" href="#graphic-enviroment">Graphic enviroment</a><ul>
+<li><a class="reference internal" href="#installing-i3">Installing i3</a></li>
+<li><a class="reference internal" href="#configuring-i3-status-bar">Configuring i3 status bar</a></li>
+<li><a class="reference internal" href="#installing-terminal">Installing terminal</a></li>
+<li><a class="reference internal" href="#install-yaourt-and-aur">Install yaourt and AUR</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#some-other-usefull-packages-to-make-system-usefull">Some other usefull packages to make system usefull</a><ul>
+<li><a class="reference internal" href="#fonts">Fonts</a></li>
+<li><a class="reference internal" href="#nice-look-of-gtk2-apps">Nice look of GTK2 apps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#multiple-monitors">Multiple monitors</a><ul>
+<li><a class="reference internal" href="#arandr-xrandr">arandr (xrandr)</a></li>
+<li><a class="reference internal" href="#automatically-detect-dis-connected-monitor-and-change-layout">Automatically detect (dis)connected monitor and change layout</a></li>
+<li><a class="reference internal" href="#bluetooth">Bluetooth</a></li>
+<li><a class="reference internal" href="#some-other-tunnies">Some other tunnies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#automounting-discs-mounting-and-umounting-as-normal-user">Automounting discs, mounting and umounting as normal user</a><ul>
+<li><a class="reference internal" href="#writing-to-ntfs-discs">Writing to NTFS discs</a></li>
+<li><a class="reference internal" href="#power-control-and-power-consumption">Power control and power consumption</a></li>
+<li><a class="reference internal" href="#backups">Backups</a></li>
+<li><a class="reference internal" href="#sound">Sound</a></li>
+<li><a class="reference internal" href="#using-spare-memory-for-browser-cache">Using spare memory for browser cache</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ndg.html"
+                        title="previous chapter">Deploying nginx + django + python 3</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="RPi.html"
+                        title="next chapter">Making Raspberry Pi usable</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/Arch.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="RPi.html" title="Making Raspberry Pi usable"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
+             >previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

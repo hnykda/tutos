@@ -1,0 +1,865 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Making Raspberry Pi usable &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
+    <link rel="prev" title="Installing Arch Linux on laptop and how to make it usable" href="Arch.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="Arch.html" title="Installing Arch Linux on laptop and how to make it usable"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="making-raspberry-pi-usable">
+<h1>Making Raspberry Pi usable<a class="headerlink" href="#making-raspberry-pi-usable" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>After 3 months of using RPi, I decided to make this tutorial for same
+people as I&#8217;m - who looks for easy, understandable way to make RPi as
+awesome as possible.</p>
+<p>In this tutorial I will walk you through whole process of making from
+Raspberry Pi secure, reliable, efficient, fast and easy to maintain
+server for variable purposes as is FTP, web hosting, sharing... All
+that thanks to Arch Linux ARM operating system. The device will be
+&#8220;headless&#8221; - it means, there will be no fancy windows etc., just command
+line. Don&#8217;t be scared, I will walk you through and you&#8217;ll thank me then
+:) . You don&#8217;t need some special knowledge about computers and linux
+systems.</p>
+</div>
+<div class="section" id="what-you-get">
+<h2>What you get<a class="headerlink" href="#what-you-get" title="Permalink to this headline">¶</a></h2>
+<p>From &#8220;bare&#8221; RPi you&#8217;ll get:</p>
+<ul class="simple">
+<li>Safely to connect to your RPi from anywhere</li>
+<li>Possibility of hosting web pages, files, etc.</li>
+<li>Readable and reliable system (it will do what you want and nothing
+more)</li>
+</ul>
+</div>
+<div class="section" id="what-you-will-need">
+<h2>What you will need<a class="headerlink" href="#what-you-will-need" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Raspberry Pi (doesn&#8217;t matter which model) with power supply</li>
+<li>SD Card as a main hardisk for RPi</li>
+<li>SD Card reader on computer with internet access</li>
+<li>Ethernet LAN cable or USB Wi-Fi bundle</li>
+<li>Other computer (preferably with linux, but nevermind if you use
+Windows or Mac)</li>
+<li>Possibility to physically get to your router and know credentials to
+login to it (or have contact to your network administrator :) )</li>
+<li>Few hours of work</li>
+</ul>
+</div>
+<div class="section" id="what-you-don-t-need">
+<h2>What you don&#8217;t need<a class="headerlink" href="#what-you-don-t-need" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Monitor or ability to connect RPi to some monitor</li>
+</ul>
+</div>
+<div class="section" id="start">
+<h2>Start<a class="headerlink" href="#start" title="Permalink to this headline">¶</a></h2>
+<p>So you have just bare RPi, SD card, power supply, ethernet cable
+(RJ-45). So let&#8217;s start! There are houndreds of guides, but I haven&#8217;t
+found them satisfaing.</p>
+<div class="section" id="installing-arch-linux-arm-to-sd-card">
+<h3>Installing Arch Linux ARM to SD card<a class="headerlink" href="#installing-arch-linux-arm-to-sd-card" title="Permalink to this headline">¶</a></h3>
+<p>Go <a class="reference external" href="http://ArchLinuxarm.org/platforms/armv6/raspberry-pi">here</a> and
+make first 3 steps. That&#8217;s it! You have done it. You have you Arch Linux
+ARM SD card :)</p>
+</div>
+<div class="section" id="little-networking">
+<h3>Little networking<a class="headerlink" href="#little-networking" title="Permalink to this headline">¶</a></h3>
+<p>I guess you probably have some of &#8220;home router&#8221; (&#8220;box with internet&#8221;)
+and when you want to connect e.g by Wi-Fi with your laptop or mobile
+phone, it just connects (after inserting password). You need to test
+first what happens, when you try to connect by ethernet cable, for
+example with your laptop. Turn off Wi-Fi and check it. Did your computer
+connects to the network (or even internet) as usuall?</p>
+<p>If yes, it is great! You can procced. It is what we need - we need RPi,
+when it boots up, to automatically connect to the network. Then we will
+able to connect to it. You will need one more think to find out - which
+IP address router asign to you when you connected by cable - it is very
+probable that RPi will get the same, or similiar. Don&#8217;t be afraid - it
+is easy to get (IP address)[how to get ip address]. On modern systems,
+one command :) .</p>
+<p>Ok, now you have to insert SD card to RPi and connect it to your router
+with ethernet cable and then turn RPi on by inserting power supply. The
+diodes starts flashing. Now back to your computer and we will try to
+connect it using <strong>SSH</strong>. SSH is just &#8220;magic power&#8221; which enables to
+connect from one to other computer.</p>
+<p>RPi is already ready and waits for connection. How to use ssh and some
+utilities (Linux, Mac) or programs (Windows) is supereasy - you will
+find a tons of tutorials on the internet (keywords: how to use ssh). IP
+address is the probably the one you assigned before. It will be
+something like this: <tt class="docutils literal"><span class="pre">192.168.0.x</span></tt>, <tt class="docutils literal"><span class="pre">10.0.0.14x</span></tt> or similar. Next
+thing you need is username. It&#8217;s just &#8220;root&#8221;.</p>
+<p>If your RPi haven&#8217;t got this address (ssh is not working), than there
+are two options.</p>
+<ol class="arabic simple">
+<li>You will login to your router settings and find out list of all
+connected devices with IP addresses and try them.</li>
+<li>Use
+<a class="reference external" href="http://www.cyberciti.biz/networking/nmap-command-examples-tutorials/">nmap</a>
+to find active devices in your network.</li>
+</ol>
+<p><strong>Example</strong> You have this address assigned: <tt class="docutils literal"><span class="pre">192.168.0.201</span></tt>. Then you
+have to type (in linux): <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">root&#64;192.168.0.201</span></tt>.</p>
+<p>Youshould end up in RPi console.</p>
+<p>Enough for networking just now. We&#8217;ll set a proper network configuration later in this guide, but first some <em>musthaves</em>.</p>
+</div>
+</div>
+<div class="section" id="first-setup">
+<h2>First setup<a class="headerlink" href="#first-setup" title="Permalink to this headline">¶</a></h2>
+<p>This is covered over the internet, so I will just redirect you.
+<a class="reference external" href="http://elinux.org/ArchLinux_Install_Guide">elinux</a> - from this guide
+finish these parts (in RPi console):</p>
+<ul class="simple">
+<li>Change root password</li>
+<li>Modify filesystem files</li>
+<li>Mount extra partitions (if you don&#8217;t know what it is, nevermind)</li>
+<li>Update system</li>
+<li>Install Sudo</li>
+<li>Create regular user account</li>
+</ul>
+<p>That&#8217;s enough for now. Logout from ssh (type <tt class="docutils literal"><span class="pre">exit</span></tt>) and connect
+again, but as user who was created. Similiar to previous:
+<tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">username&#64;ip.address</span></tt>. From now, you&#8217;ll need to type &#8220;sudo&#8221; in
+front of every command, which is possibly danger. I will warn you in
+next chapter.</p>
+<p>We must be sure that after reboot RPi will reconnect. Type
+<tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">netctl-ifplugd&#64;eth0</span></tt>. In should show something
+like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>● netctl-ifplugd@eth0.service - Automatic wired network connection using netctl profiles
+   Loaded: loaded (/usr/lib/systemd/system/netctl-ifplugd@.service; enabled)
+   Active: active (running) since Thu 2014-06-26 17:38:12 CEST; 4h 26min ago
+     Docs: man:netctl.special(7)
+ Main PID: 302 (ifplugd)
+   CGroup: /system.slice/system-netctl\x2difplugd.slice/netctl-ifplugd@eth0.service
+           └─302 /usr/bin/ifplugd -i eth0 -r /etc/ifplugd/netctl.action -bfIns
+
+Jun 26 17:38:12 530uarch ifplugd[302]: ifplugd 0.28 initializing.
+Jun 26 17:38:12 530uarch ifplugd[302]: Using interface eth0/E8:03:9A:97:B5:A7 with driver &lt;r8169&gt; (version: 2.3LK-NAPI)
+Jun 26 17:38:12 530uarch ifplugd[302]: Using detection mode: SIOCETHTOOL
+Jun 26 17:38:12 530uarch ifplugd[302]: Initialization complete, link beat not detected.
+</pre></div>
+</div>
+<p>Keywords here are <strong>active (running)</strong> in &#8220;Active&#8221; and <strong>enabled</strong> in
+&#8220;loaded&#8221;. If there is <strong>disabled</strong>, just enable it by
+<tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">netctl-ifplugd&#64;eth0.service</span></tt></p>
+<p>Now try if you are connected to the internet. Type <tt class="docutils literal"><span class="pre">ping</span> <span class="pre">8.8.8.8</span></tt>. If
+you don&#8217;t see <tt class="docutils literal"><span class="pre">ping:</span> <span class="pre">unknown</span> <span class="pre">host</span> <span class="pre">8.8.8.8</span></tt> it&#8217;s good! If you do, your
+internet connection is not working. Try to find out why - unfortunately
+it is not possible to solve it here.</p>
+<p><strong>Warning</strong> Try also <tt class="docutils literal"><span class="pre">ping</span> <span class="pre">google.com</span></tt>. It may not work even pinging
+8.8.8.8 worked. The reason is bad DNS servers (doesn&#8217;t matter what it
+is). To solve this you have to find &#8220;DNS servers of your IPS&#8221;. Try to
+google it. If you find them, add them to <tt class="docutils literal"><span class="pre">resolv.conf</span></tt>.</p>
+<p>Reboot you rpi using <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">reboot</span></tt>. You must be able to connect
+to it again after one minute. If not, somthing is wrong... In that case,
+you need to find out why connection stoped working - if you have
+keyboard and monitor, you can repair it. If not, you can try to edit
+mistake on other computer by inserting SD card. Otherwise, reinstall...</p>
+</div>
+<div class="section" id="installing-some-sugar-candy">
+<h2>Installing some sugar candy<a class="headerlink" href="#installing-some-sugar-candy" title="Permalink to this headline">¶</a></h2>
+<p>For our purpouses we will install usefull things, which will help as
+maintaing the system. So, run this:
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vim</span> <span class="pre">zsh</span> <span class="pre">wget</span> <span class="pre">ranger</span> <span class="pre">htop</span> <span class="pre">lynx</span></tt></p>
+<p>Do you see:</p>
+<div class="highlight-python"><div class="highlight"><pre>error: you cannot perform this operation unless you are root.
+</pre></div>
+</div>
+<p>Then you need to type <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">...</span></tt>. I will not write it in
+future and it is not in other guides. So sometimes you might be confused
+whel you&#8217;ll read some tutorials and autor implicitly use sudo without
+mentioning it.</p>
+<p>We will also need these in next chapters:
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">nginx</span> <span class="pre">sshguard</span> <span class="pre">vsftpd</span></tt></p>
+<p>You can notice that is really few packages! And thats true! Isn&#8217;t it
+great? No needs of tons of crap in your device.</p>
+<p>What are these? Just short summary - you can find more about it in
+manual pages (<tt class="docutils literal"><span class="pre">man</span> <span class="pre">&lt;name_of_pacakge&gt;</span></tt>) or find something usefull on
+the internet. * <strong>vim</strong> - powerfull text editor (that&#8217;s what you will
+do 99% of time). First few <em>days</em> are horrible, but keep using it :) .
+* <strong>zsh</strong> - doesn&#8217;t matter. Just install it and install
+<a class="reference external" href="https://github.com/robbyrussell/oh-my-zsh">this</a> * <strong>wget</strong> - just
+for downloading things without browser * <strong>ranger</strong> - file manager (you
+can browse files, folders...) * <strong>htop</strong> - task manager - you can see
+what tasks are running, how much CPU/MEM is used, kill processes and so
+on * <strong>lynx</strong> - browser - no kidding :)</p>
+</div>
+<div class="section" id="some-configurations">
+<h2>Some configurations<a class="headerlink" href="#some-configurations" title="Permalink to this headline">¶</a></h2>
+<p>I assume you installed <tt class="docutils literal"><span class="pre">zsh</span></tt> with <tt class="docutils literal"><span class="pre">oh-my-zsh</span></tt> (changed your shell)
+and also vim. You are connected as created user (from now, I will name
+him <strong>bob</strong>). You are in Bob&#8217;s home directory - check it with typing
+<tt class="docutils literal"><span class="pre">pwd</span></tt>. It will print <tt class="docutils literal"><span class="pre">/home/bob</span></tt>.</p>
+<div class="section" id="make-vim-usable">
+<h3>Make vim usable<a class="headerlink" href="#make-vim-usable" title="Permalink to this headline">¶</a></h3>
+<p>Edit .vimrc file: <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">.vimrc</span></tt> and insert this:</p>
+<div class="highlight-python"><div class="highlight"><pre>syntax on
+set number
+set ruler
+set nocompatible
+set ignorecase
+set backspace=eol,start,indent
+set whichwrap+=&lt;,&gt;,h,l
+set smartcase
+set hlsearch
+set incsearch
+set magic
+set showmatch
+set mat=2
+set expandtab
+set smarttab
+set shiftwidth=4
+set tabstop=4
+set lbr
+set tw=500
+set ai
+set si
+set wrap
+set paste
+set background=dark
+vnoremap &lt;silent&gt; * :call VisualSelection(&#39;f&#39;)&lt;CR&gt;
+vnoremap &lt;silent&gt; # :call VisualSelection(&#39;b&#39;)&lt;CR&gt;
+</pre></div>
+</div>
+<p>it will customize vim a bit, so it will be easier to edit files in it.</p>
+</div>
+<div class="section" id="journaling">
+<h3>Journaling<a class="headerlink" href="#journaling" title="Permalink to this headline">¶</a></h3>
+<p>Journaling is one of the most important things you need to have. It just
+record everything systemd does. It is part of <tt class="docutils literal"><span class="pre">systemd</span></tt> quite
+customizable. We will save journals in memory, because of limited wear
+of SD cards. We will also compress them and then limit size for them on
+40 MB.</p>
+<p>Open file <tt class="docutils literal"><span class="pre">/etc/system/journal.conf</span></tt> and uncomment these lines:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Journal]
+Storage=volatile
+Compress=yes
+...
+RuntimeMaxUse=40M
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="network-configuration">
+<h2>Network configuration<a class="headerlink" href="#network-configuration" title="Permalink to this headline">¶</a></h2>
+<p>For reasons I will mention in future, we need to set RPi to connect with
+<strong>static ip</strong>. This will assure that the IP address of RPi will be still
+the same and you can connect it. Right now is probably getting
+automatically assigned IP address from router (it&#8217;s called <strong>dhcp</strong>).</p>
+<p>We will use <tt class="docutils literal"><span class="pre">systemd-network</span></tt>.</p>
+<p>Type <tt class="docutils literal"><span class="pre">ip</span> <span class="pre">addr</span></tt>. It should shows something like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+       valid_lft forever preferred_lft forever
+2: ifb0: &lt;BROADCAST,NOARP&gt; mtu 1500 qdisc noop state DOWN group default qlen 32
+    link/ether 22:2b:20:5b:8e:b0 brd ff:ff:ff:ff:ff:ff
+3: ifb1: &lt;BROADCAST,NOARP&gt; mtu 1500 qdisc noop state DOWN group default qlen 32
+    link/ether 6a:68:fb:64:2f:c3 brd ff:ff:ff:ff:ff:ff
+4: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast state UP group default qlen 1000
+    link/ether b8:27:eb:2d:25:18 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.0.201/24 brd 192.168.0.255 scope global eth0
+       valid_lft forever preferred_lft forever
+</pre></div>
+</div>
+<p>you are interested just in name <strong>eth0</strong>. If it is there, it is ok. In
+future versions of system it can change to something other, for example
+<em>eth0ps1</em>. Don&#8217;t be afraid of it and just use that instead in next
+chapters.</p>
+<p>In this part you&#8217;ll need to get address of your router. <a class="reference external" href="http://compnetworking.about.com/od/workingwithipaddresses/f/getrouteripaddr.htm">How to obtain
+it</a>?</p>
+<p>And how to choose static address? As you know your
+router is assigning IP address automatically (it is called DHCP). But
+not randomly in full range. It has some range of IP addresses which it
+can assign. Standard is this: router has standard IP adress
+<tt class="docutils literal"><span class="pre">192.168.0.1</span></tt> and assign addresses from <tt class="docutils literal"><span class="pre">192.168.0.2</span></tt> to
+<tt class="docutils literal"><span class="pre">192.168.0.254</span></tt>. Second standard is <tt class="docutils literal"><span class="pre">10.0.0.138</span></tt> for router and it
+assignes addresses from <tt class="docutils literal"><span class="pre">10.0.0.139</span></tt> to <tt class="docutils literal"><span class="pre">10.0.0.254</span></tt>. But it <em>can</em>
+be anything else.</p>
+<p>Interesting - and what the hell should you do that? I suggest to set one
+the address on the end from this range. You can notice, that my &#8220;eth0&#8221;
+has IP address <tt class="docutils literal"><span class="pre">192.168.0.201</span></tt>.</p>
+<p>Open this file <tt class="docutils literal"><span class="pre">/etc/systemd/network/ethernet_static.network</span></tt> (how?
+just use <tt class="docutils literal"><span class="pre">vim</span></tt> as in the previous - but don&#8217;t forgot to use <tt class="docutils literal"><span class="pre">sudo</span></tt>
+in front of <tt class="docutils literal"><span class="pre">vim</span></tt>, or you&#8217;ll not be able to save it!) and paste this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span><span class="n">Match</span><span class="p">]</span>
+<span class="n">Name</span><span class="o">=</span><span class="n">eth0</span>
+
+<span class="p">[</span><span class="n">Network</span><span class="p">]</span>
+<span class="n">Address</span><span class="o">=</span><span class="n">the</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">address</span><span class="o">.</span><span class="n">rpi</span><span class="o">/</span><span class="mi">24</span>
+<span class="n">Gateway</span><span class="o">=</span><span class="n">your</span><span class="o">.</span><span class="n">router</span><span class="o">.</span><span class="n">ip</span><span class="o">.</span><span class="n">address</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+<p>my example:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Match]
+Name=eth0
+
+[Network]
+Address=192.168.0.201/24
+Gateway=192.168.0.1
+</pre></div>
+</div>
+<p>now we need to try it - we don&#8217;t to close us out. The connection is
+right now ensuring by thing called <tt class="docutils literal"><span class="pre">netctl-ifplugd&#64;eth0</span></tt>. We want to
+do this:</p>
+<ul class="simple">
+<li>Turn <tt class="docutils literal"><span class="pre">netctl</span></tt> off</li>
+<li>Turn <tt class="docutils literal"><span class="pre">networkd</span></tt> on</li>
+<li>Try if RPi is connected to the internet</li>
+<li>If yes, than do nothing - we can connect now by ssh</li>
+<li>If not, turn off <tt class="docutils literal"><span class="pre">networkd</span></tt> and turn on working <tt class="docutils literal"><span class="pre">netctl</span></tt></li>
+</ul>
+<p>why so complicated? Because when you are changing network, it will
+disconnect - and of course, we will disconnected also from SSH. And it
+discouraged to use more network managers at once, because they&#8217;d
+interferate and you don&#8217;t want that.</p>
+<p>This script will do what we want:</p>
+<div class="highlight-python"><div class="highlight"><pre>#!/usr/bin/bash
+systemctl stop netctl-ifplugd@eth0
+systemctl restart systemd-networkd
+
+sleep 10
+systemctl status systemd-networkd &gt;&gt; log.txt
+ping -c 1 google.com
+if [[ `echo $?` != 0     ]]
+    then
+        systemctl stop systemd-networkd
+        systemctl start netctl-ifplugd@eth0
+fi
+</pre></div>
+</div>
+<p>to run this script you need to login as root. You can do it by typing
+this: <tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">-i</span></tt>. This will log you as a root. Now type
+<tt class="docutils literal"><span class="pre">vim</span> <span class="pre">script.sh</span></tt> and insert script there. Save and close (in vim using
+<tt class="docutils literal"><span class="pre">:x</span></tt>). Now just type <tt class="docutils literal"><span class="pre">chmod</span> <span class="pre">+x</span> <span class="pre">script.sh</span></tt>. It will make the script
+executable. Finally this: <tt class="docutils literal"><span class="pre">./script.sh</span></tt>.</p>
+<p>The connection will close now. Wait 30 seconds. If everything worked
+properly, you should be able to connect to RPi again by using same ssh
+command as previous. In that case find out it works -&gt; does
+systemd-networkd care about connection and netctl is stopped?</p>
+<p>To find it out, type: <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt>. Does it
+shows &#8220;active (running)&#8221; and something like <tt class="docutils literal"><span class="pre">gained</span> <span class="pre">carrier</span></tt>?</p>
+<div class="highlight-python"><div class="highlight"><pre>â systemd-networkd.service - Network Service
+   Loaded: loaded (/usr/lib/systemd/system/systemd-networkd.service; enabled)
+   Active: active (running) since Wed 2014-06-11 18:42:13 CEST; 2 weeks 1 days ago
+     Docs: man:systemd-networkd.service(8)
+ Main PID: 213 (systemd-network)
+   Status: &quot;Processing requests...&quot;
+   CGroup: /system.slice/systemd-networkd.service
+           ââ213 /usr/lib/systemd/systemd-networkd
+
+Jun 17 17:52:01 smecpi systemd-networkd[213]:             eth0: lost carrier
+Jun 17 17:52:02 smecpi systemd-networkd[213]:             eth0: gained carrier
+</pre></div>
+</div>
+<p>If yes, great! We can get rid off netctl by uninstalling it by
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-Rnsc</span> <span class="pre">netctl</span></tt> and enable <tt class="docutils literal"><span class="pre">networkd</span></tt> to start at boot by
+<tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">systemd-networkd</span></tt>.</p>
+<p>If not, <tt class="docutils literal"><span class="pre">netctl</span></tt> should be started again and save the day. Find it out
+by <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">netctl-ifplugd&#64;eth0</span></tt>. It should be active,
+otherwise there is some magic power which care about your connection.
+Try to find out why <tt class="docutils literal"><span class="pre">networkd</span></tt> didn&#8217;t workd and repair it (probably
+bad IP address...). There should be some info in file <tt class="docutils literal"><span class="pre">log.txt</span></tt>.</p>
+<p>If you can&#8217;t connect, don&#8217;t panic. Just turn off RPi (take out power
+suppy) and turn it on. It should reconnect normally with
+<tt class="docutils literal"><span class="pre">netctl-ifplugd</span></tt>. Try to find out why it is not working and try it
+again.</p>
+</div>
+<div class="section" id="timesynchronization">
+<h2>Timesynchronization<a class="headerlink" href="#timesynchronization" title="Permalink to this headline">¶</a></h2>
+<p>You&#8217;ve maybe noticed that time is quite weird on your RPi. It is beacuse
+it does not have real hardware clock. Every time RPi is waken up, it
+thinks that is June 1970. You don&#8217;t have to care about it, but after
+boot it would be fine that time is correctly set. You can do it by using
+really great part of <tt class="docutils literal"><span class="pre">systemd</span></tt>. Go ahead and enable service, which
+takes care about that: <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">systemd-timesyncd</span></tt>. Thats
+all. It will start after next reboot. If you want it to start now, just run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemd-timesyncd</span></tt>.</p>
+</div>
+<div class="section" id="configuring-ssh">
+<h2>Configuring SSH<a class="headerlink" href="#configuring-ssh" title="Permalink to this headline">¶</a></h2>
+<p>We will open RPi to world and in that case we need to secure it a bit.
+Service, which takes care about SSH is called <tt class="docutils literal"><span class="pre">sshd</span></tt>. &#8220;Where&#8221; it is?
+It is runned by systemd, so <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">sshd</span></tt> will show you some
+info :). We will configure it a bit. This is not necessary, but highly
+recommended! Brutal force attacks are really common (hundreds every day
+on my little unimportant server).</p>
+<p>Open file <tt class="docutils literal"><span class="pre">/etc/ssh/sshd_config</span></tt> and edit or add these lines as
+follows:</p>
+<div class="highlight-python"><div class="highlight"><pre>Port 1234
+PermitRootLogin no
+PubkeyAuthentication yes
+</pre></div>
+</div>
+<p>that&#8217;t enough. Restart sshd <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">restart</span> <span class="pre">sshd</span></tt>.</p>
+<p>Since now, you cannot login as a root by ssh and thats good. Also - we
+changed the port of ssh. Think about &#8220;port&#8221; as a tunnel, which is used
+for ssh. There are about 60 thousands of them and you can choose
+whatever you want. As default there is port <strong>22</strong> used for ssh. We now
+changed that to (example) 1234. It is because on port 22 there is to big
+chance that someone will try to brutal force your credentials.</p>
+<p>Since now, only <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">bob&#64;ipadress</span></tt> is not enough. You will have to add
+port which should be used (in default is assumed port 22).
+<tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">-p</span> <span class="pre">1234</span> <span class="pre">bob&#64;ip.address</span></tt> will do it for you :) .</p>
+<p>The next thing we are going to do is set up <tt class="docutils literal"><span class="pre">sshguard</span></tt>. More about it
+<a class="reference external" href="https://wiki.ArchLinux.org/index.php/Sshguard">here</a>. You don&#8217;t need
+more :) . Just remember to use your port (in my case 1234) for settings.</p>
+<p>It is anoying still typing same username and password when we want to
+connect to RPi. And now, we have to add &#8220;-p 1234&#8221; also. We will make it
+automatic. <a class="reference external" href="http://www.linuxproblem.org/art_9.html">Here</a> is quite
+good guide how to do it. On PC from which you are connecting (no RPi),
+edit <tt class="docutils literal"><span class="pre">~/.ssh/config</span></tt> to this:</p>
+<div class="highlight-python"><div class="highlight"><pre>Host my_superpc
+  HostName ipaddressofRPi
+  IdentityFile /home/yourusername/.ssh/name_of_identityfile
+  User bob
+  port 1234
+</pre></div>
+</div>
+<p>since now, when you wan&#8217;t to connect to RPi you can just type
+<tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">my_superpc</span></tt> and it will take care about rest.</p>
+<p><strong>Screen</strong></p>
+<p>You can live without that, but you shouldn&#8217;t! It makes you
+more productive and you don&#8217;t need to be afraid of some mishmash caused
+by accidently closing terminal during update or lossing connection.
+Learn more about what the screen is
+(<a class="reference external" href="http://www.tecmint.com/screen-command-examples-to-manage-linux-terminals/">here</a>,
+<a class="reference external" href="https://wiki.ArchLinux.org/index.php/GNU_Screen">here</a> and
+<a class="reference external" href="http://www.thegeekstuff.com/2010/07/screen-command-examples/">here</a>),
+install it (<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">screen</span></tt>), use it and love it.</p>
+<p>It can be handy to automatically ssh into screen sesion. For that I use
+this command (from PC I want to connect to RPi):</p>
+<p><tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">my_superpc</span> <span class="pre">-t</span> <span class="pre">screen</span> <span class="pre">-dRS</span> <span class="pre">&quot;mainScreen&quot;</span></tt>. You can make some alias
+to something shorter (for example adding this to
+<tt class="docutils literal"><span class="pre">alias</span> <span class="pre">ssh_connect_RPI=&quot;ssh</span> <span class="pre">my_superpc</span>&nbsp; <span class="pre">-t</span> <span class="pre">screen</span> <span class="pre">-dRUS</span> <span class="pre">mainScreen&quot;</span></tt>
+in .zshrc). Now all you need to do is type <tt class="docutils literal"><span class="pre">ssh_connect_RPI</span></tt> - it here
+is now screen created, it will create new one. If it is, it will attach
+it.</p>
+</div>
+<div class="section" id="speeding-rpi-up">
+<h2>Speeding RPi up<a class="headerlink" href="#speeding-rpi-up" title="Permalink to this headline">¶</a></h2>
+<p>Arch Linux ARM for RPi is prepared to be tweaked. And now it is possible
+to speed RPi up by overclocking it&#8217;s processor without avoiding your
+waranty. How to do it? Just edit file <tt class="docutils literal"><span class="pre">/boot/config.txt</span></tt> and find this
+part:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">##None</span>
+<span class="n">arm_freq</span><span class="o">=</span><span class="mi">700</span>
+<span class="n">core_freq</span><span class="o">=</span><span class="mi">250</span>
+<span class="n">sdram_freq</span><span class="o">=</span><span class="mi">400</span>
+<span class="n">over_voltage</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>now comment it out. That means to add &#8220;<strong>#</strong>&#8221; in front of every line.
+From now, it will be treated as text and not command. It will look like
+this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">##None</span>
+<span class="c">#arm_freq=700</span>
+<span class="c">#core_freq=250</span>
+<span class="c">#sdram_freq=400</span>
+<span class="c">#over_voltage=0</span>
+</pre></div>
+</div>
+<p>and now uncoment this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c">##Turbo</span>
+<span class="n">arm_freq</span><span class="o">=</span><span class="mi">1000</span>
+<span class="n">core_freq</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">sdram_freq</span><span class="o">=</span><span class="mi">500</span>
+<span class="n">over_voltage</span><span class="o">=</span><span class="mi">6</span>
+</pre></div>
+</div>
+<p>After next boot your RPi will be able to get even to the 1000 MHz. That
+means it is faster.</p>
+</div>
+<div class="section" id="other-tweaks-of-boot-config-txt">
+<h2>Other tweaks of /boot/config.txt<a class="headerlink" href="#other-tweaks-of-boot-config-txt" title="Permalink to this headline">¶</a></h2>
+<p>Since you don&#8217;t need any of gpu memory - which cares about shiny things
+like windows etc., you can disable it in favor of the rest of memory
+which we use.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">gpu_mem</span><span class="o">=</span><span class="mi">16</span>
+<span class="c">#gpu_mem_512=316</span>
+<span class="c">#gpu_mem_256=128</span>
+<span class="c">#cma_lwm=16</span>
+<span class="c">#cma_hwm=32</span>
+<span class="c">#cma_offline_start=16</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="making-rpi-visible-from-outside">
+<h2>Making RPi visible from outside<a class="headerlink" href="#making-rpi-visible-from-outside" title="Permalink to this headline">¶</a></h2>
+<p>Now we need to configure access from outside. You will need to configure
+you router. You have to make a &#8220;port forwarding&#8221;. Remember port from
+ssh? I told you to think about them as a tunnels. These tunnels are also
+handy when you need to find out what is on there end.</p>
+<p>What we will do here is this: We want to be able from anywhere on the
+internet connect to our RPi server.</p>
+<p>Example? <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">-p</span> <span class="pre">1234</span> <span class="pre">bob&#64;what.the.hell.is.here</span></tt>. You know? There is
+definetely not your local address (the one with 192.168...). There must
+be your &#8220;public&#8221; IP address (more about this in <strong>Domains</strong> - take a
+look there). But this public address points to your router (if you are
+lucky). Where does it go next?</p>
+<p>With every request there is also a port. With command <tt class="docutils literal"><span class="pre">ssh</span> <span class="pre">smt</span></tt>, you
+are sending username, port (standard 22, if not otherwise stated) and IP
+address. Ip address redirect it to router. Now router takes <strong>port</strong> and
+looks to it&#8217;s internal database. In this database are pairs: <strong>port</strong> -
+<strong>internal_ipaddress</strong>. For some port there is IP address, which it
+redirects to. In another worlds: if router gets some request from
+specific port (say, 1234) and it has in it&#8217;s database IP address</p>
+<p>to which it has to redirect, it redirects this request there. In our
+case, we need to redirect these ports we want (for example 1234 for ssh)
+to RPi. So find a port forwarding settings for your router
+(<a class="reference external" href="http://portforward.com/">this</a> might be helpful) and set there port
+forward from port you setted for ssh to RPi. You can check if your port
+is open (it means it accepts requests
+<a class="reference external" href="http://www.yougetsignal.com/tools/open-ports/">here</a>.</p>
+<p>Since now, you can ssh from anywhere.</p>
+</div>
+<div class="section" id="webserver">
+<h2>Webserver<a class="headerlink" href="#webserver" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="setting-up-nginx">
+<h3>Setting up nginx<a class="headerlink" href="#setting-up-nginx" title="Permalink to this headline">¶</a></h3>
+<p>Similiar to <tt class="docutils literal"><span class="pre">ssh</span></tt> handling <em>sshish</em> requests, Nginx is handling almost
+everything else and even... <strong>WebServers</strong>! Install nginx with
+<tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">nginx</span></tt>. For security reasons create special user for it,
+for example using: <tt class="docutils literal"><span class="pre">useradd</span> <span class="pre">-m</span> <span class="pre">-G</span> <span class="pre">wheel</span> <span class="pre">-s</span> <span class="pre">/usr/bin/zsh</span> <span class="pre">nginx</span></tt> and
+also group <tt class="docutils literal"><span class="pre">groupadd</span> <span class="pre">webdata</span></tt>. Now create some folder for it. It can
+be <tt class="docutils literal"><span class="pre">mkdir</span> <span class="pre">/var/www/</span></tt> and now make them owners
+<tt class="docutils literal"><span class="pre">chown</span> <span class="pre">nginx:webdata</span> <span class="pre">/var/www</span></tt>. Of course, enable and start nginx.</p>
+<p><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">nginx</span></tt>. It will start after boot.</p>
+<p>Now port forward port number 80 to RPi on your router.</p>
+<p>Open <tt class="docutils literal"><span class="pre">/etc/nginx/nginx.conf</span></tt>, it can looks like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>user nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    server_names_hash_bucket_size 64;
+
+    sendfile        on;
+
+    keepalive_timeout  15;
+
+    server{
+        listen  80;
+        server_name ~^xxx.xxx.xxx.xxx(.*)$;
+
+        location / {
+            root   /var/www/$1;
+            index  index.html index.htm;
+        }
+    }
+
+}
+</pre></div>
+</div>
+<p>next, create <tt class="docutils literal"><span class="pre">/var/www/test/index.html</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Sample &quot;Hello, World&quot; Application&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body bgcolor=white&gt;
+
+    &lt;table border=&quot;0&quot; cellpadding=&quot;10&quot;&gt;
+      &lt;tr&gt;
+        &lt;td&gt;
+          &lt;h1&gt;Sample &quot;Hello, World&quot; Application&lt;/h1&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+
+    &lt;p&gt;This is the home page for the HelloWorld Web application. &lt;/p&gt;
+    &lt;p&gt;To prove that they work, you can execute either of the following links:
+    &lt;ul&gt;
+      &lt;li&gt;To a &lt;a href=&quot;/&quot;&gt;JSP page&lt;/a&gt;.
+      &lt;li&gt;To a &lt;a href=&quot;/&quot;&gt;servlet&lt;/a&gt;.
+    &lt;/ul&gt;
+
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+<p>where xxx.xxx.xxx.xxx should be your public address. This will do this:
+when you type in your browser &#8220;youripaddress/test:80&#8221;, you should see
+index Hello world example. Try that without <tt class="docutils literal"><span class="pre">:80</span></tt> - it will do the
+same! Default port for webpages is <strong>80</strong> (similiar to 22 for SSH). So
+it can be omited.</p>
+<div class="section" id="ftp">
+<h4>FTP<a class="headerlink" href="#ftp" title="Permalink to this headline">¶</a></h4>
+<p>This will cover the most easy solution for FTP. Don&#8217;t use this
+configuration in real, just for test purpouses. If you didn&#8217;t download
+<tt class="docutils literal"><span class="pre">vsftp</span></tt>, do it now by <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">vsftp</span></tt>. Now we will create some
+directory where all files and users will end up after connecting. Let it
+be in <tt class="docutils literal"><span class="pre">/var/www/test</span></tt>. Now edit <tt class="docutils literal"><span class="pre">/etc/vsftpd.conf</span></tt> and add on the
+top this line:</p>
+<div class="highlight-python"><div class="highlight"><pre>anon_root=/var/www/test
+</pre></div>
+</div>
+<p>and make sure that this line is uncommented:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">anonymous_enable</span><span class="o">=</span><span class="n">YES</span>
+</pre></div>
+</div>
+<p>and just start it: <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">vsftpd</span></tt>.</p>
+<p>Now we&#8217;ll tell nginx about that. Add this to servers confs in
+<tt class="docutils literal"><span class="pre">/etc/nginx/nginx.conf</span></tt>.</p>
+<div class="highlight-python"><div class="highlight"><pre>server{
+    listen  80;
+    server_name ~^123.123.32.13(.*)$;
+    location / {
+        ssi on;
+        root   /var/www/$1;
+        index  index.html index.htm;
+    }
+}
+</pre></div>
+</div>
+<p>where you need to replace IP address in <tt class="docutils literal"><span class="pre">server_name</span></tt> directive to
+your public IP.</p>
+<p>What this little configuration does? It&#8217;s simple. Every time you type to
+your brower your IP address and somthing behind it, it will transfer you
+to this &#8220;something&#8221; in /var/www/.</p>
+<p><strong>Example</strong> I created index.html here <tt class="docutils literal"><span class="pre">/var/www/example/index.html</span></tt>. I
+now type <tt class="docutils literal"><span class="pre">123.123.32.13/test</span></tt> to my browser and voila!</p>
+<p>This nginx configuration isn&#8217;t neccessary in our ftp example (it could
+be simpler), but I just like it...</p>
+<p>You can now connect to ftp by typing this in your browser:
+<tt class="docutils literal"><span class="pre">ftp://your_ip_address</span></tt> or use your favorite FTP client (e.g.
+<tt class="docutils literal"><span class="pre">filezilla</span></tt>).</p>
+<p><strong>CAUTION</strong> - again, don&#8217;t use this settings as default. There are great
+guides on the internet how to grant access only some users, password
+protected etc.</p>
+</div>
+</div>
+</div>
+<div class="section" id="system-analyzing-and-cleaning">
+<h2>System analyzing and cleaning<a class="headerlink" href="#system-analyzing-and-cleaning" title="Permalink to this headline">¶</a></h2>
+<p>Use your friend <tt class="docutils literal"><span class="pre">systemd-analyze</span></tt>. It will show you which units are
+loading long time. Also <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span></tt> is great for finding failed
+units.</p>
+<div class="section" id="disable-things-that-you-dont-need">
+<h3>Disable things that you dont need<a class="headerlink" href="#disable-things-that-you-dont-need" title="Permalink to this headline">¶</a></h3>
+<p>I guess you don&#8217;t use ipv6 (if you don&#8217;t know what it is, you don&#8217;t need
+it :D). <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">ip6tables</span></tt>. In case you use sshguard, you
+need also edit file <tt class="docutils literal"><span class="pre">/cat</span> <span class="pre">/usr/lib/systemd/system/sshguard.service</span></tt>
+and from <strong>Wants</strong> delete ip6tables. Like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Wants</span><span class="o">=</span><span class="n">iptables</span><span class="o">.</span><span class="n">service</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="usefull-utilites">
+<h2>Usefull utilites<a class="headerlink" href="#usefull-utilites" title="Permalink to this headline">¶</a></h2>
+<p>Simple to use, just install them and run:</p>
+<ul class="simple">
+<li>iftop - for internet usage</li>
+<li>iotop - for disk usage</li>
+</ul>
+<div class="section" id="torrents">
+<h3>Torrents<a class="headerlink" href="#torrents" title="Permalink to this headline">¶</a></h3>
+<p>Your RPi is maybe running 24/7, so why not to use it for torrents? But
+how, when there is no GUI? It&#8217;s pretty simple. We will use transmission
+- popular torrent client. Install it by <tt class="docutils literal"><span class="pre">pacman</span> <span class="pre">-S</span> <span class="pre">transmission-cli</span></tt>
+Installation should create a new user and group, called transmission. To
+check that, you can take a look to <tt class="docutils literal"><span class="pre">/etc/passwd</span></tt> and <tt class="docutils literal"><span class="pre">/etc/group</span></tt>.
+<tt class="docutils literal"><span class="pre">transmission</span></tt> will be runned by <tt class="docutils literal"><span class="pre">systemd</span></tt>. Let&#8217;s see it it&#8217;s
+service file is configured properly. Check
+<tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/transmission.service</span></tt>:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Unit]
+Description=Transmission BitTorrent Daemon
+After=network.target
+
+[Service]
+User=transmission
+Type=notify
+ExecStart=/usr/bin/transmission-daemon -f --log-error
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">User=transmission</span></tt> is important here (for security reasons). Next
+thing we need to do is check, if transmission has place where it will
+live. By default it is in <tt class="docutils literal"><span class="pre">/var/lib/transmission(-daemon)</span></tt>. In this
+dir should be also config file <tt class="docutils literal"><span class="pre">settings.json</span></tt>. There lays
+configuration for it.Edit it ass you wish. It is covered
+<a class="reference external" href="https://trac.transmissionbt.com/wiki/ConfigFiles">here</a> and
+<a class="reference external" href="https://trac.transmissionbt.com/wiki/EditConfigFiles">here</a>. Maybe
+you&#8217;ll need to forward ports as we did in previous chapters, you should
+make that again without problems :) . No we can run <tt class="docutils literal"><span class="pre">transmission</span></tt>
+daemon by <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">transmission</span></tt>. Now you can give it commands
+using transmission-remote . The most usefull (and that&#8217;s all I need to
+know and use :) ) are these:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">transmission-remote</span> <span class="pre">&lt;port&gt;</span> <span class="pre">-a</span> <span class="pre">&quot;magnetlink/url&quot;</span></tt> - adds torrent and
+starts download it</li>
+<li><tt class="docutils literal"><span class="pre">transmission-remote</span> <span class="pre">&lt;port&gt;</span> <span class="pre">-l</span></tt> - list all torrents that are
+currently running</li>
+</ul>
+<p>files should be stored in <tt class="docutils literal"><span class="pre">/var/lib/transmission/Downloads</span></tt>. It can be
+configured in config file :) .</p>
+</div>
+</div>
+<div class="section" id="backups">
+<h2>Backups<a class="headerlink" href="#backups" title="Permalink to this headline">¶</a></h2>
+<p>For backups I choosed <tt class="docutils literal"><span class="pre">rdiff-backup</span></tt>. It&#8217;s so stupid but works
+(almost) as expected. More about it&#8217;s usage you can find in it&#8217;s manual
+pages. For my example I&#8217;ll redirect you to dir with configs in this
+repo. These are inserted to <tt class="docutils literal"><span class="pre">cron</span></tt> (you have it by default installed)
+to do SSH backup every day in 4AM. If I&#8217;m on local network I also do
+backup to my disc on other PC.</p>
+</div>
+<div class="section" id="final">
+<h2>Final<a class="headerlink" href="#final" title="Permalink to this headline">¶</a></h2>
+<p>That&#8217;s all for now! I will see if this is used by someone and than I
+will see if I will continue.</p>
+</div>
+<div class="section" id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>RPi don&#8217;t boot - unplug everything from USB ports (there may be not
+enough of power to boot up and supply USB)</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Making Raspberry Pi usable</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#what-you-get">What you get</a></li>
+<li><a class="reference internal" href="#what-you-will-need">What you will need</a></li>
+<li><a class="reference internal" href="#what-you-don-t-need">What you don&#8217;t need</a></li>
+<li><a class="reference internal" href="#start">Start</a><ul>
+<li><a class="reference internal" href="#installing-arch-linux-arm-to-sd-card">Installing Arch Linux ARM to SD card</a></li>
+<li><a class="reference internal" href="#little-networking">Little networking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#first-setup">First setup</a></li>
+<li><a class="reference internal" href="#installing-some-sugar-candy">Installing some sugar candy</a></li>
+<li><a class="reference internal" href="#some-configurations">Some configurations</a><ul>
+<li><a class="reference internal" href="#make-vim-usable">Make vim usable</a></li>
+<li><a class="reference internal" href="#journaling">Journaling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#network-configuration">Network configuration</a></li>
+<li><a class="reference internal" href="#timesynchronization">Timesynchronization</a></li>
+<li><a class="reference internal" href="#configuring-ssh">Configuring SSH</a></li>
+<li><a class="reference internal" href="#speeding-rpi-up">Speeding RPi up</a></li>
+<li><a class="reference internal" href="#other-tweaks-of-boot-config-txt">Other tweaks of /boot/config.txt</a></li>
+<li><a class="reference internal" href="#making-rpi-visible-from-outside">Making RPi visible from outside</a></li>
+<li><a class="reference internal" href="#webserver">Webserver</a><ul>
+<li><a class="reference internal" href="#setting-up-nginx">Setting up nginx</a><ul>
+<li><a class="reference internal" href="#ftp">FTP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#system-analyzing-and-cleaning">System analyzing and cleaning</a><ul>
+<li><a class="reference internal" href="#disable-things-that-you-dont-need">Disable things that you dont need</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#usefull-utilites">Usefull utilites</a><ul>
+<li><a class="reference internal" href="#torrents">Torrents</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#backups">Backups</a></li>
+<li><a class="reference internal" href="#final">Final</a></li>
+<li><a class="reference internal" href="#troubleshooting">Troubleshooting</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="Arch.html"
+                        title="previous chapter">Installing Arch Linux on laptop and how to make it usable</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/RPi.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="Arch.html" title="Installing Arch Linux on laptop and how to make it usable"
+             >previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

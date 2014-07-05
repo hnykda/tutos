@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How domains, IP addresses and servers works &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
+    <link rel="next" title="Deploying nginx + django + python 3" href="ndg.html" />
+    <link rel="prev" title="Necessary knowledge" href="nec_know.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="nec_know.html" title="Necessary knowledge"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-domains-ip-addresses-and-servers-works">
+<h1>How domains, IP addresses and servers works<a class="headerlink" href="#how-domains-ip-addresses-and-servers-works" title="Permalink to this headline">¶</a></h1>
+<p>I&#8217;m going to walk you through <em>how part of the internet works</em> as simply as possible.</p>
+<div class="section" id="domains">
+<h2>Domains<a class="headerlink" href="#domains" title="Permalink to this headline">¶</a></h2>
+<p>How does it happen, that someone type <a class="reference external" href="example.com">example.com</a> and then see some
+web pages? Where this <em>example.com</em> come from?</p>
+<p>A little background. On internet we have IP addresses to give every
+computer it&#8217;s specific name. Because we don&#8217;t like these awful numbers
+(like 123.28.13.234), we have nicknames for them - <strong>domains</strong>. For example - you
+know that when you type <tt class="docutils literal"><span class="pre">google.com</span></tt>, you get to google page. But
+that happens even if you type: <tt class="docutils literal"><span class="pre">74.125.224.72</span></tt>. In first example it does
+this:</p>
+<ol class="arabic simple">
+<li>It takes name <tt class="docutils literal"><span class="pre">google.com</span></tt></li>
+<li>Goes to world data bank of domains and their appropriate IP addresses</li>
+<li>Find out which IP address belongs to this name <tt class="docutils literal"><span class="pre">google.com</span></tt></li>
+<li>Get you to this IP address</li>
+</ol>
+<p>You can <a class="reference external" href="http://www.godaddy.com/">buy</a> your own domain and then
+redirect it to your IP address. Redirecting is made by adding  <strong>A record</strong>. This is usually done on their administration website. Then, after few minutes (or hours), it is registered in this world data bank.</p>
+<p>There is also free alternative, for example <a class="reference external" href="http://freeavailabledomains.com/">freeavailabledomains.com</a>. It&#8217;s not <strong>second-level</strong> domain (the one which is right before <tt class="docutils literal"><span class="pre">.com</span></tt>, <tt class="docutils literal"><span class="pre">.eu</span></tt>...) , but <strong>third-level</strong> (e.g. yourname.flu.cc, ...). You can use it in our example - just register there and choose your domain name (e.g. <tt class="docutils literal"><span class="pre">mojepks.flu.cc</span></tt>). Then you add <strong>name</strong> (that&#8217;s prefix before <tt class="docutils literal"><span class="pre">.flu.cc</span></tt> - in my case <tt class="docutils literal"><span class="pre">mojepks</span></tt>) and <strong>destination</strong> - that&#8217;s your <strong>public</strong> IP address.</p>
+</div>
+<div class="section" id="public-ip">
+<h2>Public IP<a class="headerlink" href="#public-ip" title="Permalink to this headline">¶</a></h2>
+<p>What is public IP address? It means that this address is one on the whole internet - it points to one specific place on the world.</p>
+<p>if you are connected to some network, for example to your home router, you have one internal network. Usually it&#8217;s something like <tt class="docutils literal"><span class="pre">192.168.0.xxx</span></tt>. But this is not an address people can see you from the internet. It&#8217;s just the internal one. On Linux you can find it by typing:</p>
+<div class="highlight-python"><div class="highlight"><pre>ip addr
+</pre></div>
+</div>
+<p>to find your public IP address, you can find it e.g. <a class="reference external" href="http://whatismyipaddress.com/">here</a>. But this address is most probably isn&#8217;t of your PC, but of the router you have. And not even that - it might be and IP address of some other <em>node</em> to which your router is connected to. To find this out is best to ask your administrator or IPS  (a company, which is offering you and internet).</p>
+<p>It means, unfortunately, that not every one has it&#8217;s own &#8220;public&#8221; IP address and
+even worse, it can change! And that is not what you want - then you
+should have had to change it every time your IP get changed. You have to
+ask to your IPS if your
+address is &#8220;static&#8221; or &#8220;dynamic&#8221;. My IPS (UPC CZ) told me that my is
+&#8220;dynamic&#8221;. But after a little research I found out that it means that my
+IP address can <em>theoretically</em> change. In real, it is same for few years
+now :) . It is relatively common, so maybe you are lucky.</p>
+<p>If you don&#8217;t want to buy &#8220;first level domains&#8221; (the one which are just
+something.com) and second level is enough (like
+something.somethingelse.com), then you can take a look on <a class="reference external" href="http://www.getfreedomain.name/">getfreedomain</a>. It will serve good for our purposes.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How domains, IP addresses and servers works</a><ul>
+<li><a class="reference internal" href="#domains">Domains</a></li>
+<li><a class="reference internal" href="#public-ip">Public IP</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="nec_know.html"
+                        title="previous chapter">Necessary knowledge</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ndg.html"
+                        title="next chapter">Deploying nginx + django + python 3</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/domains_ip_servers.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ndg.html" title="Deploying nginx + django + python 3"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="nec_know.html" title="Necessary knowledge"
+             >previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

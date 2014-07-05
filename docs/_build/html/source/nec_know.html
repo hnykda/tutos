@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Necessary knowledge &mdash; tutos 0.5 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.5',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="tutos 0.5 documentation" href="../index.html" />
+    <link rel="next" title="How domains, IP addresses and servers works" href="domains_ip_servers.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="domains_ip_servers.html" title="How domains, IP addresses and servers works"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="necessary-knowledge">
+<h1>Necessary knowledge<a class="headerlink" href="#necessary-knowledge" title="Permalink to this headline">¶</a></h1>
+<p>Here I cover two things that I encourage to use during this guide.</p>
+<div class="section" id="vim">
+<h2>Vim<a class="headerlink" href="#vim" title="Permalink to this headline">¶</a></h2>
+<p>We&#8217;ll need text editor to configure everything and most of our time
+we&#8217;ll spend in command line. How to edit files inside terminal? There
+are multiple console-based terminal. I chose one of them, which is
+called <a class="reference external" href="http://en.wikipedia.org/wiki/Vim_(text_editor)">vim</a>. We
+will install it in next chapters, but I will tell you some basics here
+(you can try them later).</p>
+<p>You can edit a file in vim by typing <tt class="docutils literal"><span class="pre">vim</span> <span class="pre">&lt;file&gt;</span></tt>. Vim has three
+modes, while I will tell you about two of them. Command and insert mode.
+In command mode, you press special keys to make something. It&#8217;s the
+basic mode and you cannot edit file in it. Press <tt class="docutils literal"><span class="pre">ESC</span></tt> to get into
+command mode. To edit a file, press <tt class="docutils literal"><span class="pre">i</span></tt>. Now you are in insert mode
+and you can navigate by arrows and type, delete etc. as you know from
+other text editors.</p>
+<p>After you make a change, you can save the file. To do it, get to command
+mode (<tt class="docutils literal"><span class="pre">ESC</span></tt>). Now write <tt class="docutils literal"><span class="pre">:w</span></tt>. This will save the file. To exit, type
+<tt class="docutils literal"><span class="pre">:q</span></tt>. That&#8217;s all you need for now. More about <tt class="docutils literal"><span class="pre">vim</span></tt> is under command
+<tt class="docutils literal"><span class="pre">vimtutor</span></tt>.</p>
+<p>Of course feel free to use other editor.</p>
+</div>
+<div class="section" id="systemd">
+<h2>Systemd<a class="headerlink" href="#systemd" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://en.wikipedia.org/wiki/Systemd">systemd</a> is astonishingly
+great and also astonishingly hated package, but that’s not necessary to
+know now. Briefly - <tt class="docutils literal"><span class="pre">systemd</span></tt> cares about running processes in the
+background. These are called daemons. For example in next chapter we
+will use SSH - it will run at background. There is also package, which
+takes care of automatically connect to internet (again in next
+chapters).</p>
+<p><tt class="docutils literal"><span class="pre">systemd</span></tt> is controlled by <tt class="docutils literal"><span class="pre">systemctl</span></tt>. To start some program, which
+is in this context called <strong>service</strong> (and we will stick to that), just
+run <tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">&lt;unit&gt;</span></tt>. There are other useful (and that&#8217;s 90%
+of what you need to know about systemctl) commands (all starts with
+<tt class="docutils literal"><span class="pre">systemctl</span></tt> and ends with <tt class="docutils literal"><span class="pre">desired_unit</span></tt> - watch example):</p>
+<ul class="simple">
+<li>enable - this allow to run service after boot (but it will not start
+immediately)</li>
+<li>disable - this will make device not to start after boot</li>
+<li>start - this will immediately start a service (but will not enable it
+- it won&#8217;t be run after boot)</li>
+<li>stop - stop service immediately (but not disable)</li>
+<li>status - this will print out all information in pretty format - you
+can find if it is enabled, started, if <strong>there are any errors</strong> etc.</li>
+</ul>
+<div class="section" id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h3>
+<p>There is service, which takes care about connection to
+network. We will cover it in special chapter for RPi, but we will just play with
+that for a minute now. It&#8217;s called <tt class="docutils literal"><span class="pre">systemd-networkd</span></tt>. Try to start it,
+enable it, disable it and then stop it and get status to see what every
+command does by trying these:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">start</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">enable</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">disable</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">status</span> <span class="pre">systemd-networkd</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">systemctl</span> <span class="pre">stop</span> <span class="pre">systemd-networkd</span></tt></li>
+</ul>
+<p>Last thing you need to know about systemd for our guide is where these
+services has it&#8217;s own configuration files. They are all stored in
+<tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/</span></tt>. For example, I&#8217;ve noticed SSH service.
+Configuration file for this service is in
+<tt class="docutils literal"><span class="pre">/usr/lib/systemd/system/sshd.service</span></tt>. You can type
+<tt class="docutils literal"><span class="pre">cat</span> <span class="pre">/usr/lib/systemd/system/sshd.service</span></tt> to see what is inside and
+of course it can be edited.</p>
+<p><tt class="docutils literal"><span class="pre">systemctl</span></tt> just looks inside these folders when you call command for
+starting/enabling/... specific unit.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Necessary knowledge</a><ul>
+<li><a class="reference internal" href="#vim">Vim</a></li>
+<li><a class="reference internal" href="#systemd">Systemd</a><ul>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="domains_ip_servers.html"
+                        title="next chapter">How domains, IP addresses and servers works</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/source/nec_know.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="domains_ip_servers.html" title="How domains, IP addresses and servers works"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="../index.html">tutos 0.5 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, kotrfa.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
