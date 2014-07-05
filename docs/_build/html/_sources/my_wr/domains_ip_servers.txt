@@ -1,7 +1,7 @@
 How domains, IP addresses and servers works
 ===========================================
 
-I'm going to walk you through *how part of the internet works*.
+I'm going to walk you through *how part of the internet works* as simply as possible. 
 
 Domains
 --------
