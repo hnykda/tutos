@@ -1,6 +1,6 @@
 tutos
 =====
-[Here you can find last HTML version](http://tutos.readthedocs.org/en/latest/)
+[Here you can find latest HTML version](http://tutos.readthedocs.org/en/latest/)
 
 This repository is for tutorials and guides about Archlinux in general and also about Archlinux ARM on RPi specific configuration. 
 
