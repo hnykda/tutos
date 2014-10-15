@@ -18,6 +18,7 @@ Contents:
    source/Arch
    source/RPi
    source/git_rtd
+   source/git_workflow
 
 Indices and tables
 ==================
