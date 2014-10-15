@@ -456,4 +456,5 @@ Finalization
 ============
 That's all! I hope this guide helped you and you has successfully start up your websites! :)
 
+For further reading, I'd recommend you to look at the part `how to set up git for easy deployment <http://tutos.readthedocs.org/en/latest/source/git_workflow.html#integration-with-github>`.
 
