@@ -4,9 +4,9 @@ Making Raspberry Pi usable
 Introduction
 ----------------
 
-After 3 months of using RPi, I decided to make this tutorial for same
+After 8 months of using RPi, I decided to make second version of this tutorial for same
 people as I'm - who looks for easy, understandable way to make RPi as
-awesome as possible.
+awesome as possible. Several things have changed since last realease of this tutorial, so I decided to rewrite some parts and also to delete some parts which are not necessary today.
 
 In this tutorial I will walk you through whole process of making from
 Raspberry Pi secure, reliable, efficient, fast and easy to maintain
@@ -44,6 +44,7 @@ What you don't need
 -------------------
 
 -  Monitor or ability to connect RPi to some monitor
+-  Keyboard or mouse connected to your RPi
 
 Start
 -----
@@ -55,7 +56,7 @@ found them satisfaing.
 Installing Arch Linux ARM to SD card
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Go `here <http://Arch Linuxarm.org/platforms/armv6/raspberry-pi>`__ and
+Go `here <http://Arch Linuxarm.org/platforms/armv6/raspberry-pi>`__, choose installation and
 make first 3 steps. That's it! You have done it. You have you Arch Linux
 ARM SD card :)
 
@@ -71,24 +72,23 @@ connects to the network (or even internet) as usuall?
 
 If yes, it is great! You can procced. It is what we need - we need RPi,
 when it boots up, to automatically connect to the network. Then we will
-able to connect to it. You will need one more think to find out - which
-IP address router asign to you when you connected by cable - it is very
-probable that RPi will get the same, or similiar. Don't be afraid - it
-is easy to get (IP address)[how to get ip address]. On modern systems,
+able to connect to it. You will need one more thing to find out - which
+IP address does router assign to you when you connect by cable - it is very
+probable that RPi will get very similiar. Don't be afraid - it
+is easy to get `IP address <http://apple.stackexchange.com/questions/19783/how-do-i-know-the-ip-addresses-of-other-computers-in-my-network>`_. On modern systems,
 one command :) .
 
 Ok, now you have to insert SD card to RPi and connect it to your router
 with ethernet cable and then turn RPi on by inserting power supply. The
-diodes starts flashing. Now back to your computer and we will try to
+diods start flashing. Now back to your computer and we will try to
 connect it using **SSH**. SSH is just "magic power" which enables to
-connect from one to other computer.
+connect to another computer.
 
-RPi is already ready and waits for connection. How to use ssh and some
-utilities (Linux, Mac) or programs (Windows) is supereasy - you will
+RPi is already ready and waits for SSH connection. How to use SSH is supereasy - you will
 find a tons of tutorials on the internet (keywords: how to use ssh). IP
 address is the probably the one you assigned before. It will be
 something like this: ``192.168.0.x``, ``10.0.0.14x`` or similar. Next
-thing you need is username. It's just "root".
+thing you need is username. It's just "root" (and password also).
 
 If your RPi haven't got this address (ssh is not working), than there
 are two options.
@@ -102,53 +102,49 @@ are two options.
 **Example** You have this address assigned: ``192.168.0.201``. Then you
 have to type (in linux): ``ssh root@192.168.0.201``.
 
-Youshould end up in RPi console.
+You should now end up in RPi console.
 
-Enough for networking just now. We'll set a proper network configuration later in this guide, but first some *musthaves*.
+Enough of networking for now. We'll set a proper network configuration later in this guide, but first some *musthaves*.
 
 
 First setup
 -----------
 
 This is covered over the internet, so I will just redirect you.
-`elinux <http://elinux.org/Arch Linux_Install_Guide>`__ - from this guide
+`elinux <http://elinux.org/ArchLinux_Install_Guide>`__ - from this guide
 finish these parts (in RPi console):
 
 -  Change root password
--  Modify filesystem files
+-  Modify system files
 -  Mount extra partitions (if you don't know what it is, nevermind)
 -  Update system
--  Install Sudo
+-  Install sudo
 -  Create regular user account
+
+My usuall procedure (which is strongly related to my needs!)::
+
+    passwd  # change root password to something important
+    rm -rf /etc/localtime  # dont care about this
+    ln -s /usr/share/zoneinfo/Europe/Prague /etc/localtime  # set appropriate timezone
+    echo "my_raspberry" >  /etc/hostname  # set name of your RPi
+
+    useradd -m -aG wheel -s /usr/bin/bash common_user # 
+    groupadd webdata  # for sharing
+    useradd -M -aG webdata -s /usr/bin/false nginx
+    usermod -aG webdata common_user
+
+    visudo  # uncomment this line:  %wheel ALL=(ALL) ALL
+
+    pacman -Syu 
 
 That's enough for now. Logout from ssh (type ``exit``) and connect
 again, but as user who was created. Similiar to previous:
-``ssh username@ip.address``. From now, you'll need to type "sudo" in
+``ssh common_user@ip.address``. From now, you'll need to type "sudo" in
 front of every command, which is possibly danger. I will warn you in
 next chapter.
 
-We must be sure that after reboot RPi will reconnect. Type
-``sudo systemctl status netctl-ifplugd@eth0``. In should show something
-like this:
+We must be sure that after reboot RPi will reconnect. 
 
-::
-
-    ● netctl-ifplugd@eth0.service - Automatic wired network connection using netctl profiles
-       Loaded: loaded (/usr/lib/systemd/system/netctl-ifplugd@.service; enabled)
-       Active: active (running) since Thu 2014-06-26 17:38:12 CEST; 4h 26min ago
-         Docs: man:netctl.special(7)
-     Main PID: 302 (ifplugd)
-       CGroup: /system.slice/system-netctl\x2difplugd.slice/netctl-ifplugd@eth0.service
-               └─302 /usr/bin/ifplugd -i eth0 -r /etc/ifplugd/netctl.action -bfIns
-
-    Jun 26 17:38:12 530uarch ifplugd[302]: ifplugd 0.28 initializing.
-    Jun 26 17:38:12 530uarch ifplugd[302]: Using interface eth0/E8:03:9A:97:B5:A7 with driver <r8169> (version: 2.3LK-NAPI)
-    Jun 26 17:38:12 530uarch ifplugd[302]: Using detection mode: SIOCETHTOOL
-    Jun 26 17:38:12 530uarch ifplugd[302]: Initialization complete, link beat not detected.
-
-Keywords here are **active (running)** in "Active" and **enabled** in
-"loaded". If there is **disabled**, just enable it by
-``systemctl enable netctl-ifplugd@eth0.service``
 
 Now try if you are connected to the internet. Type ``ping 8.8.8.8``. If
 you don't see ``ping: unknown host 8.8.8.8`` it's good! If you do, your
@@ -272,7 +268,7 @@ For reasons I will mention in future, we need to set RPi to connect with
 the same and you can connect it. Right now is probably getting
 automatically assigned IP address from router (it's called **dhcp**).
 
-We will use ``systemd-network``.
+We will use ``systemd-networkd``.
 
 Type ``ip addr``. It should shows something like this:
 
@@ -293,7 +289,7 @@ Type ``ip addr``. It should shows something like this:
 
 you are interested just in name **eth0**. If it is there, it is ok. In
 future versions of system it can change to something other, for example
-*eth0ps1*. Don't be afraid of it and just use that instead in next
+*enp0s1*. Don't be afraid of it and just use that instead in next
 chapters.
 
 In this part you'll need to get address of your router. `How to obtain
@@ -324,7 +320,6 @@ in front of ``vim``, or you'll not be able to save it!) and paste this:
     [Network]
     Address=the.static.address.rpi/24
     Gateway=your.router.ip.address
-    a
 
 my example:
 
@@ -334,53 +329,14 @@ my example:
     Name=eth0
 
     [Network]
-    Address=192.168.0.201/24
+    Address=192.168.0.111/24
     Gateway=192.168.0.1
 
-now we need to try it - we don't to close us out. The connection is
-right now ensuring by thing called ``netctl-ifplugd@eth0``. We want to
-do this:
+Now you need to remove old non-static default profile ``/etc/systemd/network/eth0.network``. Move it to your home folder just to be safe if something didn't work.
 
--  Turn ``netctl`` off
--  Turn ``networkd`` on
--  Try if RPi is connected to the internet
--  If yes, than do nothing - we can connect now by ssh
--  If not, turn off ``networkd`` and turn on working ``netctl``
+Try to restart RPi and try to SSH again. If you just can't connect, try to find out if RPi hadn't connected at all or it just doesn't use IP specified IP address (try to ssh to old IP, look into your router DHCP table, nmap...). If you want to get it back, just turn off RPi (plug off the power cable), take out SD card, plug in to your PC, move ``eth0.network`` from home directory to ``/etc/systemd/network/``, turn RPi back and try it again.
 
-why so complicated? Because when you are changing network, it will
-disconnect - and of course, we will disconnected also from SSH. And it
-discouraged to use more network managers at once, because they'd
-interferate and you don't want that.
-
-This script will do what we want:
-
-::
-
-    #!/usr/bin/bash
-    systemctl stop netctl-ifplugd@eth0
-    systemctl restart systemd-networkd
-
-    sleep 10
-    systemctl status systemd-networkd >> log.txt
-    ping -c 1 google.com
-    if [[ `echo $?` != 0     ]]
-        then 
-            systemctl stop systemd-networkd
-            systemctl start netctl-ifplugd@eth0
-    fi
-
-to run this script you need to login as root. You can do it by typing
-this: ``sudo -i``. This will log you as a root. Now type
-``vim script.sh`` and insert script there. Save and close (in vim using
-``:x``). Now just type ``chmod +x script.sh``. It will make the script
-executable. Finally this: ``./script.sh``.
-
-The connection will close now. Wait 30 seconds. If everything worked
-properly, you should be able to connect to RPi again by using same ssh
-command as previous. In that case find out it works -> does
-systemd-networkd care about connection and netctl is stopped?
-
-To find it out, type: ``systemctl status systemd-networkd``. Does it
+If you successfuly connected, check how is ``systemd-networkd`` doing. To find out, type: ``systemctl status systemd-networkd``. Does it
 shows "active (running)" and something like ``gained carrier``?
 
 ::
@@ -397,20 +353,6 @@ shows "active (running)" and something like ``gained carrier``?
     Jun 17 17:52:01 smecpi systemd-networkd[213]:             eth0: lost carrier
     Jun 17 17:52:02 smecpi systemd-networkd[213]:             eth0: gained carrier
 
-If yes, great! We can get rid off netctl by uninstalling it by
-``pacman -Rnsc netctl`` and enable ``networkd`` to start at boot by
-``systemctl enable systemd-networkd``.
-
-If not, ``netctl`` should be started again and save the day. Find it out
-by ``systemctl status netctl-ifplugd@eth0``. It should be active,
-otherwise there is some magic power which care about your connection.
-Try to find out why ``networkd`` didn't workd and repair it (probably
-bad IP address...). There should be some info in file ``log.txt``.
-
-If you can't connect, don't panic. Just turn off RPi (take out power
-suppy) and turn it on. It should reconnect normally with
-``netctl-ifplugd``. Try to find out why it is not working and try it
-again.
 
 Timesynchronization
 -------------------
@@ -419,9 +361,8 @@ You've maybe noticed that time is quite weird on your RPi. It is beacuse
 it does not have real hardware clock. Every time RPi is waken up, it
 thinks that is June 1970. You don't have to care about it, but after
 boot it would be fine that time is correctly set. You can do it by using
-really great part of ``systemd``. Go ahead and enable service, which
-takes care about that: ``systemctl enable systemd-timesyncd``. Thats
-all. It will start after next reboot. If you want it to start now, just run ``systemctl start systemd-timesyncd``. 
+really great part of ``systemd``. Go ahead and check service that
+takes care about that: ``systemctl status systemd-timesyncd``.
 
 Configuring SSH
 -------------------
@@ -455,9 +396,9 @@ Since now, only ``ssh bob@ipadress`` is not enough. You will have to add
 port which should be used (in default is assumed port 22).
 ``ssh -p 1234 bob@ip.address`` will do it for you :) .
 
-The next thing we are going to do is set up ``sshguard``. More about it
+If you want to be really safe, the next thing you want to do is set up ``sshguard``. More about it
 `here <https://wiki.Arch Linux.org/index.php/Sshguard>`__. You don't need
-more :) . Just remember to use your port (in my case 1234) for settings.
+more :) . Just remember to use your port (in my case 1234) for settings. Personally I stopped to use it, since just changing port what SSH use was enough to reduce uninvited connections.
 
 It is anoying still typing same username and password when we want to
 connect to RPi. And now, we have to add "-p 1234" also. We will make it
@@ -543,7 +484,7 @@ Other tweaks of /boot/config.txt
 
 Since you don't need any of gpu memory - which cares about shiny things
 like windows etc., you can disable it in favor of the rest of memory
-which we use.
+which we use. Don't do this if you want to use monitor.
 
 ::
 
@@ -737,8 +678,8 @@ protected etc.
 System analyzing and cleaning
 -----------------------------
 
-Use your friend ``systemd-analyze``. It will show you which units are
-loading long time. Also ``systemctl status`` is great for finding failed
+Use your friend ``systemd-analyze``. It will show you which units
+load really long time. Also ``systemctl status`` is great for finding failed
 units.
 
 Disable things that you dont need
@@ -747,19 +688,15 @@ Disable things that you dont need
 I guess you don't use ipv6 (if you don't know what it is, you don't need
 it :D). ``systemctl disable ip6tables``. In case you use sshguard, you
 need also edit file ``/cat /usr/lib/systemd/system/sshguard.service``
-and from **Wants** delete ip6tables. Like this:
-
-::
-
-    Wants=iptables.service
+and from **Wants** delete ``ip6tables.service``. 
 
 Usefull utilites
 ----------------
 
 Simple to use, just install them and run:
 
--  iftop - for internet usage
--  iotop - for disk usage
+-  nmon - for internet usage
+-  htop - for disk usage
 
 Torrents
 ~~~~~~~~

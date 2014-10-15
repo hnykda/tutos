@@ -12,7 +12,7 @@ Installation
 ------------
 
 There are tons of step-by-step guides how to install Arch so I will not
-go to deep here. Just look here: . Anyway, short summary:
+go to deep here. Just look to `<nstallation guide <https://wiki.archlinux.org/index.php/installation_guide>`_. Anyway, short summary:
 
 Primary installation
 ~~~~~~~~~~~~~~~~~~~~
