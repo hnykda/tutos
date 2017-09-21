@@ -9,7 +9,7 @@ Here is short guide which should walk you through:
 2. Cloning it into your local machine
 3. Submitting changes from your local machine using SSH
 4. Submitting changes from repository on GitHub
-5. Generating documentation with `ReadTheDocs <https://readthedocs.org/>`_ and `sphinx <http://sphinx-doc.org/>_`.
+5. Generating documentation with `ReadTheDocs <https://readthedocs.org/>`_ and `sphinx <http://sphinx-doc.org/>`_.
 
 Creating repository on GitHub
 -----------------------------
