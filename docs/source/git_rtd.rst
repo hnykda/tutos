@@ -58,7 +58,7 @@ and now tell git that this file is prepared to be upgraded::
 
 ``-m`` switch is for message and string ``"testing file"`` is the message which just gives some info about this ``commit``. 
 
-Now we will send this changes to remote repository on GitHub. It's pretty easy::
+Now we will send this change to remote repository on GitHub. It's pretty easy::
 
     git push
 
@@ -69,7 +69,7 @@ If this work, we can set connection without necessity typing our credentials eve
 Setting up SSH
 --------------
 
-For some reasons it's not really straigth forward to set up this. 
+For some reasons it's not really straight forward to set up this. 
 
 First you have to go on GitHub website and go to **Account settings**. Navigate to **SSH Keys** and click on **SSH Key**. 
 
